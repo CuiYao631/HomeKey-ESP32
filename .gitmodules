@@ -14,5 +14,5 @@
 	url = https://github.com/me-no-dev/ESPAsyncWebServer.git
 [submodule "HomeSpan"]
 	path = components/HomeSpan/upstream
-	url = https://github.com/HomeSpan/HomeSpan.git
-	branch = release-2.1.1
+	url = https://github.com/HomeSpan/HomeSpan-zh.git
+	branch = release-2.1.3
