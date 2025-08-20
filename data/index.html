@@ -33,7 +33,7 @@
         wifiSignalStrength();
         setInterval(wifiSignalStrength, 5000);
       } else {
-        document.querySelector("#wifi-rssi-signal").parentElement.innerText = "Ethernet enabled"
+        document.querySelector("#wifi-rssi-signal").parentElement.innerText = "以太网已启用"
       }
     });
     async function wifiSignalStrength(){
@@ -41,13 +41,13 @@
       const string = await data.text();
       const el = document.querySelector("#wifi-rssi-signal");
       if(string <= -30 && string >= -70){
-        el.innerHTML= `${string} (Excellent)`;
+        el.innerHTML= `${string} (优秀)`;
       } else if(string <= -71 && string >= -80){
-        el.innerHTML= `${string} (Good)`;
+        el.innerHTML= `${string} (良好)`;
       } else if(string <= -81 && string >= -90){
-        el.innerHTML= `${string} (Fair)`;
+        el.innerHTML= `${string} (一般)`;
       } else if(string <= -90){
-        el.innerHTML= `${string} (Weak)`;
+        el.innerHTML= `${string} (较弱)`;
       }
     }
     function switchTab(el) {
@@ -94,13 +94,13 @@
           const component = el.querySelector("#hkReaderDataList");
           if(component){
             let item = document.createElement("li");
-            item.textContent = `Reader GID: ${configJson?.group_identifier}`;
+            item.textContent = `读卡器组 ID: ${configJson?.group_identifier}`;
             component.appendChild(item);
             item = document.createElement("li");
-            item.textContent = `Reader ID: ${configJson?.unique_identifier}`;
+            item.textContent = `读卡器 ID: ${configJson?.unique_identifier}`;
             component.appendChild(item);
             item = document.createElement("li");
-            item.textContent = `Issuers (${configJson?.issuers?.length})`;
+            item.textContent = `发行方 (${configJson?.issuers?.length})`;
             component.appendChild(item);
             if(configJson?.issuers && configJson.issuers.length > 0){
               let issuersList = document.createElement("ul");
@@ -109,14 +109,14 @@
                 if (Object.prototype.hasOwnProperty.call(configJson.issuers, issuerIndex)) {
                   const issuer = configJson.issuers[issuerIndex];
                   item = document.createElement("li");
-                  item.textContent = `Issuer ID: ${issuer?.issuerId}`;
+                  item.textContent = `发行方 ID: ${issuer?.issuerId}`;
                   issuersList.appendChild(item);
                   if(issuer?.endpoints && issuer.endpoints.length > 0){
                     for (const endpointIndex in issuer.endpoints) {
                       if (Object.prototype.hasOwnProperty.call(issuer.endpoints, endpointIndex)) {
                         const endpoint = issuer.endpoints[endpointIndex];
                         item = document.createElement("li");
-                        item.textContent = `Endpoint ID: ${endpoint?.endpointId}`;
+                        item.textContent = `端点 ID: ${endpoint?.endpointId}`;
                         endpointsList.appendChild(item);
                       }
                     }
@@ -199,28 +199,28 @@
       }
     }
     async function start_ap() {
-      if(confirm("Are you sure you want to start the AP?")){
+      if(confirm("您确定要启动 AP 吗？")){
         let data = await fetch("/start_config_ap");
         let string = await data.text();
         alert(string);
       }
     }
     async function reboot() {
-      if(confirm("Are you sure you want to reboot the device?")){
+      if(confirm("您确定要重启设备吗？")){
         let data = await fetch("/reboot_device");
         let string = await data.text();
         alert(string);
       }
     }
     async function f_reset_hk() {
-      if(confirm("Are you sure you want to reset HomeKit pairings?")){
+      if(confirm("您确定要重置 HomeKit 配对吗？")){
         let data = await fetch("/reset_hk_pair");
         let string = await data.text();
         alert(string);
       }
     }
     async function reset_wifi() {
-      if(confirm("Are you sure you want to reset WiFi credentials?")){
+      if(confirm("您确定要重置 WiFi 凭据吗？")){
         let data = await fetch("/reset_wifi_cred");
         let string = await data.text();
         alert(string);
@@ -329,47 +329,47 @@
       <img src="assets/logo-white.webp" width="64px">
       <div>
         <h2 style="text-align: center;margin-bottom: 0;margin-top: 0;background: none;padding: 0!important;margin: 0!important;">HomeKey-ESP32</h1>
-        <p style="text-align: center;margin-top: 0;margin-bottom: 0;">WiFi RSSI: <span id="wifi-rssi-signal"></span></p>
-        <p style="text-align: center;margin-top: 0;margin-bottom: 0;">version: %VERSION%</p>
+        <p style="text-align: center;margin-top: 0;margin-bottom: 0;">WiFi 信号强度: <span id="wifi-rssi-signal"></span></p>
+        <p style="text-align: center;margin-top: 0;margin-bottom: 0;">版本: %VERSION%</p>
       </div>
     </div>
     <div id="top-btns" style="display: flex;gap: 8px;align-items: center;">
-      <button title="Start AP" type="button" id="restart-btn"
+      <button title="启动 AP" type="button" id="restart-btn"
         style="background-color: #ffffff2e;border: 1px solid white;padding: 0.5rem;cursor: pointer;gap: 8px;"
         onclick="start_ap()" ontouchstart="this.style['background-color']='#4040402e'"
         ontouchend="this.style['background-color']='#ffffff2e'">
         <img src="assets/ap-icon.webp" width="25px" style="object-fit: contain;">
-        <p style="margin: 0;">Start AP</p>
+        <p style="margin: 0;">启动 AP</p>
       </button>
-      <button title="Reboot" type="button" id="restart-btn"
+      <button title="重启" type="button" id="restart-btn"
         style="background-color: #ffffff2e;border: 1px solid white;padding: 0.5rem;cursor: pointer;gap: 8px;"
         onclick="reboot()" ontouchstart="this.style['background-color']='#4040402e'"
         ontouchend="this.style['background-color']='#ffffff2e'">
         <img src="assets/restart-R.webp" width="25px" style="object-fit: contain;">
-        <p style="margin: 0;">Reboot</p>
+        <p style="margin: 0;">重启</p>
       </button>
-      <button title="Reset HomeKit pairings" type="button"
+      <button title="重置 HomeKit 配对" type="button"
         style="background-color: #ffffff2e;border: 1px solid white;padding: 0.5rem;cursor: pointer;gap: 8px;"
         onclick="f_reset_hk()" ontouchstart="this.style['background-color']='#4040402e'"
         ontouchend="this.style['background-color']='#ffffff2e'">
         <img src="assets/trashcan.webp" width="25px" style="object-fit: contain;">
-        <p style="margin: 0;">Reset HomeKit</p>
+        <p style="margin: 0;">重置 HomeKit</p>
       </button>
-      <button title="Reset WiFi credentials" type="button"
+      <button title="重置 WiFi 凭据" type="button"
         style="background-color: #ffffff2e;border: 1px solid white;padding: 0.5rem;cursor: pointer;gap: 8px;"
         onclick="reset_wifi()" ontouchstart="this.style['background-color']='#4040402e'"
         ontouchend="this.style['background-color']='#ffffff2e'">
         <img src="assets/trashcan.webp" width="25px" style="object-fit: contain;">
-        <p style="margin: 0;">Reset WiFi</p>
+        <p style="margin: 0;">重置 WiFi</p>
       </button>
     </div>
   </div>
   <div id="main" style="border: 2px groove #8e8271;padding: 1rem;background-color: #003232;margin-bottom: 1rem;align-self: center;">
     <div style="gap: 1rem; display: flex;justify-content: center;">
-      <button data-type="hkinfo" onclick='addComponent(this, false)' style="padding: .6rem;cursor: pointer;" rel="noopener noreferrer">HK Info</a>
+      <button data-type="hkinfo" onclick='addComponent(this, false)' style="padding: .6rem;cursor: pointer;" rel="noopener noreferrer">HK 信息</a>
       <button data-type="mqtt" onclick='addComponent(this, false)' style="padding: .6rem;cursor: pointer;" rel="noopener noreferrer">MQTT</a>
-      <button data-type="actions" onclick='addComponent(this, false)' style="padding: .6rem;cursor: pointer;" rel="noopener noreferrer">Actions</a>
-      <button data-type="misc" onclick='addComponent(this, false)' style="padding: .6rem;cursor: pointer;" rel="noopener noreferrer">Misc</a>
+      <button data-type="actions" onclick='addComponent(this, false)' style="padding: .6rem;cursor: pointer;" rel="noopener noreferrer">动作</a>
+      <button data-type="misc" onclick='addComponent(this, false)' style="padding: .6rem;cursor: pointer;" rel="noopener noreferrer">杂项</a>
     </div>
     <span style="margin-top: 1rem;border: 1px dashed #8e8271;box-sizing: border-box;width: 100%;height: 1px;display: inline-block;"></span>
   </div>

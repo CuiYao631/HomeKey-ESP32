@@ -1,17 +1,17 @@
 <form id="config-form" data-type="actions" style="display: inline-flex; flex-direction: column;margin-bottom: 0rem;">
-  <h2 style="text-align: center;">Hardware Actions</h2>
-  <h5 style="margin-top: 0;margin-bottom: 1rem;text-align: center;">Assigning 255 to any Pin field will disable the respective option</h5>
+  <h2 style="text-align: center;">硬件动作</h2>
+  <h5 style="margin-top: 0;margin-bottom: 1rem;text-align: center;">将任何引脚字段设置为 255 将禁用相应的选项</h5>
   <div class="cards-container" style="display: flex;gap: 16px;">
     <div class="card-content">
-      <h3 style="margin-top: 0;text-align: center;">HomeKey Triggers</h3>
-      <h5 style="margin: 0;">! Executed on successful/failed HomeKey authentications and on NFC Tag detection(treated as a failed event).</h5>
-      <h5 style="margin-top: 0;">! Both Neopixel and Simple GPIO have a momentary state.</h5>
+      <h3 style="margin-top: 0;text-align: center;">HomeKey 触发器</h3>
+      <h5 style="margin: 0;">! 在成功/失败的 HomeKey 身份验证时执行，以及在检测到 NFC 标签时执行(被视为失败事件)。</h5>
+      <h5 style="margin-top: 0;">! Neopixel 和简单 GPIO 都有瞬时状态。</h5>
       <div class="tabs-container">
         <div id="nfc-triggers" class="tabs-list">
           <p class="tab-btn nfc-triggers-selected-tab"
             onclick="switchTab(this)" data-tab-index="0">Neopixel</p>
           <p class="tab-btn" onclick="switchTab(this)"
-            data-tab-index="1">Simple GPIO</p>
+            data-tab-index="1">简单 GPIO</p>
           <p class="tab-btn" onclick="switchTab(this)"
             data-tab-index="2">Buzzer</p>
         </div>
@@ -21,11 +21,11 @@
         <div class="flex-row-lg flex-col-sm flex-center-lg" style="flex-wrap: wrap;">
           <div class="flex-col-lg" style="flex: 1;">
             <div class="input-group">
-              <label for="nfcNeopixelPin">GPIO Pin</label>
+              <label for="nfcNeopixelPin">GPIO 引脚</label>
               <input type="number" name="nfcNeopixelPin" id="nfcNeopixelPin" placeholder="8" required min="0" max="255">
             </div>
             <div class="input-group">
-              <label for="neoPixelType">Pixel Type</label>
+              <label for="neoPixelType">像素类型</label>
               <select name="neoPixelType" id="neoPixelType">
                 <option value="0">RGB</option>
                 <option value="1">RBG</option>
@@ -38,11 +38,11 @@
           </div>
           <div class="flex-col-lg" style="flex: 1;">
             <div class="input-group">
-              <label for="neopixelSuccessTime" style="max-width: 7rem;">Timeout (ms) Auth Success</label>
+              <label for="neopixelSuccessTime" style="max-width: 7rem;">超时时间 (毫秒) 认证成功</label>
               <input type="number" name="neopixelSuccessTime" id="neopixelSuccessTime" placeholder="1000" required>
             </div>
             <div class="input-group">
-              <label for="neopixelFailTime" style="max-width: 7rem;">Timeout (ms) Auth Failed</label>
+              <label for="neopixelFailTime" style="max-width: 7rem;">超时时间 (毫秒) 认证失败</label>
               <input type="number" name="neopixelFailTime" id="neopixelFailTime" placeholder="1000" required>
             </div>
           </div>
@@ -50,7 +50,7 @@
         <div
           style="display: flex;border: 1px #8e8271 solid;padding: .5rem;justify-content: space-around;">
           <div id="nfc-s-color" style="display: flex;flex-direction: column;">
-            <h4 style="margin-block: .2rem;text-align: center;">Auth Success Color</h4>
+            <h4 style="margin-block: .2rem;text-align: center;">认证成功颜色</h4>
             <div id="nfc-s-vals" style="display: flex;gap:8px;flex-wrap: wrap;justify-content: center;">
               <div style="display: flex; flex-direction: column;">
                 <label for="neopixelSuccessColor!0!1">R</label>
@@ -68,7 +68,7 @@
           </div>
           <span style="border: 1px #8e8271 solid; margin: 1rem;"></span>
           <div id="nfc-f-color" style="display: flex;flex-direction: column;">
-            <h4 style="margin-block: .2rem;text-align: center;">Auth Failure Color</h4>
+            <h4 style="margin-block: .2rem;text-align: center;">认证失败颜色</h4>
             <div id="nfc-f-vals" style="display: flex;gap:8px;flex-wrap: wrap;justify-content: center;">
               <div style="display: flex; flex-direction: column;">
                 <label for="neopixelFailureColor!0!1">R</label>
@@ -89,67 +89,67 @@
       <div class="nfc-triggers-hidden-body" data-nfc-triggers-body="1">
         <div style="display: flex;flex-wrap: wrap;justify-content: space-between;gap: 10px;">
           <fieldset>
-            <legend>Auth Success</legend>
+            <legend>认证成功</legend>
             <div class="flex-sm flex-col-lg flex-end-sm">
               <div class="around-sm" style="display: flex;gap: 16px;flex: 2;align-items: flex-end">
                 <div style="display: flex;flex-direction: column;">
-                  <label for="nfcSuccessPin">GPIO Pin</label>
+                  <label for="nfcSuccessPin">GPIO 引脚</label>
                   <input type="number" name="nfcSuccessPin" id="nfcSuccessPin" placeholder="2" required min="0" max="255">
                 </div>
                 <div style="display: flex;flex-direction: column;">
-                  <label for="nfcSuccessTime">Timeout (ms)</label>
+                  <label for="nfcSuccessTime">超时时间 (毫秒)</label>
                   <input type="number" name="nfcSuccessTime" id="nfcSuccessTime" placeholder="1000" required>
                 </div>
               </div>
               <div class="flex-center-sm" style="display: flex;flex-direction: column;flex: 1;">
-                <label for="nfcSuccessHL">GPIO State</label>
+                <label for="nfcSuccessHL">GPIO 状态</label>
                 <select name="nfcSuccessHL" id="nfcSuccessHL">
-                  <option value="0">LOW</option>
-                  <option value="1">HIGH</option>
+                  <option value="0">低电平</option>
+                  <option value="1">高电平</option>
                 </select>
               </div>
             </div>
           </fieldset>
           <fieldset>
-            <legend>Auth Failure</legend>
+            <legend>认证失败</legend>
             <div class="flex-sm flex-col-lg flex-end-sm">
               <div class="around-sm" style="display: flex;gap: 16px;flex: 2;align-items: flex-end">
                 <div style="display: flex;flex-direction: column;">
-                  <label for="nfcFailPin">GPIO Pin</label>
+                  <label for="nfcFailPin">GPIO 引脚</label>
                   <input type="number" name="nfcFailPin" id="nfcFailPin" placeholder="2" required min="0" max="255">
                 </div>
                 <div style="display: flex;flex-direction: column;">
-                  <label for="nfcFailTime">Timeout (ms)</label>
+                  <label for="nfcFailTime">超时时间 (毫秒)</label>
                   <input type="number" name="nfcFailTime" id="nfcFailTime" placeholder="1000" required>
                 </div>
               </div>
               <div class="flex-center-sm" style="display: flex;flex-direction: column;flex: 1;">
-                <label for="nfcFailHL">GPIO State</label>
+                <label for="nfcFailHL">GPIO 状态</label>
                 <select name="nfcFailHL" id="nfcFailHL">
-                  <option value="0">LOW</option>
-                  <option value="1">HIGH</option>
+                  <option value="0">低电平</option>
+                  <option value="1">高电平</option>
                 </select>
               </div>
             </div>
           </fieldset>
           <fieldset>
-            <legend>2nd action(on success)</legend>
+            <legend>第二动作(成功时)</legend>
             <div class="flex-sm flex-col-lg flex-end-sm">
               <div class="around-sm" style="display: flex;gap: 16px;flex: 2;align-items: flex-end">
                 <div style="display: flex;flex-direction: column;">
-                  <label for="hkAltActionPin">GPIO Pin</label>
+                  <label for="hkAltActionPin">GPIO 引脚</label>
                   <input type="number" name="hkAltActionPin" id="hkAltActionPin" placeholder="2" required min="0" max="255">
                 </div>
                 <div style="display: flex;flex-direction: column;">
-                  <label for="hkAltActionTimeout">Timeout (ms)</label>
+                  <label for="hkAltActionTimeout">超时时间 (毫秒)</label>
                   <input type="number" name="hkAltActionTimeout" id="hkAltActionTimeout" placeholder="1000" required>
                 </div>
               </div>
               <div class="flex-center-sm" style="display: flex;flex-direction: column;flex: 1;">
-                <label for="hkAltActionGpioState">GPIO State</label>
+                <label for="hkAltActionGpioState">GPIO 状态</label>
                 <select name="hkAltActionGpioState" id="hkAltActionGpioState">
-                  <option value="0">LOW</option>
-                  <option value="1">HIGH</option>
+                  <option value="0">低电平</option>
+                  <option value="1">高电平</option>
                 </select>
               </div>
             </div>
@@ -207,87 +207,87 @@
       </div>
     </div>
     <div class="card-content">
-      <h3 style="margin-top: 0;text-align: center;">HomeKit Triggers</h3>
-      <h5 style="margin-top: 0;margin-bottom: .5rem;">! Executed upon interaction in the Home app and optionally on successful HomeKey Authentication(enabled by default)</h5>
+      <h3 style="margin-top: 0;text-align: center;">HomeKit 触发器</h3>
+      <h5 style="margin-top: 0;margin-bottom: .5rem;">! 在 Home 应用中交互时执行，并可选择在成功的 HomeKey 身份验证时执行(默认启用)</h5>
       <div class="tabs-container">
         <div id="homekit-triggers" class="tabs-list">
           <p class="tab-btn homekit-triggers-selected-tab"
-            onclick="switchTab(this)" data-tab-index="0">Simple GPIO</p>
+            onclick="switchTab(this)" data-tab-index="0">简单 GPIO</p>
           <p class="tab-btn"
-            onclick="switchTab(this)" data-tab-index="1">Dummy</p>
+            onclick="switchTab(this)" data-tab-index="1">虚拟</p>
         </div>
         <span style="height: 1px;border-top: 1px #424242 solid;display: block;margin: 0;padding: 0;"></span>
       </div>
       <div class="homekit-triggers-selected-body" data-homekit-triggers-body="0">
         <div>
-          <h5 style="margin-top: 0;margin-bottom: .5rem;">! Simple GPIO follows the "Always Lock/Unlock on HomeKey" option</h5>
-          <h5 style="margin-block: 0;">! Momentary state applies only if initial state is "LOCKED"</h5>
+          <h5 style="margin-top: 0;margin-bottom: .5rem;">! 简单 GPIO 遵循"HomeKey 时总是锁定/解锁"选项</h5>
+          <h5 style="margin-block: 0;">! 瞬时状态仅在初始状态为"锁定"时适用</h5>
         </div>
         <div class="flex-col-lg">
           <div class="input-group">
-            <label for="gpioActionPin">GPIO Pin</label>
+            <label for="gpioActionPin">GPIO 引脚</label>
             <input type="number" name="gpioActionPin" id="gpioActionPin" placeholder="2" required style="width: 4rem;" min="0" max="255">
           </div>
           <div class="input-group">
-            <label for="gpioActionLockState">GPIO State - Locked</label>
+            <label for="gpioActionLockState">GPIO 状态 - 锁定</label>
             <select name="gpioActionLockState" id="gpioActionLockState">
-              <option value="0">LOW</option>
-              <option value="1">HIGH</option>
+              <option value="0">低电平</option>
+              <option value="1">高电平</option>
             </select>
           </div>
           <div class="input-group">
-            <label for="gpioActionUnlockState">GPIO State - Unlocked</label>
+            <label for="gpioActionUnlockState">GPIO 状态 - 解锁</label>
             <select name="gpioActionUnlockState" id="gpioActionUnlockState">
-              <option value="0">LOW</option>
-              <option value="1">HIGH</option>
+              <option value="0">低电平</option>
+              <option value="1">高电平</option>
             </select>
           </div>
           <div class="input-group">
-            <label for="hkGpioControlledState">Actionable by HomeKey</label>
+            <label for="hkGpioControlledState">可被 HomeKey 操作</label>
             <select name="hkGpioControlledState" id="hkGpioControlledState">
-              <option value="0">Disabled</option>
-              <option value="1">Enabled</option>
+              <option value="0">禁用</option>
+              <option value="1">启用</option>
             </select>
           </div>
           <div class="input-group">
-            <label for="gpioActionMomentaryEnabled">Momentary state</label>
+            <label for="gpioActionMomentaryEnabled">瞬时状态</label>
             <select name="gpioActionMomentaryEnabled" id="gpioActionMomentaryEnabled">
-              <option value="0">Disabled</option>
-              <option value="1">Home App Only</option>
-              <option value="2">Home Key Only</option>
-              <option value="3">Home App + Home Key</option>
+              <option value="0">禁用</option>
+              <option value="1">仅 Home 应用</option>
+              <option value="2">仅 Home Key</option>
+              <option value="3">Home 应用 + Home Key</option>
             </select>
           </div>
           <div class="input-group">
-            <label for="gpioActionMomentaryTimeout">Momentary timeout (ms)</label>
+            <label for="gpioActionMomentaryTimeout">瞬时超时时间 (毫秒)</label>
             <input type="number" name="gpioActionMomentaryTimeout" id="gpioActionMomentaryTimeout" placeholder="5000" required style="width: 4rem;">
           </div>
         </div>
       </div>
       <div class="homekit-triggers-hidden-body" data-homekit-triggers-body="1">
         <div>
-          <h5 style="margin-top: 0;margin-bottom: .5rem;">! Dummy follows the "Always Lock/Unlock on HomeKey" option</h5>
-          <h5 style="margin-block: 0;">! Momentary state applies only if initial state is "LOCKED"</h5>
+          <h5 style="margin-top: 0;margin-bottom: .5rem;">! 虚拟模式遵循"HomeKey 时总是锁定/解锁"选项</h5>
+          <h5 style="margin-block: 0;">! 瞬时状态仅在初始状态为"锁定"时适用</h5>
         </div>
         <div class="flex-col-lg">
           <div class="input-group">
-            <label for="hkDumbSwitchMode">Status</label>
+            <label for="hkDumbSwitchMode">状态</label>
             <select name="hkDumbSwitchMode" id="hkDumbSwitchMode">
-                <option value="0">Disabled</option>
-                <option value="1">Enabled</option>
+                <option value="0">禁用</option>
+                <option value="1">启用</option>
             </select>
           </div>
           <div class="input-group">
-            <label for="gpioActionMomentaryEnabled">Momentary state</label>
+            <label for="gpioActionMomentaryEnabled">瞬时状态</label>
             <select name="gpioActionMomentaryEnabled" id="gpioActionMomentaryEnabled">
-              <option value="0">Disabled</option>
-              <option value="1">Home App Only</option>
-              <option value="2">Home Key Only</option>
-              <option value="3">Home App + Home Key</option>
+              <option value="0">禁用</option>
+              <option value="1">仅 Home 应用</option>
+              <option value="2">仅 Home Key</option>
+              <option value="3">Home 应用 + Home Key</option>
             </select>
           </div>
           <div class="input-group">
-            <label for="gpioActionMomentaryTimeout">Momentary timeout (ms)</label>
+            <label for="gpioActionMomentaryTimeout">瞬时超时时间 (毫秒)</label>
             <input type="number" name="gpioActionMomentaryTimeout" id="gpioActionMomentaryTimeout" placeholder="5000" required style="width: 4rem;">
           </div>
         </div>
@@ -295,7 +295,7 @@
     </div>
   </div>
   <div id="buttons-group">
-    <button type="submit" style="cursor: pointer;">Submit</button>
-    <button type="reset" style="cursor: pointer;" class="destructive-btn">Reset</button>
+    <button type="submit" style="cursor: pointer;">提交</button>
+    <button type="reset" style="cursor: pointer;" class="destructive-btn">重置</button>
   </div>
 </form>

@@ -1,94 +1,94 @@
-<h2 style="text-align: center; margin-bottom: 0;">MQTT Configuration</h2>
-<h5 style="text-align:center;margin-top: 0;">Changes in this section will reboot the device</h5>
+<h2 style="text-align: center; margin-bottom: 0;">MQTT 配置</h2>
+<h5 style="text-align:center;margin-top: 0;">此部分的更改将重启设备</h5>
 <form id="config-form" data-type="mqtt" style="display: inline-flex; flex-direction: column;margin-bottom: 0;align-items: center;">
   <div class="cards-container" style="display: flex;gap: 16px;">
     <div id="mqtt-broker-con" class="card-content">
-      <h3 style="margin-top: 0;text-align: center;margin-bottom: .5rem;">Broker Connection</h3>
-      <h5 style="text-align: center;margin-top: 0;margin-bottom: .5rem;">TCP - Without TLS</h5>
+      <h3 style="margin-top: 0;text-align: center;margin-bottom: .5rem;">代理连接</h3>
+      <h5 style="text-align: center;margin-top: 0;margin-bottom: .5rem;">TCP - 无 TLS</h5>
       <div class="flex-col-lg" style="padding: .5rem;gap: 32px;">
         <div class="flex-col-lg">
           <div style="display: flex;gap: 8px;">
             <div style="display: flex; flex-direction: column;flex: 2;">
-              <label for="mqttBroker">Address</label>
+              <label for="mqttBroker">地址</label>
               <input type="text" name="mqttBroker" id="mqttBroker" placeholder="0.0.0.0" required>
             </div>
             <div style="display: flex; flex-direction: column;flex: .5;">
-              <label for="mqttPort">Port</label>
+              <label for="mqttPort">端口</label>
               <input type="number" name="mqttPort" id="mqttPort" placeholder="1883" required inputmode="numeric" min="0" max="65535">
             </div>
           </div>
           <div style="display: flex; flex-direction: column;">
-            <label for="mqttClientId">Client ID</label>
+            <label for="mqttClientId">客户端 ID</label>
             <input type="text" name="mqttClientId" id="mqttClientId" placeholder="homekey_mqtt" required>
           </div>
           <div style="display:flex;flex-direction: column;">
-            <label for="lwtTopic">LWT Topic</label>
+            <label for="lwtTopic">LWT 主题</label>
             <input type="text" name="lwtTopic" id="lwtTopic" placeholder="homekey_mqtt/status" required>
           </div>
         </div>
         <div class="flex-col-lg">
           <div style="display: flex; flex-direction: column;">
-            <label for="mqttUsername">Username</label>
+            <label for="mqttUsername">用户名</label>
             <input type="text" name="mqttUsername" id="mqttUsername" placeholder="username">
           </div>
           <div style="display: flex; flex-direction: column;">
-            <label for="mqttPassword">Password</label>
+            <label for="mqttPassword">密码</label>
             <input type="password" name="mqttPassword" id="mqttPassword" placeholder="password">
           </div>
         </div>
         <div class="input-group">
-          <label for="hassMqttDiscoveryEnabled" >HASS MQTT Discovery</label>
+          <label for="hassMqttDiscoveryEnabled" >HASS MQTT 发现</label>
           <select name="hassMqttDiscoveryEnabled" id="hassMqttDiscoveryEnabled">
-            <option value="0">Disabled</option>
-            <option value="1">Enabled</option>
+            <option value="0">禁用</option>
+            <option value="1">启用</option>
           </select>
         </div>
       </div>
     </div>
     <div id="mqtt-topics-container" class="card-content">
-      <h3 style="text-align: center;margin-top: 0;">MQTT Topics</h3>
+      <h3 style="text-align: center;margin-top: 0;">MQTT 主题</h3>
       <div class="tabs-container">
         <div id="mqtt-topics" class="tabs-list">
-          <p class="tab-btn mqtt-topics-selected-tab" onclick="switchTab(this)" data-tab-index="0">Core Topics</p>
-          <p class="tab-btn" onclick="switchTab(this)" data-tab-index="1">Custom Topics</p>
+          <p class="tab-btn mqtt-topics-selected-tab" onclick="switchTab(this)" data-tab-index="0">核心主题</p>
+          <p class="tab-btn" onclick="switchTab(this)" data-tab-index="1">自定义主题</p>
         </div>
         <span style="height: 1px;border-top: 1px #424242 solid;display: block;margin: 0;padding: 0;"></span>
       </div>
       <div class="mqtt-topics-selected-body" data-mqtt-topics-body="0">
         <div class="flex-col-lg">
           <div class="flex-col-lg" style="gap: 0px;">
-            <label for="hkTopic">NFC/HK Topic</label>
+            <label for="hkTopic">NFC/HK 主题</label>
             <input type="text" name="hkTopic" id="hkTopic" placeholder="topic/auth" required>
           </div>
           <div class="input-group">
-            <label for="nfcTagNoPublish">Ignore NFC Tags</label>
+            <label for="nfcTagNoPublish">忽略 NFC 标签</label>
             <select name="nfcTagNoPublish" id="nfcTagNoPublish">
-              <option value="0">Disabled</option>
-              <option value="1">Enabled</option>
+              <option value="0">禁用</option>
+              <option value="1">启用</option>
             </select>
           </div>
           <div class="flex-col-lg" style="gap: 0px;">
-            <label for="hkAltActionTopic">Secondary action Topic</label>
+            <label for="hkAltActionTopic">次要动作主题</label>
             <input type="text" name="hkAltActionTopic" id="hkAltActionTopic" placeholder="topic/alt_action" required>
           </div>
           <div class="flex-col-lg" style="gap: 0px;">
-            <label for="lockStateTopic">Lock State Topic</label>
+            <label for="lockStateTopic">锁状态主题</label>
             <input type="text" name="lockStateTopic" id="lockStateTopic" placeholder="topic/state" required>
           </div>
           <div class="flex-col-lg" style="gap: 0px;">
-            <label for="lockStateCmd">Lock State Cmd Topic</label>
+            <label for="lockStateCmd">锁状态命令主题</label>
             <input type="text" name="lockStateCmd" id="lockStateCmd" placeholder="topic/set_state" required>
           </div>
           <div class="flex-col-lg" style="gap: 0px;">
-            <label for="lockCStateCmd">Lock Current State Cmd Topic</label>
+            <label for="lockCStateCmd">锁当前状态命令主题</label>
             <input type="text" name="lockCStateCmd" id="lockCStateCmd" placeholder="topic/set_current_state" required>
           </div>
           <div class="flex-col-lg" style="gap: 0px;">
-            <label for="lockTStateCmd">Lock Target State Cmd Topic</label>
+            <label for="lockTStateCmd">锁目标状态命令主题</label>
             <input type="text" name="lockTStateCmd" id="lockTStateCmd" placeholder="topic/set_target_state" required>
           </div>
           <div class="flex-col-lg" style="gap: 0px;">
-            <label for="btrLvlCmdTopic">SmartLock battery level Cmd Topic</label>
+            <label for="btrLvlCmdTopic">智能锁电池电量命令主题</label>
             <input type="text" name="btrLvlCmdTopic" id="btrLvlCmdTopic" placeholder="topic/set_battery_level" required>
           </div>
         </div>
@@ -96,62 +96,62 @@
       <div class="mqtt-topics-hidden-body" data-mqtt-topics-body="1">
         <div class="flex-col-lg">
           <div style="display: flex;flex-direction: column;">
-            <label for="lockEnableCustomState">Status</label>
+            <label for="lockEnableCustomState">状态</label>
             <select name="lockEnableCustomState" id="lockEnableCustomState">
-              <option value="0">Disabled</option>
-              <option value="1">Enabled</option>
+              <option value="0">禁用</option>
+              <option value="1">启用</option>
             </select>
           </div>
           <div style="display: flex;flex-direction: column;">
-            <label for="lockCustomStateTopic">Custom State Topic</label>
+            <label for="lockCustomStateTopic">自定义状态主题</label>
             <input type="text" name="lockCustomStateTopic" id="lockCustomStateTopic" placeholder="topic/set_target_state" required>
           </div>
           <div style="display: flex;flex-direction: column;">
-            <label for="lockCustomStateCmd">Custom State Cmd Topic</label>
+            <label for="lockCustomStateCmd">自定义状态命令主题</label>
             <input type="text" name="lockCustomStateCmd" id="lockCustomStateCmd" placeholder="topic/set_target_state" required>
           </div>
         </div>
         <div style="display: grid;justify-items: center;gap: 16px;">
           <fieldset>
-            <legend>Custom Lock Actions </legend>
+            <legend>自定义锁动作 </legend>
             <div
               style="display: flex; gap: 16px;justify-content: center;flex-wrap: wrap;padding: .5rem;">
               <div style="display: flex; flex-direction: column; max-width: 70px;">
-                <label for="customLockActions!UNLOCK">Unlock</label>
+                <label for="customLockActions!UNLOCK">解锁</label>
                 <input type="number" name="customLockActions!UNLOCK" id="customLockActions!UNLOCK" placeholder="255" min="0" max="255">
               </div>
               <div style="display: flex; flex-direction: column; max-width: 70px;">
-                <label for="customLockActions!LOCK">Lock</label>
+                <label for="customLockActions!LOCK">锁定</label>
                 <input type="number" name="customLockActions!LOCK" id="customLockActions!LOCK" placeholder="255" min="0" max="255">
               </div>
             </div>
           </fieldset>
           <fieldset>
-            <legend>Custom Lock States </legend>
+            <legend>自定义锁状态 </legend>
             <div
               style="display: flex; gap: 16px;flex-wrap: wrap;justify-content: center;padding: .5rem;">
               <div style="display: flex; flex-direction: column; max-width: 70px;">
-                <label for="customLockStates!C_UNLOCKING">Unlocking</label>
+                <label for="customLockStates!C_UNLOCKING">解锁中</label>
                 <input type="number" name="customLockStates!C_UNLOCKING" id="customLockStates!C_UNLOCKING" placeholder="255" min="0" max="255">
               </div>
               <div style="display: flex; flex-direction: column; max-width: 70px;">
-                <label for="customLockStates!C_LOCKING">Locking</label>
+                <label for="customLockStates!C_LOCKING">锁定中</label>
                 <input type="number" name="customLockStates!C_LOCKING" id="customLockStates!C_LOCKING" placeholder="255" min="0" max="255">
               </div>
               <div style="display: flex; flex-direction: column; max-width: 70px;">
-                <label for="customLockStates!C_UNLOCKED">Unlocked</label>
+                <label for="customLockStates!C_UNLOCKED">已解锁</label>
                 <input type="number" name="customLockStates!C_UNLOCKED" id="customLockStates!C_UNLOCKED" placeholder="255" min="0" max="255">
               </div>
               <div style="display: flex; flex-direction: column; max-width: 70px;">
-                <label for="customLockStates!C_LOCKED">Locked</label>
+                <label for="customLockStates!C_LOCKED">已锁定</label>
                 <input type="number" name="customLockStates!C_LOCKED" id="customLockStates!C_LOCKED" placeholder="255" min="0" max="255">
               </div>
               <div style="display: flex; flex-direction: column; max-width: 70px;">
-                <label for="customLockStates!C_JAMMED">Jammed</label>
+                <label for="customLockStates!C_JAMMED">卡住</label>
                 <input type="number" name="customLockStates!C_JAMMED" id="customLockStates!C_JAMMED" placeholder="255" min="0" max="255">
               </div>
               <div style="display: flex; flex-direction: column; max-width: 70px;">
-                <label for="customLockStates!C_UNKNOWN">Unknown</label>
+                <label for="customLockStates!C_UNKNOWN">未知</label>
                 <input type="number" name="customLockStates!C_UNKNOWN" id="customLockStates!C_UNKNOWN" placeholder="255" min="0" max="255">
               </div>
             </div>
@@ -161,8 +161,8 @@
     </div>
   </div>
   <div id="buttons-group">
-    <button type="submit" style="cursor: pointer;padding-inline: 1rem;padding-block: .5rem;">Submit</button>
+    <button type="submit" style="cursor: pointer;padding-inline: 1rem;padding-block: .5rem;">提交</button>
     <button type="reset" style="cursor: pointer;padding-inline: 1rem;padding-block: .5rem;"
-      class="destructive-btn">Reset</button>
+      class="destructive-btn">重置</button>
   </div>
 </form>
