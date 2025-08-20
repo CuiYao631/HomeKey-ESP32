@@ -15,4 +15,4 @@
 [submodule "HomeSpan"]
 	path = components/HomeSpan/upstream
 	url = https://github.com/CuiYao631/HomeSpan-zh.git
-	branch = release-2.1.3
+	branch = web-zh
