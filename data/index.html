@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="assets/misc.css">
   <link rel="icon" type="image/webp" href="assets/favicon.webp">
-  <title>HK-ESP32</title>
+  <title>HomeLock Control Panel</title>
   <script>
     const dev = false;
     var ethConfig = {};
@@ -195,7 +195,7 @@
       }
       if(!fromHistory){
         history.pushState({}, "", `/#${name}`);
-        document.title = `HK-ESP32 - ${name.toUpperCase()}`
+        document.title = `HomeLock - ${name.toUpperCase()}`
       }
     }
     async function start_ap() {
@@ -328,7 +328,7 @@
     <div style="display: inline-flex;align-items: center;gap: 8px;">
       <img src="assets/logo-white.webp" width="64px">
       <div>
-        <h2 style="text-align: center;margin-bottom: 0;margin-top: 0;background: none;padding: 0!important;margin: 0!important;">HomeKey-ESP32</h1>
+        <h2 style="text-align: center;margin-bottom: 0;margin-top: 0;background: none;padding: 0!important;margin: 0!important;">HomeLock Pro</h2>
         <p style="text-align: center;margin-top: 0;margin-bottom: 0;">WiFi 信号强度: <span id="wifi-rssi-signal"></span></p>
         <p style="text-align: center;margin-top: 0;margin-bottom: 0;">版本: %VERSION%</p>
       </div>

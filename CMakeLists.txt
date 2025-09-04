@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.16)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(HomeKey-ESP32)
+
+# 设置项目版本
+set(PROJECT_VER "1.3")
+
+project(HomeLock)
 idf_build_get_property(IDF_TARGET IDF_TARGET)
 if(NOT IDF_TARGET STREQUAL "esp32" AND CONFIG_ARDUINO_USE_USB_JTAG STREQUAL "y")
 idf_build_set_property(COMPILE_OPTIONS "-DARDUINO_USB_CDC_ON_BOOT" APPEND)
