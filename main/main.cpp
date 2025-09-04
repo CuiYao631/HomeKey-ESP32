@@ -336,8 +336,8 @@ struct NFCAccessoryInformation : Service::AccessoryInformation
 
     opt.push_back(&_CUSTOM_HardwareFinish);
     new Characteristic::Identify();
-    new Characteristic::Manufacturer("rednblkx");
-    new Characteristic::Model("HomeKey-ESP32");
+    new Characteristic::Manufacturer("XcuiTech Inc.");
+    new Characteristic::Model("HomeLock");
     new Characteristic::Name(DEVICE_NAME);
     const esp_app_desc_t* app_desc = esp_app_get_description();
     std::string app_version = app_desc->version;
@@ -345,7 +345,7 @@ struct NFCAccessoryInformation : Service::AccessoryInformation
     esp_read_mac(mac, ESP_MAC_BT);
     char macStr[9] = { 0 };
     sprintf(macStr, "%02X%02X%02X%02X", mac[0], mac[1], mac[2], mac[3]);
-    std::string serialNumber = "HK-";
+    std::string serialNumber = "XC-";
     serialNumber.append(macStr);
     new Characteristic::SerialNumber(serialNumber.c_str());
     new Characteristic::FirmwareRevision(app_version.c_str());
@@ -939,7 +939,7 @@ void mqtt_connected_event(void* event_handler_arg, esp_event_base_t event_base, 
   esp_read_mac(mac, ESP_MAC_BT);
   char macStr[18] = { 0 };
   sprintf(macStr, "%02X%02X%02X%02X", mac[0], mac[1], mac[2], mac[3]);
-  std::string serialNumber = "HK-";
+  std::string serialNumber = "XC-";
   serialNumber.append(macStr);
   LOG(I, "MQTT connected");
   if (espConfig::mqttData.hassMqttDiscoveryEnabled) {
@@ -953,8 +953,8 @@ void mqtt_connected_event(void* event_handler_arg, esp_event_base_t event_base, 
     std::string id = identifier;
     device["identifiers"].push_back(id);
     device["identifiers"].push_back(serialNumber);
-    device["manufacturer"] = "rednblkx";
-    device["model"] = "HomeKey-ESP32";
+    device["manufacturer"] = "XcuiTech Inc.";
+    device["model"] = "HomeLock";
     device["sw_version"] = app_version.c_str();
     device["serial_number"] = serialNumber;
     payload["device"] = device;
@@ -1945,7 +1945,7 @@ void setup() {
   char macStr[9] = { 0 };
   sprintf(macStr, "%02X%02X%02X%02X", mac[0], mac[1], mac[2], mac[3]);
   homeSpan.setHostNameSuffix(macStr);
-  homeSpan.begin(Category::Locks, espConfig::miscConfig.deviceName.c_str(), "HK-", "HomeKey-ESP32");
+  homeSpan.begin(Category::Locks, espConfig::miscConfig.deviceName.c_str(), "XC-", "HomeLock");
 
   new SpanUserCommand('D', "Delete Home Key Data", deleteReaderData);
   new SpanUserCommand('L', "Set Log Level", setLogLevel);
