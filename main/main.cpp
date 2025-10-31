@@ -513,13 +513,42 @@ void neopixel_task(void* arg) {
 }
 
 struct BuzzerAction {
-  uint8_t type;  // 0=失败, 1=成功, 2=停止任务
-  uint16_t frequency;
+  uint8_t type;  // 0=failure, 1=success, 2=stop task
+  uint16_t frequency;  // Frequency in Hz
   uint16_t duration;
 };
 
 void buzzer_task(void* arg) {
   BuzzerAction action;
+ 
+  // Configure LEDC once at task start
+  ledc_timer_config_t timer_config = {
+    .speed_mode = LEDC_LOW_SPEED_MODE,
+    .duty_resolution = LEDC_TIMER_8_BIT,
+    .timer_num = LEDC_TIMER_0,
+    .freq_hz = 2000,  // Default frequency
+    .clk_cfg = LEDC_AUTO_CLK
+  };
+  if (ledc_timer_config(&timer_config) != ESP_OK) {
+    LOG(E, "Failed to configure LEDC timer");
+    vTaskDelete(NULL);
+    return;
+  }
+  
+  ledc_channel_config_t channel_config = {
+    .gpio_num = espConfig::miscConfig.buzzerPin,
+    .speed_mode = LEDC_LOW_SPEED_MODE,
+    .channel = LEDC_CHANNEL_0,
+    .timer_sel = LEDC_TIMER_0,
+    .duty = 0,
+    .hpoint = 0
+  };
+  if (ledc_channel_config(&channel_config) != ESP_OK) {
+    LOG(E, "Failed to configure LEDC channel");
+    vTaskDelete(NULL);
+    return;
+  }
+  
   while (1) {
     if (buzzer_handle != nullptr) {
       action = {};
@@ -528,39 +557,25 @@ void buzzer_task(void* arg) {
         LOG(D, "Got buzzer action - type=%d freq=%d duration=%d", action.type, action.frequency, action.duration);
         
         switch (action.type) {
-        case 0: // 失败
-        case 1: // 成功
+        case 0: // Failure
+        case 1: // Success
           if (espConfig::miscConfig.buzzerPin != 255) {
             LOG(D, "BUZZER %s: Pin=%d Freq=%dHz Duration=%dms", 
                 action.type ? "SUCCESS" : "FAIL", 
                 espConfig::miscConfig.buzzerPin, action.frequency, action.duration);
             
-            // 生成指定频率的蜂鸣声
-            ledc_timer_config_t timer_config = {
-              .speed_mode = LEDC_LOW_SPEED_MODE,
-              .duty_resolution = LEDC_TIMER_8_BIT,
-              .timer_num = LEDC_TIMER_0,
-              .freq_hz = action.frequency,
-              .clk_cfg = LEDC_AUTO_CLK
-            };
-            ledc_timer_config(&timer_config);
+            // Update frequency and duty cycle
+            ledc_set_freq(LEDC_LOW_SPEED_MODE, LEDC_TIMER_0, action.frequency);
+            ledc_set_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, 128);
+            ledc_update_duty(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0);
             
-            ledc_channel_config_t channel_config = {
-              .gpio_num = espConfig::miscConfig.buzzerPin,
-              .speed_mode = LEDC_LOW_SPEED_MODE,
-              .channel = LEDC_CHANNEL_0,
-              .timer_sel = LEDC_TIMER_0,
-              .duty = 128, // 50% duty cycle
-              .hpoint = 0
-            };
-            ledc_channel_config(&channel_config);
-            
-            delay(action.duration);
+            vTaskDelay(pdMS_TO_TICKS(action.duration));
             ledc_stop(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, 0);
           }
           break;
-        case 2: // 停止任务
+        case 2: // Stop task
           LOG(I, "BUZZER STOP");
+          ledc_stop(LEDC_LOW_SPEED_MODE, LEDC_CHANNEL_0, 0);
           vTaskDelete(NULL);
           return;
         default:
