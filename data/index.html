@@ -94,6 +94,9 @@
           const component = el.querySelector("#hkReaderDataList");
           if(component){
             let item = document.createElement("li");
+            item.textContent = `制造商：XcuiTech inc.`;
+            component.appendChild(item);
+            item = document.createElement("li");
             item.textContent = `读卡器组 ID: ${configJson?.group_identifier}`;
             component.appendChild(item);
             item = document.createElement("li");
@@ -366,7 +369,7 @@
   </div>
   <div id="main" style="border: 2px groove #8e8271;padding: 1rem;background-color: #003232;margin-bottom: 1rem;align-self: center;">
     <div style="gap: 1rem; display: flex;justify-content: center;">
-      <button data-type="hkinfo" onclick='addComponent(this, false)' style="padding: .6rem;cursor: pointer;" rel="noopener noreferrer">HK 信息</a>
+      <button data-type="hkinfo" onclick='addComponent(this, false)' style="padding: .6rem;cursor: pointer;" rel="noopener noreferrer">信息</a>
       <button data-type="mqtt" onclick='addComponent(this, false)' style="padding: .6rem;cursor: pointer;" rel="noopener noreferrer">MQTT</a>
       <button data-type="actions" onclick='addComponent(this, false)' style="padding: .6rem;cursor: pointer;" rel="noopener noreferrer">动作</a>
       <button data-type="misc" onclick='addComponent(this, false)' style="padding: .6rem;cursor: pointer;" rel="noopener noreferrer">杂项</a>

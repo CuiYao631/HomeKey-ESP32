@@ -13,7 +13,7 @@
           <p class="tab-btn" onclick="switchTab(this)"
             data-tab-index="1">简单 GPIO</p>
           <p class="tab-btn" onclick="switchTab(this)"
-            data-tab-index="2">Buzzer</p>
+            data-tab-index="2">蜂鸣器</p>
         </div>
         <span style="height: 1px;border-top: 1px #424242 solid;display: block;margin: 0;padding: 0;"></span>
       </div>
@@ -158,46 +158,46 @@
       </div>
       <div class="nfc-triggers-hidden-body" data-nfc-triggers-body="2">
         <div>
-          <h5 style="margin-top: 0;margin-bottom: .5rem;">! Buzzer provides audio feedback for authentication results</h5>
-          <h5 style="margin-block: 0;">! Different frequencies and durations for success and failure</h5>
+          <h5 style="margin-top: 0;margin-bottom: .5rem;">! 蜂鸣器为认证结果提供音频反馈</h5>
+          <h5 style="margin-block: 0;">! 成功和失败使用不同的频率和持续时间</h5>
         </div>
         <div style="display: flex;flex-wrap: wrap;justify-content: space-between;gap: 10px;">
           <fieldset>
-            <legend>Buzzer Configuration</legend>
+            <legend>蜂鸣器配置</legend>
             <div class="flex-sm flex-col-lg flex-end-sm">
               <div class="around-sm" style="display: flex;gap: 16px;flex: 2;align-items: flex-end">
                 <div style="display: flex;flex-direction: column;">
-                  <label for="buzzerPin">GPIO Pin</label>
+                  <label for="buzzerPin">GPIO 引脚</label>
                   <input type="number" name="buzzerPin" id="buzzerPin" placeholder="255" required min="0" max="255">
                 </div>
               </div>
             </div>
           </fieldset>
           <fieldset>
-            <legend>Success Sound</legend>
+            <legend>成功音效</legend>
             <div class="flex-sm flex-col-lg flex-end-sm">
               <div class="around-sm" style="display: flex;gap: 16px;flex: 2;align-items: flex-end">
                 <div style="display: flex;flex-direction: column;">
-                  <label for="buzzerSuccessFreq">Frequency (Hz)</label>
+                  <label for="buzzerSuccessFreq">频率 (Hz)</label>
                   <input type="number" name="buzzerSuccessFreq" id="buzzerSuccessFreq" placeholder="2000" required min="100" max="5000">
                 </div>
                 <div style="display: flex;flex-direction: column;">
-                  <label for="buzzerSuccessTime">Duration (ms)</label>
+                  <label for="buzzerSuccessTime">持续时间 (毫秒)</label>
                   <input type="number" name="buzzerSuccessTime" id="buzzerSuccessTime" placeholder="200" required min="50" max="2000">
                 </div>
               </div>
             </div>
           </fieldset>
           <fieldset>
-            <legend>Failure Sound</legend>
+            <legend>失败音效</legend>
             <div class="flex-sm flex-col-lg flex-end-sm">
               <div class="around-sm" style="display: flex;gap: 16px;flex: 2;align-items: flex-end">
                 <div style="display: flex;flex-direction: column;">
-                  <label for="buzzerFailFreq">Frequency (Hz)</label>
+                  <label for="buzzerFailFreq">频率 (Hz)</label>
                   <input type="number" name="buzzerFailFreq" id="buzzerFailFreq" placeholder="500" required min="100" max="5000">
                 </div>
                 <div style="display: flex;flex-direction: column;">
-                  <label for="buzzerFailTime">Duration (ms)</label>
+                  <label for="buzzerFailTime">持续时间 (毫秒)</label>
                   <input type="number" name="buzzerFailTime" id="buzzerFailTime" placeholder="500" required min="50" max="2000">
                 </div>
               </div>
@@ -214,7 +214,7 @@
           <p class="tab-btn homekit-triggers-selected-tab"
             onclick="switchTab(this)" data-tab-index="0">简单 GPIO</p>
           <p class="tab-btn"
-            onclick="switchTab(this)" data-tab-index="1">虚拟</p>
+            onclick="switchTab(this)" data-tab-index="1">NFC</p>
         </div>
         <span style="height: 1px;border-top: 1px #424242 solid;display: block;margin: 0;padding: 0;"></span>
       </div>
@@ -251,6 +251,7 @@
           </div>
           <div class="input-group">
             <label for="gpioActionMomentaryEnabled">瞬时状态</label>
+            <small style="color: #888; font-size: 0.85em; margin-top: 2px; display: block;">触发后在指定时间内保持状态，然后自动复位</small>
             <select name="gpioActionMomentaryEnabled" id="gpioActionMomentaryEnabled">
               <option value="0">禁用</option>
               <option value="1">仅 Home 应用</option>
@@ -266,7 +267,7 @@
       </div>
       <div class="homekit-triggers-hidden-body" data-homekit-triggers-body="1">
         <div>
-          <h5 style="margin-top: 0;margin-bottom: .5rem;">! 虚拟模式遵循"HomeKey 时总是锁定/解锁"选项</h5>
+          <h5 style="margin-top: 0;margin-bottom: .5rem;">! NFC模式遵循"HomeKey 时总是锁定/解锁"选项</h5>
           <h5 style="margin-block: 0;">! 瞬时状态仅在初始状态为"锁定"时适用</h5>
         </div>
         <div class="flex-col-lg">
@@ -279,6 +280,7 @@
           </div>
           <div class="input-group">
             <label for="gpioActionMomentaryEnabled">瞬时状态</label>
+            <small style="color: #888; font-size: 0.85em; margin-top: 2px; display: block;">触发后在指定时间内保持状态，然后自动复位</small>
             <select name="gpioActionMomentaryEnabled" id="gpioActionMomentaryEnabled">
               <option value="0">禁用</option>
               <option value="1">仅 Home 应用</option>
