@@ -222,6 +222,7 @@
         <div>
           <h5 style="margin-top: 0;margin-bottom: .5rem;">! 简单 GPIO 遵循"HomeKey 时总是锁定/解锁"选项</h5>
           <h5 style="margin-block: 0;">! 瞬时状态仅在初始状态为"锁定"时适用</h5>
+          <h5 style="margin-block: 0;">! 瞬时状态是指触发后在指定时间内保持状态，然后自动复位</h5>
         </div>
         <div class="flex-col-lg">
           <div class="input-group">
@@ -251,7 +252,6 @@
           </div>
           <div class="input-group">
             <label for="gpioActionMomentaryEnabled">瞬时状态</label>
-            <small style="color: #888; font-size: 0.85em; margin-top: 2px; display: block;">触发后在指定时间内保持状态，然后自动复位</small>
             <select name="gpioActionMomentaryEnabled" id="gpioActionMomentaryEnabled">
               <option value="0">禁用</option>
               <option value="1">仅 Home 应用</option>
@@ -269,6 +269,7 @@
         <div>
           <h5 style="margin-top: 0;margin-bottom: .5rem;">! NFC模式遵循"HomeKey 时总是锁定/解锁"选项</h5>
           <h5 style="margin-block: 0;">! 瞬时状态仅在初始状态为"锁定"时适用</h5>
+          <h5 style="margin-block: 0;">! 瞬时状态是指触发后在指定时间内保持状态，然后自动复位</h5>
         </div>
         <div class="flex-col-lg">
           <div class="input-group">
@@ -280,7 +281,6 @@
           </div>
           <div class="input-group">
             <label for="gpioActionMomentaryEnabled">瞬时状态</label>
-            <small style="color: #888; font-size: 0.85em; margin-top: 2px; display: block;">触发后在指定时间内保持状态，然后自动复位</small>
             <select name="gpioActionMomentaryEnabled" id="gpioActionMomentaryEnabled">
               <option value="0">禁用</option>
               <option value="1">仅 Home 应用</option>
