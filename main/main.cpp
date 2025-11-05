@@ -1340,7 +1340,7 @@ void setupWeb() {
           if (espConfig::miscConfig.nfcNeopixelPin == 255 && it.value() != 255 && neopixel_task_handle == nullptr) {
             xTaskCreate(neopixel_task, "neopixel_task", 4096, NULL, 2, &neopixel_task_handle);
             if (!pixel) {
-              pixel = std::make_shared<Pixel>(it.value(), PixelType::GRB);
+              pixel = std::make_shared<Pixel>(it.value(), pixelTypeMap[espConfig::miscConfig.neoPixelType]);
             }
           } else if (espConfig::miscConfig.nfcNeopixelPin != 255 && it.value() == 255 && neopixel_task_handle != nullptr) {
             uint8_t status = 2;
