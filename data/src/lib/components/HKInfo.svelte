@@ -2,6 +2,7 @@
   import type { HKInfo } from "$lib/types/api";
   import { systemInfo } from "$lib/stores/system.svelte.js";
   import { calculateWifiSignal } from "$lib/utils/wifi.js";
+  import { t } from "$lib/stores/locale.svelte";
   const version: string = __DEV__ ? "dev" : __VERSION__;
 
   let { hkInfo, error }: { hkInfo: HKInfo | null; error: string | null } =
@@ -13,9 +14,9 @@
 
 <div class="w-full py-6">
   <div class="mb-6">
-    <h1 class="text-2xl font-bold">Dashboard</h1>
+    <h1 class="text-2xl font-bold">{t('dashboard_title')}</h1>
     <p class="text-base-content/60">
-      Monitor your HomeKey-ESP32 device status and configuration.
+      {t('dashboard_subtitle')}
     </p>
   </div>
 
@@ -42,21 +43,21 @@
           </div>
           <div>
             <h2 class="card-title text-lg">HomeKey</h2>
-            <p class="text-xs text-base-content/60">Reader Information</p>
+            <p class="text-xs text-base-content/60">{t('dashboard_hk_subtitle')}</p>
           </div>
         </div>
 
         <div class="space-y-2">
           <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
-            <span class="text-sm text-base-content/70">Reader GID</span>
+            <span class="text-sm text-base-content/70">{t('dashboard_reader_gid')}</span>
             <span class="text-sm font-medium">{hkInfo?.group_identifier || "N/A"}</span>
           </div>
           <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
-            <span class="text-sm text-base-content/70">Reader ID</span>
+            <span class="text-sm text-base-content/70">{t('dashboard_reader_id')}</span>
             <span class="text-sm font-medium">{hkInfo?.unique_identifier || "N/A"}</span>
           </div>
           <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
-            <span class="text-sm text-base-content/70">Issuers</span>
+            <span class="text-sm text-base-content/70">{t('dashboard_issuers')}</span>
             <span class="text-sm font-medium">{hkInfo?.issuers?.length || 0}</span>
           </div>
         </div>
@@ -71,16 +72,16 @@
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-base-content/60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
-                  <span>Issuer {index + 1}</span>
+                  <span>{t('dashboard_issuer_n')} {index + 1}</span>
                 </div>
                 <div class="collapse-content text-sm">
                   <div class="py-2 px-3 bg-base-200 rounded-lg mb-2">
-                    <span class="text-xs text-base-content/60 block mb-1">Issuer ID</span>
+                    <span class="text-xs text-base-content/60 block mb-1">{t('dashboard_issuer_id')}</span>
                     <span class="text-sm font-mono break-all">{issuer.issuerId || "N/A"}</span>
                   </div>
                   {#if issuer.endpoints && issuer.endpoints.length > 0}
                     <div class="mt-2">
-                      <span class="text-xs text-base-content/60 block mb-2">Endpoints</span>
+                      <span class="text-xs text-base-content/60 block mb-2">{t('dashboard_endpoints')}</span>
                       <ul class="space-y-2">
                         {#each issuer.endpoints as endpoint, epIndex (`ep-${epIndex}`)}
                           <li class="flex items-center gap-2 py-2 px-3 bg-base-200 rounded-lg">
@@ -122,53 +123,53 @@
             </svg>
           </div>
           <div>
-            <h2 class="card-title text-lg">System</h2>
-            <p class="text-xs text-base-content/60">Device Information</p>
+            <h2 class="card-title text-lg">{t('dashboard_system')}</h2>
+            <p class="text-xs text-base-content/60">{t('dashboard_system_subtitle')}</p>
           </div>
         </div>
 
         <div class="space-y-2">
           <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
-            <span class="text-sm text-base-content/70">Version</span>
+            <span class="text-sm text-base-content/70">{t('dashboard_version')}</span>
             <span class="text-sm font-medium">{systemInfo?.version || "N/A"}</span>
           </div>
           <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
-            <span class="text-sm text-base-content/70">UI Version</span>
+            <span class="text-sm text-base-content/70">{t('dashboard_ui_version')}</span>
             <span class="text-sm font-medium">{version}</span>
           </div>
           <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
-            <span class="text-sm text-base-content/70">Device Name</span>
+            <span class="text-sm text-base-content/70">{t('common_device_name')}</span>
             <span class="text-sm font-medium">{systemInfo?.deviceName || "N/A"}</span>
           </div>
           <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
-            <span class="text-sm text-base-content/70">Uptime</span>
+            <span class="text-sm text-base-content/70">{t('dashboard_uptime')}</span>
             <span class="text-sm font-medium">{systemInfo?.uptime || "N/A"}</span>
           </div>
           <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
-            <span class="text-sm text-base-content/70">Free Heap</span>
+            <span class="text-sm text-base-content/70">{t('dashboard_free_heap')}</span>
             <span class="text-sm font-medium">{systemInfo?.free_heap || "N/A"}</span>
           </div>
           <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
-            <span class="text-sm text-base-content/70">WiFi SSID</span>
+            <span class="text-sm text-base-content/70">{t('dashboard_wifi_ssid')}</span>
             <span class="text-sm font-medium">{systemInfo?.wifi_ssid || "N/A"}</span>
           </div>
           {#if !systemInfo?.eth_enabled}
             <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
-              <span class="text-sm text-base-content/70">WiFi RSSI</span>
+              <span class="text-sm text-base-content/70">{t('dashboard_wifi_rssi')}</span>
               <span class="text-sm font-medium">{systemInfo?.wifi_rssi || "N/A"} ({wifi_signal})</span>
             </div>
           {/if}
           <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
-            <span class="text-sm text-base-content/70">Ethernet enabled</span>
-            <span class="text-sm font-medium">{systemInfo?.eth_enabled ? "Yes" : "No"}</span>
+            <span class="text-sm text-base-content/70">{t('dashboard_eth_enabled')}</span>
+            <span class="text-sm font-medium">{systemInfo?.eth_enabled ? t('common_yes') : t('common_no')}</span>
           </div>
           <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
-            <span class="text-sm text-base-content/70">NFC Module</span>
-            <span class="text-sm font-medium">{systemInfo?.nfc_connected ? "Connected" : "Disconnected"}</span>
+            <span class="text-sm text-base-content/70">{t('dashboard_nfc_module')}</span>
+            <span class="text-sm font-medium">{systemInfo?.nfc_connected ? t('common_connected') : t('common_disconnected')}</span>
           </div>
           <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
-            <span class="text-sm text-base-content/70">MQTT broker</span>
-            <span class="text-sm font-medium">{systemInfo?.mqtt_connected ? "Connected" : "Disconnected"}</span>
+            <span class="text-sm text-base-content/70">{t('dashboard_mqtt_broker')}</span>
+            <span class="text-sm font-medium">{systemInfo?.mqtt_connected ? t('common_connected') : t('common_disconnected')}</span>
           </div>
         </div>
       </div>

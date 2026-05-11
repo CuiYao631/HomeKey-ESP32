@@ -5,6 +5,7 @@
 	import { type WebSocketState } from "$lib/stores/websocket.svelte";
 	import { systemInfo } from "$lib/stores/system.svelte";
 	import { getChipModelString } from "$lib/utils/chipModel";
+	import { t } from "$lib/stores/locale.svelte";
 
 	let firmwareFile = $state<File | null>(null);
 	let littlefsFile = $state<File | null>(null);
@@ -358,9 +359,9 @@
 <div class="flex flex-col pt-6 gap-6 max-w-6xl mx-auto">
 	<!-- Page Header -->
 	<div>
-		<h1 class="text-2xl font-bold text-base-content">OTA Update</h1>
+		<h1 class="text-2xl font-bold text-base-content">{t('ota_title')}</h1>
 		<p class="text-base-content/60 text-sm">
-			Update firmware and filesystem over-the-air.
+			{t('ota_subtitle')}
 		</p>
 	</div>
 
@@ -384,9 +385,9 @@
 					</svg>
 				</div>
 				<div>
-					<h2 class="card-title text-base">Device Information</h2>
+					<h2 class="card-title text-base">{t('ota_device_info')}</h2>
 					<p class="text-xs text-base-content/60">
-						Current firmware and partition status
+						{t('ota_device_info_subtitle')}
 					</p>
 				</div>
 			</div>
@@ -394,10 +395,10 @@
 			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
 				<div class="bg-base-300/50 rounded-lg p-3">
 					<div class="text-xs text-base-content/60 mb-1">
-						Current Version
+							{t('ota_current_version')}
 					</div>
 					<div class="text-sm font-medium">
-						{otaStatus.current_version || "Unknown"}
+						{otaStatus.current_version || t('common_unknown')}
 					</div>
 				</div>
 
@@ -410,19 +411,19 @@
 
 				<div class="bg-base-300/50 rounded-lg p-3">
 					<div class="text-xs text-base-content/60 mb-1">
-						Running Partition
+						{t('ota_running_partition')}
 					</div>
 					<div class="text-sm font-medium">
-						{otaStatus.running_partition || "Unknown"}
+						{otaStatus.running_partition || t('common_unknown')}
 					</div>
 				</div>
 
 				<div class="bg-base-300/50 rounded-lg p-3">
 					<div class="text-xs text-base-content/60 mb-1">
-						Update Partition
+						{t('ota_next_partition')}
 					</div>
 					<div class="text-sm font-medium">
-						{otaStatus.next_update_partition || "Unknown"}
+						{otaStatus.next_update_partition || t('common_unknown')}
 					</div>
 				</div>
 			</div>
@@ -450,16 +451,16 @@
 						</svg>
 					</div>
 					<div>
-						<h2 class="card-title text-base">Firmware</h2>
+						<h2 class="card-title text-base">{t('ota_firmware')}</h2>
 						<p class="text-xs text-base-content/60">
-							Upload compiled firmware binary
+							{t('ota_firmware_subtitle')}
 						</p>
 					</div>
 				</div>
 
 				<div class="form-control">
 					<label class="label py-1" for="firmware-input">
-						<span class="label-text text-xs">Firmware File (.bin)</span>
+						<span class="label-text text-xs">{t('ota_firmware_file')}</span>
 					</label>
 					<input
 						id="firmware-input"
@@ -548,8 +549,8 @@
 						</svg>
 					{/if}
 					{uploading && currentUploadType === "firmware"
-						? "Uploading..."
-						: "Upload Firmware"}
+					? t('common_uploading')
+					: t('ota_upload_firmware')}
 				</button>
 			</div>
 		</div>
@@ -574,16 +575,16 @@
 						</svg>
 					</div>
 					<div>
-						<h2 class="card-title text-base">Filesystem</h2>
-						<p class="text-xs text-base-content/60">
-							Upload filesystem binary
+				<h2 class="card-title text-base">{t('ota_filesystem')}</h2>
+							<p class="text-xs text-base-content/60">
+								{t('ota_filesystem_subtitle')}
 						</p>
 					</div>
 				</div>
 
 				<div class="form-control">
 					<label class="label py-1" for="littlefs-input">
-						<span class="label-text text-xs">LittleFS File (.bin)</span>
+						<span class="label-text text-xs">{t('ota_littlefs_file')}</span>
 					</label>
 					<input
 						id="littlefs-input"
@@ -672,8 +673,8 @@
 						</svg>
 					{/if}
 					{uploading && currentUploadType === "littlefs"
-						? "Uploading..."
-						: "Upload LittleFS"}
+					? t('common_uploading')
+					: t('ota_upload_littlefs')}
 				</button>
 			</div>
 		</div>
@@ -702,7 +703,7 @@
 					<line x1="12" y1="3" x2="12" y2="15" />
 				</svg>
 			{/if}
-			{uploading && sequentialUpload ? uploadStepText : "Upload Both"}
+			{uploading && sequentialUpload ? uploadStepText : t('ota_upload_both')}
 		</button>
 	{/if}
 
@@ -753,7 +754,7 @@
 	<!-- Upload Log -->
 	<div class="card bg-base-200">
 		<div class="card-body">
-			<h2 class="card-title text-base mb-4">Upload Log</h2>
+				<h2 class="card-title text-base mb-4">{t('ota_upload_log')}</h2>
 			{#if otaLogs.length === 0}
 				<div class="text-center py-8 text-base-content/50 text-sm">
 					No log entries yet

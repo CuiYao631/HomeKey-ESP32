@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { EthConfig, NfcGpioPinsPreset } from '$lib/types/api';
     import { derived } from 'svelte/store';
+	import { t } from '$lib/stores/locale.svelte';
 	import SpiEthernetNote from './SpiEthernetNote.svelte';
 	import { route } from 'sv-router/generated';
 
@@ -117,7 +118,7 @@
 	<!-- NFC Reader -->
 	<div class="py-2 px-3 bg-base-100 rounded-lg">
 		<div class="flex items-center justify-between mb-2">
-			<p class="text-sm font-medium">NFC Reader</p>
+			<p class="text-sm font-medium">{t('hw_nfc_reader')}</p>
 			{#if nfcConnected !== undefined && !isCaptivePortal}
 				<div class="flex items-center gap-2">
 					<span class="relative flex h-2.5 w-2.5">
@@ -129,14 +130,14 @@
 						{/if}
 					</span>
 					<span class="text-xs font-medium {nfcConnected ? 'text-success' : 'text-error'}">
-						{nfcConnected ? 'Connected' : 'Disconnected'}
+						{nfcConnected ? t('common_connected') : t('common_disconnected')}
 					</span>
 				</div>
 			{/if}
 		</div>
 		<div class="form-control mb-2">
 			<label class="label" for="nfcReaderType">
-				<span class="label-text text-xs">Reader Type</span>
+				{t('hw_reader_type')}
 			</label>
 			<select
 				id="nfcReaderType"
@@ -151,7 +152,7 @@
 		</div>
 		<div class="form-control mb-2">
 			<label class="label" for="nfcPreset">
-				<span class="label-text text-xs">Preset</span>
+				{t('hw_preset')}
 			</label>
 			<select
 				id="nfcPreset"
@@ -165,13 +166,13 @@
 						<option value={i}>{preset.name}</option>
 					{/each}
 				{/if}
-				<option value={255}>Custom</option>
+				<option value={255}>{t('hw_custom')}</option>
 			</select>
 		</div>
 		<div class="grid grid-cols-4 gap-2 mb-2">
 			<div class="form-control">
 				<label class="label" for="nfcSsPin">
-					<span class="label-text text-xs">SS Pin</span>
+					{t('hw_ss_pin')}
 				</label>
 				<input
 					id="nfcSsPin"
@@ -184,7 +185,7 @@
 			</div>
 			<div class="form-control">
 				<label class="label" for="nfcSckPin">
-					<span class="label-text text-xs">SCK Pin</span>
+					{t('hw_sck_pin')}
 				</label>
 				<input
 					id="nfcSckPin"
@@ -197,7 +198,7 @@
 			</div>
 			<div class="form-control">
 				<label class="label" for="nfcMisoPin">
-					<span class="label-text text-xs">MISO Pin</span>
+					{t('hw_miso_pin')}
 				</label>
 				<input
 					id="nfcMisoPin"
@@ -210,7 +211,7 @@
 			</div>
 			<div class="form-control">
 				<label class="label" for="nfcMosiPin">
-					<span class="label-text text-xs">MOSI Pin</span>
+					{t('hw_mosi_pin')}
 				</label>
 				<input
 					id="nfcMosiPin"
@@ -226,7 +227,7 @@
 			<div class="grid grid-cols-2 gap-2 mb-2">
 				<div class="form-control">
 					<label class="label" for="nfcIrqPin">
-						<span class="label-text text-xs">IRQ Pin</span>
+						{t('hw_irq_pin')}
 					</label>
 					<input
 						id="nfcIrqPin"
@@ -239,7 +240,7 @@
 				</div>
 				<div class="form-control">
 					<label class="label" for="nfcVenPin">
-						<span class="label-text text-xs">VEN Pin</span>
+						{t('hw_ven_pin')}
 					</label>
 					<input
 						id="nfcVenPin"
@@ -254,7 +255,7 @@
 		{/if}
     <div class="flex items-center justify-between py-2 px-3 bg-base-200 rounded-lg">
       <div>
-        <p class="text-sm font-medium">Fast NFC Polling</p>
+        <p class="text-sm font-medium">{t('hw_fast_polling')}</p>
         <p class="text-xs text-base-content/60">Reduces the delay between poll cycles for quicker tag detection.</p>
       </div>
       <input
@@ -267,11 +268,11 @@
 
 	<!-- Ethernet Configuration -->
 	<div class="py-2 px-3 bg-base-100 rounded-lg">
-		<p class="text-sm font-medium mb-2">Ethernet Configuration</p>
+		<p class="text-sm font-medium mb-2">{t('hw_ethernet')}</p>
 
 		<div class="flex items-center justify-between mb-3">
 			<div>
-				<p class="text-sm font-medium">Enable Ethernet</p>
+				<p class="text-sm font-medium">{t('hw_eth_enabled')}</p>
 				<p class="text-xs text-base-content/60">Use wired Ethernet instead of WiFi</p>
 			</div>
 			<input
@@ -286,7 +287,7 @@
 		{#if ethernetEnabled}
 			<div class="form-control">
 				<label class="label" for="ethPreset">
-					<span class="label-text text-xs">Board Preset</span>
+					{t('hw_eth_preset')}
 				</label>
 				<select
 					id="ethPreset"
@@ -300,13 +301,13 @@
 							<option value={i}>{preset.name}</option>
 						{/each}
 					{/if}
-					<option value={255}>Custom</option>
+					<option value={255}>{t('hw_custom')}</option>
 				</select>
 			</div>
 
 			<div class="form-control">
 				<label class="label" for="ethPhyType">
-					<span class="label-text text-xs">PHY Type</span>
+					{t('hw_eth_phy_type')}
 				</label>
 				<select
 					id="ethPhyType"
@@ -499,7 +500,7 @@
 						</div>
 						<div class="form-control">
 							<label class="label" for="ethMosiPin">
-								<span class="label-text text-xs">MOSI Pin</span>
+								{t('hw_mosi_pin')}
 							</label>
 							<input
 								id="ethMosiPin"

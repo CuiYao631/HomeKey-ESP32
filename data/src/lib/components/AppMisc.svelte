@@ -15,6 +15,7 @@
 	import { diff } from "$lib/utils/objDiff";
 	import HardwareConfig from "$lib/components/HardwareConfig.svelte";
 	import CertManager from "$lib/components/CertManager.svelte";
+	import { t } from "$lib/stores/locale.svelte";
 
 	let { misc, eth, nfcPresets, nfcConnected = $bindable(false), error } = $props();
 
@@ -120,15 +121,15 @@
 	<!-- Header -->
 	<div class="mb-6">
 		<h1 class="text-2xl font-bold text-base-content flex items-center gap-2">
-			System Settings
-			<div class="tooltip tooltip-bottom tooltip-info" data-tip="Device will reboot to apply changes!">
+			{t('misc_title')}
+			<div class="tooltip tooltip-bottom tooltip-info" data-tip="{t('common_reboot_warning')}">
 				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-info">
 				<path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
 				</svg>
 			</div>
 		</h1>
 		<p class="text-base-content/60">
-			Configure device settings, HomeKit options, and hardware pins.
+			{t('misc_subtitle')}
 		</p>
 	</div>
 
@@ -141,14 +142,14 @@
 			<!-- Quick Actions -->
 			<div class="card bg-base-200 shadow-xl">
 				<div class="card-body p-4">
-					<h2 class="text-lg font-semibold mb-1">Quick Actions</h2>
-					<p class="text-sm text-base-content/60 mb-4">Device management and reset options</p>
+					<h2 class="text-lg font-semibold mb-1">{t('misc_quick_actions')}</h2>
+					<p class="text-sm text-base-content/60 mb-4">{t('misc_quick_actions_desc')}</p>
 					<div class="flex flex-wrap gap-2">
 						<button
 							type="button"
 							class="btn btn-sm btn-outline"
 							onclick={async () => {
-								if (confirm("This will restart the device, please confirm.")) {
+								if (confirm(t('misc_confirm_reboot'))) {
 									await rebootDevice();
 								}
 							}}
@@ -162,7 +163,7 @@
 							type="button"
 							class="btn btn-sm btn-outline"
 							onclick={async () => {
-								if (confirm("This will start the configuration AP, please confirm.\n\nNote that the WiFi connection will be dropped.")) {
+								if (confirm(t('misc_confirm_start_ap'))) {
 									await startConfigAP();
 								}
 							}}
@@ -176,7 +177,7 @@
 							type="button"
 							class="btn btn-sm btn-outline btn-error"
 							onclick={async () => {
-								if (confirm("This will reset the HomeKit pairings, please confirm.")) {
+								if (confirm(t('misc_confirm_reset_hk'))) {
 									await resetPairings();
 								}
 							}}
@@ -190,7 +191,7 @@
 							type="button"
 							class="btn btn-sm btn-outline btn-error"
 							onclick={async () => {
-								if (confirm("This will reset the WiFi credentials, please confirm.")) {
+								if (confirm(t('misc_confirm_reset_wifi'))) {
 									await resetWifi();
 								}
 							}}
@@ -214,7 +215,7 @@
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
 					</svg>
-					<span class="text-[10px] sm:text-xs mt-0.5">HomeKit</span>
+					<span class="text-[10px] sm:text-xs mt-0.5">{t('misc_tab_homekit')}</span>
 				</button>
 				<button
 					type="button"
@@ -236,7 +237,7 @@
 						<path d="M19 12h-2" stroke-linecap="round"/>
 						<path d="M19 15h-2" stroke-linecap="round"/>
 					</svg>
-					<span class="text-[10px] sm:text-xs mt-0.5">Hardware</span>
+					<span class="text-[10px] sm:text-xs mt-0.5">{t('common_hardware')}</span>
 				</button>
 				<button
 					type="button"
@@ -246,7 +247,7 @@
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 						<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
 					</svg>
-					<span class="text-[10px] sm:text-xs mt-0.5">Security</span>
+					<span class="text-[10px] sm:text-xs mt-0.5">{t('common_security')}</span>
 				</button>
 			</div>
 
@@ -256,14 +257,14 @@
 					{#if activeTab === 'homekit'}
 						<div class="space-y-4">
 							<div>
-								<h3 class="text-sm font-semibold">HomeKit Configuration</h3>
-								<p class="text-xs text-base-content/60">Configure HomeKit device settings and behavior.</p>
+						<h3 class="text-sm font-semibold">{t('misc_hk_config_title')}</h3>
+							<p class="text-xs text-base-content/60">{t('misc_hk_config_subtitle')}</p>
 							</div>
 
 							<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 								<div class="form-control">
 									<label class="label">
-										<span class="label-text text-xs">Device Name</span>
+										<span class="label-text text-xs">{t('common_device_name')}</span>
 									</label>
 									<input
 										type="text"
@@ -275,7 +276,7 @@
 								</div>
 								<div class="form-control">
 									<label class="label">
-										<span class="label-text text-xs">Setup Code</span>
+										<span class="label-text text-xs">{t('misc_setup_code')}</span>
 									</label>
 									<input
 										type="text"
@@ -293,8 +294,8 @@
 							<div class="space-y-2">
 								<div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
 									<div>
-										<p class="text-sm font-medium">Always Lock on HomeKey</p>
-										<p class="text-xs text-base-content/60">Lock the device when HomeKey is tapped regardless of current state</p>
+								<p class="text-sm font-medium">{t('misc_always_lock')}</p>
+								<p class="text-xs text-base-content/60">{t('misc_always_lock_desc')}</p>
 									</div>
 									<input
 										type="checkbox"
@@ -304,8 +305,8 @@
 								</div>
 								<div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
 									<div>
-										<p class="text-sm font-medium">Always Unlock on HomeKey</p>
-										<p class="text-xs text-base-content/60">Unlock the device when HomeKey is tapped regardless of current state</p>
+								<p class="text-sm font-medium">{t('misc_always_unlock')}</p>
+								<p class="text-xs text-base-content/60">{t('misc_always_unlock_desc')}</p>
 									</div>
 									<input
 										type="checkbox"
@@ -315,8 +316,8 @@
 								</div>
 								<div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
 									<div>
-										<p class="text-sm font-medium">SmartLock Battery Reporting</p>
-										<p class="text-xs text-base-content/60">Enable battery level reporting to HomeKit</p>
+								<p class="text-sm font-medium">{t('misc_battery_reporting')}</p>
+								<p class="text-xs text-base-content/60">{t('misc_battery_reporting_desc')}</p>
 									</div>
 									<input
 										type="checkbox"
@@ -326,8 +327,8 @@
 								</div>
 								<div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
 									<div>
-										<p class="text-sm font-medium">Auth Precompute Cache</p>
-										<p class="text-xs text-base-content/60">Enable faster HomeKey authentication (higher CPU/RAM usage)</p>
+								<p class="text-sm font-medium">{t('misc_auth_cache')}</p>
+								<p class="text-xs text-base-content/60">{t('misc_auth_cache_desc')}</p>
 									</div>
 									<input
 										type="checkbox"
@@ -360,8 +361,8 @@
 					{#if activeTab === 'hardware'}
 						<div class="space-y-4">
 							<div>
-								<h3 class="text-sm font-semibold">Hardware Configuration</h3>
-								<p class="text-xs text-base-content/60">Configure GPIO pins for NFC reader and optional Ethernet connectivity.</p>
+						<h3 class="text-sm font-semibold">{t('misc_hw_config_title')}</h3>
+							<p class="text-xs text-base-content/60">{t('misc_hw_config_subtitle')}</p>
 							</div>
 
 							<HardwareConfig
@@ -398,7 +399,7 @@
 								<p class="text-sm font-medium mb-2">HomeSpan - <a class="text-xs text-base-content/60 underline mb-2" href="https://github.com/HomeSpan/HomeSpan/blob/master/docs/UserGuide.md#device-configuration-mode">User Guide</a></p>
 								<div class="form-control mb-2">
 									<label class="label">
-										<span class="label-text text-xs">OTA Password</span>
+										<span class="label-text text-xs">{t('misc_ota_password')}</span>
 									</label>
 									<input
 										type="password"
@@ -409,7 +410,7 @@
 								<div class="grid grid-cols-2 gap-2">
 									<div class="form-control">
 										<label class="label">
-											<span class="label-text text-xs">Control GPIO Pin</span>
+											<span class="label-text text-xs">{t('misc_control_gpio')}</span>
 										</label>
 										<input
 											type="number"
@@ -419,7 +420,7 @@
 									</div>
 									<div class="form-control">
 										<label class="label">
-											<span class="label-text text-xs">Status LED GPIO Pin</span>
+											<span class="label-text text-xs">{t('misc_status_led')}</span>
 										</label>
 										<input
 											type="number"
@@ -437,14 +438,14 @@
 							<!-- Web Authentication Section -->
 							<div class="space-y-4">
 								<div>
-									<h3 class="text-sm font-semibold">Web Authentication</h3>
-									<p class="text-xs text-base-content/60">Configure web interface authentication settings.</p>
+								<h3 class="text-sm font-semibold">{t('misc_web_auth_title')}</h3>
+								<p class="text-xs text-base-content/60">{t('misc_web_auth_subtitle')}</p>
 								</div>
 
 								<div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
 									<div>
-										<p class="text-sm font-medium">Enable Web Authentication</p>
-										<p class="text-xs text-base-content/60">Require login to access the web interface</p>
+									<p class="text-sm font-medium">{t('misc_enable_web_auth')}</p>
+									<p class="text-xs text-base-content/60">{t('misc_enable_web_auth_desc')}</p>
 									</div>
 									<input
 										type="checkbox"
@@ -457,7 +458,7 @@
 									<div class="grid grid-cols-2 gap-4">
 										<div class="form-control">
 											<label class="label">
-												<span class="label-text text-xs">Username</span>
+												<span class="label-text text-xs">{t('common_username')}</span>
 											</label>
 											<input
 												type="text"
@@ -468,7 +469,7 @@
 										</div>
 										<div class="form-control">
 											<label class="label">
-												<span class="label-text text-xs">Password</span>
+												<span class="label-text text-xs">{t('common_password')}</span>
 											</label>
 											<input
 												type="password"
@@ -484,14 +485,14 @@
 							<!-- HTTPS Section -->
 							<div class="space-y-4 border-t border-base-300 pt-4">
 								<div>
-									<h3 class="text-sm font-semibold">HTTPS Encryption</h3>
-									<p class="text-xs text-base-content/60">Secure the web interface with SSL/TLS encryption.</p>
+								<h3 class="text-sm font-semibold">{t('misc_https_title')}</h3>
+								<p class="text-xs text-base-content/60">{t('misc_https_subtitle')}</p>
 								</div>
 
 								<div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
 									<div>
-										<p class="text-sm font-medium">Enable HTTPS</p>
-										<p class="text-xs text-base-content/60">Access the web interface securely via HTTPS (Port 443)</p>
+									<p class="text-sm font-medium">{t('misc_enable_https')}</p>
+									<p class="text-xs text-base-content/60">{t('misc_enable_https_desc')}</p>
 									</div>
 									<input
 										type="checkbox"
@@ -507,8 +508,8 @@
 												<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
 											</svg>
 											<div>
-												<p class="text-sm font-medium text-warning">Device Reboot Required</p>
-												<p class="text-xs text-base-content/60">HTTPS settings require a device reboot to take effect.</p>
+											<p class="text-sm font-medium text-warning">{t('misc_reboot_required')}</p>
+											<p class="text-xs text-base-content/60">{t('misc_https_reboot_desc')}</p>
 											</div>
 										</div>
 									</div>
@@ -527,8 +528,8 @@
 
 			<!-- Actions -->
 			<div class="flex gap-2">
-				<button type="submit" class="btn btn-primary">Save & Apply changes</button>
-				<button type="button" class="btn btn-outline" onclick={resetForm}>Reset</button>
+		<button type="submit" class="btn btn-primary">{t('common_save')}</button>
+		<button type="button" class="btn btn-outline" onclick={resetForm}>{t('common_reset')}</button>
 			</div>
 		</form>
 	{/if}

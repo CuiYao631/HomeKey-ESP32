@@ -10,6 +10,7 @@
 	import { p } from "sv-router/generated";
 	import { isActiveLink } from 'sv-router';
     import { systemInfo } from "$lib/stores/system.svelte";
+	import { t, toggleLocale } from "$lib/stores/locale.svelte";
 
 	let { onClose, id } = $props();
 
@@ -96,7 +97,7 @@
 						d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 					/>
 				</svg>
-				Info
+				{t('nav_info')}
 			</a>
 		</li>
 		<li class="my-1" role="menuitem">
@@ -116,7 +117,7 @@
 						d="M9.348 14.652a3.75 3.75 0 0 1 0-5.304m5.304 0a3.75 3.75 0 0 1 0 5.304m-7.425 2.121a6.75 6.75 0 0 1 0-9.546m9.546 0a6.75 6.75 0 0 1 0 9.546M5.106 18.894c-3.808-3.807-3.808-9.98 0-13.788m13.788 0c3.808 3.807 3.808 9.98 0 13.788M12 12h.008v.008H12V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
 					/>
 				</svg>
-				MQTT
+				{t('nav_mqtt')}
 			</a>
 		</li>
 		<li class="my-1" role="menuitem">
@@ -124,7 +125,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-6 w-6 mr-1">
           <path fill-rule="evenodd" d="M9.58 1.077a.75.75 0 0 1 .405.82L9.165 6h4.085a.75.75 0 0 1 .567 1.241l-6.5 7.5a.75.75 0 0 1-1.302-.638L6.835 10H2.75a.75.75 0 0 1-.567-1.241l6.5-7.5a.75.75 0 0 1 .897-.182Z" clip-rule="evenodd" />
         </svg>
-				Actions
+				{t('nav_actions')}
 			</a>
 		</li>
 		<li class="my-1" role="menuitem">
@@ -150,7 +151,7 @@
 						d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
 					/>
 				</svg>
-				System
+				{t('nav_system')}
 			</a>
 		</li>
 		<li class="my-1" role="menuitem">
@@ -170,7 +171,7 @@
 						d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
 					/>
 				</svg>
-				OTA Update
+				{t('nav_ota')}
 			</a>
 		</li>
 		<li class="my-1" role="menuitem">
@@ -190,13 +191,21 @@
 						d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
 					/>
 				</svg>
-				Logs
+				{t('nav_logs')}
 			</a>
 		</li>
 	</ul>
   <div class="divider mb-0"></div>
 	<!-- Footer Section -->
 	<div class="flex self-start justify-between p-4">
+		<button
+			type="button"
+			class="btn btn-ghost btn-xs font-medium"
+			onclick={toggleLocale}
+			aria-label="Toggle language"
+		>
+			{t('nav_lang')}
+		</button>
 		<label class="swap swap-rotate" aria-label="Toggle theme">
 			<input
 				type="checkbox"

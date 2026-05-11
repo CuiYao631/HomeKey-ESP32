@@ -4,6 +4,7 @@
   import { diff } from '$lib/utils/objDiff';
   import CertManager from './CertManager.svelte';
   import { systemInfo } from '$lib/stores/system.svelte';
+  import { t } from '$lib/stores/locale.svelte';
 
   let { mqtt, error }: { mqtt: MqttConfig; error: string | null } = $props();
 
@@ -40,13 +41,13 @@
   <div class="mb-6">
     <h1 class="text-2xl font-bold text-base-content flex items-center gap-2">
       MQTT Settings
-      <div class="tooltip tooltip-bottom tooltip-info" data-tip="Device will reboot to apply changes!">
+      <div class="tooltip tooltip-bottom tooltip-info" data-tip="{t('common_reboot_warning')}">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-info">
           <path stroke-linecap="round" stroke-linejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" />
         </svg>
       </div>
     </h1>
-    <p class="text-sm text-base-content/60">Configure MQTT broker connection and topic mappings.</p>
+    <p class="text-sm text-base-content/60">{t('mqtt_subtitle')}</p>
   </div>
 
   {#if !mqtt && error}
@@ -65,7 +66,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
           </svg>
-          <span class="text-[10px] sm:text-xs mt-0.5">Broker</span>
+          <span class="text-[10px] sm:text-xs mt-0.5">{t('mqtt_tab_broker')}</span>
         </button>
         <button
           type="button"
@@ -75,7 +76,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z" />
           </svg>
-          <span class="text-[10px] sm:text-xs mt-0.5">Topics</span>
+          <span class="text-[10px] sm:text-xs mt-0.5">{t('mqtt_tab_topics')}</span>
         </button>
         <button
           type="button"
@@ -96,8 +97,8 @@
           <!-- Broker Configuration -->
           <div class="space-y-6">
             <div>
-              <h3 class="font-semibold text-base-content">Broker Configuration</h3>
-              <p class="text-sm text-base-content/60">Configure the MQTT broker connection settings.</p>
+              <h3 class="font-semibold text-base-content">{t('mqtt_broker_title')}</h3>
+              <p class="text-sm text-base-content/60">{t('mqtt_broker_subtitle')}</p>
             </div>
 
             <!-- MQTT Connection Status -->
@@ -106,15 +107,15 @@
                 <span class="inline-flex h-3 w-3 rounded-full {mqttConnected === true ? 'bg-success' : mqttConnected === false ? (mqttErrorCode > 0 ? 'bg-error' : 'bg-warning') : 'bg-base-300'}"></span>
                 <span class="text-sm font-medium">
                   {#if mqttConnected === true}
-                    <span class="text-success">Connected</span>
+                    <span class="text-success">{t('common_connected')}</span>
                   {:else if mqttConnected === false}
                     {#if mqttErrorCode > 0}
-                      <span class="text-error">Error</span>
+                      <span class="text-error">{t('common_error')}</span>
                     {:else}
-                      <span class="text-warning">Disconnected</span>
+                      <span class="text-warning">{t('common_disconnected')}</span>
                     {/if}
                   {:else}
-                    <span class="text-base-content/50">Unknown</span>
+                    <span class="text-base-content/50">{t('common_unknown')}</span>
                   {/if}
                 </span>
               </div>
@@ -129,7 +130,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text text-sm">Broker Address</span>
+                  <span class="label-text text-sm">{t('mqtt_broker_address')}</span>
                 </label>
                 <input
                   type="text"
@@ -141,7 +142,7 @@
               </div>
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text text-sm">Port</span>
+                  <span class="label-text text-sm">{t('mqtt_port')}</span>
                 </label>
                 <input
                   type="number"
@@ -155,7 +156,7 @@
               </div>
               <div class="form-control md:col-span-2">
                 <label class="label">
-                  <span class="label-text text-sm">Client ID</span>
+                  <span class="label-text text-sm">{t('mqtt_client_id')}</span>
                 </label>
                 <input
                   type="text"
@@ -167,7 +168,7 @@
               </div>
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text text-sm">Username</span>
+                  <span class="label-text text-sm">{t('common_username')}</span>
                 </label>
                 <input
                   type="text"
@@ -178,7 +179,7 @@
               </div>
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text text-sm">Password</span>
+                  <span class="label-text text-sm">{t('common_password')}</span>
                 </label>
                 <input
                   type="password"
@@ -189,7 +190,7 @@
               </div>
               <div class="form-control md:col-span-2">
                 <label class="label">
-                  <span class="label-text text-sm">LWT Topic</span>
+                  <span class="label-text text-sm">{t('mqtt_lwt_topic')}</span>
                 </label>
                 <input
                   type="text"
@@ -204,8 +205,8 @@
             <!-- Home Assistant Discovery Toggle -->
             <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
               <div>
-                <p class="font-medium text-sm text-base-content">Home Assistant MQTT Discovery</p>
-                <p class="text-xs text-base-content/70">Enable automatic device discovery in Home Assistant</p>
+                <p class="font-medium text-sm text-base-content">{t('mqtt_hass_discovery')}</p>
+                <p class="text-xs text-base-content/70">{t('mqtt_hass_discovery_desc')}</p>
               </div>
               <input
                 type="checkbox"
@@ -220,14 +221,14 @@
           <!-- Topic Configuration -->
           <div class="space-y-6">
             <div>
-              <h3 class="font-semibold text-base-content">Topic Configuration</h3>
-              <p class="text-sm text-base-content/60">Configure MQTT topics for different events.</p>
+              <h3 class="font-semibold text-base-content">{t('mqtt_topics_title')}</h3>
+              <p class="text-sm text-base-content/60">{t('mqtt_topics_subtitle')}</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text text-sm">HomeKey Topic</span>
+                  <span class="label-text text-sm">{t('mqtt_hk_topic')}</span>
                 </label>
                 <input
                   type="text"
@@ -239,7 +240,7 @@
               </div>
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text text-sm">Lock State Topic</span>
+                  <span class="label-text text-sm">{t('mqtt_lock_state_topic')}</span>
                 </label>
                 <input
                   type="text"
@@ -251,7 +252,7 @@
               </div>
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text text-sm">Lock State Command</span>
+                  <span class="label-text text-sm">{t('mqtt_lock_state_cmd')}</span>
                 </label>
                 <input
                   type="text"
@@ -263,7 +264,7 @@
               </div>
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text text-sm">Lock Current State Command</span>
+                  <span class="label-text text-sm">{t('mqtt_lock_cstate_cmd')}</span>
                 </label>
                 <input
                   type="text"
@@ -275,7 +276,7 @@
               </div>
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text text-sm">Lock Target State Command</span>
+                  <span class="label-text text-sm">{t('mqtt_lock_tstate_cmd')}</span>
                 </label>
                 <input
                   type="text"
@@ -287,7 +288,7 @@
               </div>
               <div class="form-control">
                 <label class="label">
-                  <span class="label-text text-sm">Battery Level Topic</span>
+                  <span class="label-text text-sm">{t('mqtt_btr_lvl_topic')}</span>
                 </label>
                 <input
                   type="text"
@@ -299,7 +300,7 @@
               </div>
               <div class="form-control md:col-span-2">
                 <label class="label">
-                  <span class="label-text text-sm">Alt Action Topic</span>
+                  <span class="label-text text-sm">{t('mqtt_alt_action_topic')}</span>
                 </label>
                 <input
                   type="text"
@@ -314,8 +315,8 @@
             <!-- Ignore NFC Tags Toggle -->
             <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
               <div>
-                <p class="font-medium text-sm text-base-content">Ignore NFC Tags</p>
-                <p class="text-xs text-base-content/70">Do not publish NFC tag events to MQTT</p>
+                <p class="font-medium text-sm text-base-content">{t('mqtt_ignore_nfc')}</p>
+                <p class="text-xs text-base-content/70">{t('mqtt_ignore_nfc_desc')}</p>
               </div>
               <input
                 type="checkbox"
@@ -327,8 +328,8 @@
             <!-- Custom Lock States Toggle -->
             <div class="flex items-center justify-between py-2 mb-0 px-3 bg-base-100 rounded-lg">
               <div>
-                <p class="font-medium text-sm text-base-content">Custom Lock States</p>
-                <p class="text-xs text-base-content/70">Enable custom lock state mappings</p>
+                <p class="font-medium text-sm text-base-content">{t('mqtt_custom_states')}</p>
+                <p class="text-xs text-base-content/70">{t('mqtt_custom_states_desc')}</p>
               </div>
               <input
                 type="checkbox"
@@ -343,7 +344,7 @@
                 <div class="bg-base-100 rounded-lg p-3 border border-base-200">
                   <div class="form-control mb-3">
                     <label class="label">
-                      <span class="label-text text-sm font-medium">Payload Topic (Pub)</span>
+                      <span class="label-text text-sm font-medium">{t('mqtt_payload_topic')}</span>
                     </label>
                     <input
                       type="text"
@@ -353,11 +354,11 @@
                     />
                   </div>
                   <fieldset class="border border-base-content/20 rounded-lg p-3">
-                    <legend class="text-sm font-medium text-base-content/80 px-2">Custom Lock Actions</legend>
+                    <legend class="text-sm font-medium text-base-content/80 px-2">{t('mqtt_custom_actions')}</legend>
                     <div class="grid grid-cols-2 gap-3 pt-1">
                       <div class="form-control">
                         <label class="label py-1">
-                          <span class="label-text text-sm">Unlock</span>
+                          <span class="label-text text-sm">{t('mqtt_unlock')}</span>
                         </label>
                         <input
                           type="number"
@@ -367,7 +368,7 @@
                       </div>
                       <div class="form-control">
                         <label class="label py-1">
-                          <span class="label-text text-sm">Lock</span>
+                          <span class="label-text text-sm">{t('mqtt_lock')}</span>
                         </label>
                         <input
                           type="number"
@@ -383,7 +384,7 @@
                 <div class="bg-base-100 rounded-lg p-3 border border-base-200">
                   <div class="form-control mb-3">
                     <label class="label">
-                      <span class="label-text text-sm font-medium">Command Topic (Sub)</span>
+                      <span class="label-text text-sm font-medium">{t('mqtt_cmd_topic')}</span>
                     </label>
                     <input
                       type="text"
@@ -393,11 +394,11 @@
                     />
                   </div>
                   <fieldset class="border border-base-content/20 rounded-lg p-3">
-                    <legend class="text-sm font-medium text-base-content/80 px-2">Custom Lock States</legend>
+                    <legend class="text-sm font-medium text-base-content/80 px-2">{t('mqtt_custom_lock_states')}</legend>
                     <div class="grid grid-cols-3 gap-3 pt-1">
                       <div class="form-control">
                         <label class="label py-1">
-                          <span class="label-text text-sm">Unlocking</span>
+                          <span class="label-text text-sm">{t('mqtt_unlocking')}</span>
                         </label>
                         <input
                           type="number"
@@ -407,7 +408,7 @@
                       </div>
                       <div class="form-control">
                         <label class="label py-1">
-                          <span class="label-text text-sm">Locking</span>
+                          <span class="label-text text-sm">{t('mqtt_locking')}</span>
                         </label>
                         <input
                           type="number"
@@ -417,7 +418,7 @@
                       </div>
                       <div class="form-control">
                         <label class="label py-1">
-                          <span class="label-text text-sm">Unlocked</span>
+                          <span class="label-text text-sm">{t('mqtt_unlocked')}</span>
                         </label>
                         <input
                           type="number"
@@ -427,7 +428,7 @@
                       </div>
                       <div class="form-control">
                         <label class="label py-1">
-                          <span class="label-text text-sm">Locked</span>
+                          <span class="label-text text-sm">{t('mqtt_locked')}</span>
                         </label>
                         <input
                           type="number"
@@ -437,7 +438,7 @@
                       </div>
                       <div class="form-control">
                         <label class="label py-1">
-                          <span class="label-text text-sm">Jammed</span>
+                          <span class="label-text text-sm">{t('mqtt_jammed')}</span>
                         </label>
                         <input
                           type="number"
@@ -447,7 +448,7 @@
                       </div>
                       <div class="form-control">
                         <label class="label py-1">
-                          <span class="label-text text-sm">Unknown</span>
+                          <span class="label-text text-sm">{t('common_unknown')}</span>
                         </label>
                         <input
                           type="number"
@@ -467,15 +468,15 @@
           <!-- SSL/TLS Configuration -->
           <div class="space-y-6">
             <div>
-              <h3 class="font-semibold text-base-content">SSL/TLS Configuration</h3>
-              <p class="text-sm text-base-content/60">Secure your MQTT connection with TLS certificates.</p>
+              <h3 class="font-semibold text-base-content">{t('mqtt_ssl_title')}</h3>
+              <p class="text-sm text-base-content/60">{t('mqtt_ssl_subtitle')}</p>
             </div>
 
             <!-- Enable SSL/TLS Toggle -->
             <div class="flex items-center justify-between py-2 px-3 bg-base-100 rounded-lg">
               <div>
-                <p class="font-medium text-sm text-base-content">Enable SSL/TLS</p>
-                <p class="text-xs text-base-content/70">Use encrypted connection to the broker</p>
+                <p class="font-medium text-sm text-base-content">{t('mqtt_enable_ssl')}</p>
+                <p class="text-xs text-base-content/70">{t('mqtt_enable_ssl_desc')}</p>
               </div>
               <input
                 type="checkbox"
@@ -492,8 +493,8 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
                   </svg>
                   <div>
-                    <p class="font-medium text-sm">Skip CN validation</p>
-                    <p class="text-xs text-error">Leave it disabled if you don't know</p>
+                    <p class="font-medium text-sm">{t('mqtt_skip_cn')}</p>
+                    <p class="text-xs text-error">{t('mqtt_skip_cn_desc')}</p>
                   </div>
                 </div>
                 <input
@@ -520,8 +521,8 @@
 
       <!-- Action Buttons -->
       <div class="flex gap-3 mt-6">
-        <button type="submit" class="btn btn-primary">Save & Apply changes</button>
-        <button type="button" class="btn btn-ghost" onclick={resetForm}>Reset</button>
+        <button type="submit" class="btn btn-primary">{t('common_save')}</button>
+        <button type="button" class="btn btn-ghost" onclick={resetForm}>{t('common_reset')}</button>
       </div>
     </form>
   {/if}
