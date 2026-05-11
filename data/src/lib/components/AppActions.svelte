@@ -138,6 +138,10 @@
                       <!-- svelte-ignore a11y_label_has_associated_control -->
                       <label class="label">
                         <span class="label-text text-sm">{t('common_gpio_pin')}</span>
+                      </label>
+                      <input
+                        type="number"
+                        bind:value={actionsConfig.nfcNeopixelPin}
                         placeholder="8"
                         class="input input-bordered w-full"
                       />
@@ -171,6 +175,10 @@
                           style="background-color: rgb({actionsConfig.neopixelSuccessColor[0][1] ?? 0}, {actionsConfig.neopixelSuccessColor[1][1] ?? 0}, {actionsConfig.neopixelSuccessColor[2][1] ?? 0});"
                         ></div>
                       </legend>
+                      <div class="form-control mb-4">
+                        <!-- svelte-ignore a11y_label_has_associated_control -->
+                        <label class="label">
+                          <span class="label-text text-sm">{t('common_timeout_ms')}</span>
                         </label>
                         <input
                           type="number"
