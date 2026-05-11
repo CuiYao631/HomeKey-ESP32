@@ -406,6 +406,7 @@
                   </svg>
                   {t('actions_simple_gpio')}
                 </div>
+                <div class="collapse-content flex flex-col gap-2">
                   <div class="collapse collapse-plus bg-base-100">
                     <h3
                       class="collapse-title text-base"
