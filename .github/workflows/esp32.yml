@@ -23,27 +23,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  cleanup-dev-release:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    if: ${{ github.ref == 'refs/heads/main' }}
-    steps:
-      - name: Delete dev release
-        run: gh release --repo ${{ github.repository }} delete dev --cleanup-tag -y
-        continue-on-error: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create tag
-        uses: actions/github-script@v9
-        with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/dev',
-              sha: context.sha
-            })
   littlefs:
     runs-on: ubuntu-latest
     steps:
