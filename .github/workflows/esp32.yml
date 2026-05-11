@@ -224,34 +224,4 @@ jobs:
         with:
           name: esp32s3-firmware-factory
           path: build/esp32s3.firmware.factory.bin
-  pre-release:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: [littlefs, esp32, esp32c3, esp32c6, esp32s3]
-    steps:
-      - name: Get Artifacts
-        uses: actions/download-artifact@v8
-        with:
-          path: artifacts
-          merge-multiple: true
-      - name: Create release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ github.ref_name }}
-        run: |
-          gh release create dev \
-              --repo="$GITHUB_REPOSITORY" \
-              --title="development" \
-              --prerelease \
-              --generate-notes \
-              artifacts/esp32.firmware.bin \
-              artifacts/esp32.firmware.factory.bin \
-              artifacts/esp32c3.firmware.bin \
-              artifacts/esp32c3.firmware.factory.bin \
-              artifacts/esp32c6.firmware.bin \
-              artifacts/esp32c6.firmware.factory.bin \
-              artifacts/esp32s3.firmware.bin \
-              artifacts/esp32s3.firmware.factory.bin \
-              artifacts/littlefs.bin
+
