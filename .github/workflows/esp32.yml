@@ -19,15 +19,6 @@ on:
       - 'docs/**'
 
 jobs:
-  cleanup-dev-release:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Delete dev release
-        run: gh release --repo ${{ github.repository }} delete dev --cleanup-tag -y
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   littlefs:
     runs-on: ubuntu-latest
     steps:
