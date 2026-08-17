@@ -6,10 +6,10 @@
 </script>
 
 {#if loadingStates.pageLoading}
-	<div class="flex justify-center items-center min-h-screen" aria-live="polite" aria-label="Loading page">
+	<div class="flex justify-center items-center min-h-screen" aria-live="polite" aria-label="正在加载页面">
 		<div class="text-center">
-			<span class="loading loading-spinner loading-lg" aria-label="Loading page content"></span>
-			<p class="mt-4 text-lg">Loading HomeKey information...</p>
+			<span class="loading loading-spinner loading-lg" aria-label="正在加载页面内容"></span>
+			<p class="mt-4 text-lg">正在加载 HomeKey 信息...</p>
 		</div>
 	</div>
 {:else}

@@ -9,24 +9,24 @@
   <!-- svelte-ignore a11y_label_has_associated_control -->
   <label class="label">
     <span class="label-text block whitespace-normal break-words max-w-sm">
-      Note: Your chip model {spiNumBuses === 1
-        ? "only supports one"
-        : "supports two"} general purpose SPI {spiNumBuses === 1
-        ? "bus"
-        : "buses"}
-      {spiNumBuses > 1 ? "and Ethernet is assigned to the" : "."}
+      注意：您的芯片型号{spiNumBuses === 1
+        ? "只支持一个"
+        : "支持两个"}通用 SPI {spiNumBuses === 1
+        ? "总线"
+        : "总线"}
+      {spiNumBuses > 1 ? "，以太网已分配到" : "。"}
       {spiNumBuses > 1
         ? selectedBus === 1
-          ? "first bus."
-          : "second bus."
+          ? "第一条总线。"
+          : "第二条总线。"
         : ""}
       <br />
-      Ensure that the PN532 pins {selectedBus === 1
-        ? "match (except CS/SS)"
-        : "do not conflict with"}
-      the Ethernet pins as they will {selectedBus === 1
-        ? "share the same bus."
-        : "be initialized on separate buses."}
+      请确保 PN532 的引脚{selectedBus === 1
+        ? "与以太网引脚一致（CS/SS 除外）"
+        : "与以太网引脚不冲突"}，
+      因为它们将{selectedBus === 1
+        ? "共用同一总线。"
+        : "在各自独立的总线上初始化。"}
     </span>
   </label>
 </div>

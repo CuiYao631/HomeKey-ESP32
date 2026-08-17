@@ -59,17 +59,17 @@
 
 	let currentUploadStep = $derived(
 		otaStatus.upload_type === "firmware"
-			? "Firmware"
+			? "固件"
 			: otaStatus.upload_type === "littlefs"
 				? "LittleFS"
-				: "Upload",
+				: "上传",
 	);
 	let uploadStepText = $derived(
 		sequentialUpload
 			? otaStatus.upload_type === "firmware"
-				? "Step 1/2: Uploading Firmware..."
+				? "步骤 1/2：正在上传固件..."
 				: otaStatus.upload_type === "littlefs"
-					? "Step 2/2: Uploading LittleFS..."
+					? "步骤 2/2：正在上传 LittleFS..."
 					: ""
 			: "",
 	);
@@ -97,7 +97,7 @@
 			otaStatus = { ...otaStatus, ...evt.data };
 
 			if (evt.data.error && evt.data.error !== previousStatus.error) {
-				addLog("error", `OTA Error: ${evt.data.error}`);
+				addLog("error", `OTA 错误：${evt.data.error}`);
 			} else if (
 				evt.data.in_progress &&
 				evt.data.progress_percent !== undefined
@@ -108,7 +108,7 @@
 					percent !== lastLoggedPercent &&
 					percent % 10 === 0
 				) {
-					addLog("info", `Upload progress: ${percent}%`);
+					addLog("info", `上传进度：${percent}%`);
 					lastLoggedPercent = percent;
 				}
 			} else if (!evt.data.in_progress && previousStatus.in_progress) {
@@ -129,10 +129,10 @@
 			firmwareFile = file;
 			addLog(
 				"info",
-				`Selected firmware: ${file.name} (${formatBytes(file.size)})`,
+				`已选择固件：${file.name}（${formatBytes(file.size)}）`,
 			);
 		} else {
-			addLog("error", "Please select a .bin firmware file");
+			addLog("error", "请选择 .bin 格式的固件文件");
 			clearFirmwareInput();
 		}
 	}
@@ -145,10 +145,10 @@
 			littlefsFile = file;
 			addLog(
 				"info",
-				`Selected LittleFS: ${file.name} (${formatBytes(file.size)})`,
+				`已选择 LittleFS：${file.name}（${formatBytes(file.size)}）`,
 			);
 		} else {
-			addLog("error", "Please select a .bin LittleFS file");
+			addLog("error", "请选择 .bin 格式的 LittleFS 文件");
 			clearLittlefsInput();
 		}
 	}
@@ -168,31 +168,31 @@
 	function clearFirmwareFile() {
 		firmwareFile = null;
 		clearFirmwareInput();
-		addLog("info", "Firmware file cleared");
+		addLog("info", "已清除固件文件");
 	}
 
 	function clearLittlefsFile() {
 		littlefsFile = null;
 		clearLittlefsInput();
-		addLog("info", "LittleFS file cleared");
+		addLog("info", "已清除 LittleFS 文件");
 	}
 
 	// OTA operations
 	async function uploadFirmware(skipReboot = false) {
 		if (!firmwareFile) {
-			addLog("error", "Please select a firmware file first");
+			addLog("error", "请先选择固件文件");
 			return false;
 		}
 
 		if (isDisabled) {
-			addLog("error", "Upload already in progress");
+			addLog("error", "已有上传正在进行");
 			return false;
 		}
 
 		uploading = true;
 		currentUploadType = "firmware";
 		lastLoggedPercent = 0;
-		addLog("info", `Starting firmware upload: ${firmwareFile.name}`);
+		addLog("info", `开始上传固件：${firmwareFile.name}`);
 
 		try {
 			const url = `/ota/upload?skipReboot=${skipReboot}`;
@@ -208,21 +208,21 @@
 			if (result.success) {
 				addLog(
 					"success",
-					result.message || "Firmware uploaded successfully",
+					result.message || "固件上传成功",
 				);
 				if (!skipReboot) {
 					clearFirmwareFile();
 				}
 				return true;
 			} else {
-				addLog("error", result.error || "Firmware upload failed");
+				addLog("error", result.error || "固件上传失败");
 				return false;
 			}
 		} catch (error) {
 			console.error("Firmware upload failed:", error);
 			addLog(
 				"error",
-				`Firmware upload failed: ${error instanceof Error ? error.message : String(error)}`,
+				`固件上传失败：${error instanceof Error ? error.message : String(error)}`,
 			);
 			return false;
 		} finally {
@@ -235,19 +235,19 @@
 
 	async function uploadLittleFS(ignoreDisabled = false, skipReboot = true) {
 		if (!littlefsFile) {
-			addLog("error", "Please select a LittleFS file first");
+			addLog("error", "请先选择 LittleFS 文件");
 			return false;
 		}
 
 		if (isDisabled && !ignoreDisabled) {
-			addLog("error", "Upload already in progress");
+			addLog("error", "已有上传正在进行");
 			return false;
 		}
 
 		uploading = true;
 		currentUploadType = "littlefs";
 		lastLoggedPercent = 0;
-		addLog("info", `Starting LittleFS upload: ${littlefsFile.name}`);
+		addLog("info", `开始上传 LittleFS：${littlefsFile.name}`);
 
 		try {
 			const response = await fetch(
@@ -265,19 +265,19 @@
 			if (result.success) {
 				addLog(
 					"success",
-					result.message || "LittleFS uploaded successfully",
+					result.message || "LittleFS 上传成功",
 				);
 				clearLittlefsFile();
 				return true;
 			} else {
-				addLog("error", result.error || "LittleFS upload failed");
+				addLog("error", result.error || "LittleFS 上传失败");
 				return false;
 			}
 		} catch (error) {
 			console.error("LittleFS upload failed:", error);
 			addLog(
 				"error",
-				`LittleFS upload failed: ${error instanceof Error ? error.message : String(error)}`,
+				`LittleFS 上传失败：${error instanceof Error ? error.message : String(error)}`,
 			);
 			return false;
 		} finally {
@@ -288,37 +288,37 @@
 
 	async function uploadBoth() {
 		if (!firmwareFile || !littlefsFile) {
-			addLog("error", "Please select both firmware and LittleFS files");
+			addLog("error", "请同时选择固件和 LittleFS 文件");
 			return;
 		}
 
 		if (isDisabled) {
-			addLog("error", "Upload already in progress");
+			addLog("error", "已有上传正在进行");
 			return;
 		}
 
 		sequentialUpload = true;
 		addLog(
 			"info",
-			"Starting sequential upload: firmware first, then LittleFS",
+			"开始顺序上传：先固件后 LittleFS",
 		);
 
 		try {
 			const firmwareSuccess = await uploadFirmware(true);
 			if (!firmwareSuccess) {
-				throw new Error("Firmware upload failed");
+				throw new Error("固件上传失败");
 			}
 
 			await new Promise((resolve) => setTimeout(resolve, 1000));
 
 			const littlefsSuccess = await uploadLittleFS(true, false);
 			if (!littlefsSuccess) {
-				throw new Error("LittleFS upload failed");
+				throw new Error("LittleFS 上传失败");
 			}
 
 			addLog(
 				"success",
-				"Both uploads completed successfully! Device will reboot now.",
+				"两个文件均已上传成功！设备即将重启。",
 			);
 
 			clearFirmwareFile();
@@ -327,7 +327,7 @@
 			console.error("Sequential upload failed:", error);
 			addLog(
 				"error",
-				`Sequential upload failed: ${error instanceof Error ? error.message : String(error)}`,
+				`顺序上传失败：${error instanceof Error ? error.message : String(error)}`,
 			);
 		} finally {
 			uploading = false;
@@ -348,7 +348,7 @@
 		if (ws && typeof ws.on === "function") {
 			wsUnsubscribe = ws.on(handleWebSocketMessage);
 		} else {
-			addLog("error", "WebSocket service not available");
+			addLog("error", "WebSocket 服务不可用");
 		}
 
 		requestOTAInfo();
@@ -366,7 +366,7 @@
 	<div class="card bg-base-200 shadow-xl max-w-4xl">
 		<h2 class="card-title p-4 pb-0">
 			<div class="badge badge-warning badge-md">OTA</div>
-			Firmware & Filesystem Update
+			固件与文件系统更新
 		</h2>
 		<div class="card-body p-4">
 			<!-- Current Firmware Info -->
@@ -374,9 +374,9 @@
 				class="stats stats-vertical md:stats-horizontal shadow bg-base-100 w-full mb-6"
 			>
 				<div class="stat">
-					<div class="stat-title">Current Version</div>
+					<div class="stat-title">当前版本</div>
 					<div class="stat-value text-lg">
-						{otaStatus.current_version || "Unknown"}
+						{otaStatus.current_version || "未知"}
 					</div>
 					<div class="stat-desc">
 						{otaStatus.compile_date}
@@ -384,21 +384,21 @@
 					</div>
 				</div>
         <div class="stat">
-            <div class="stat-title">Chip Model</div>
+            <div class="stat-title">芯片型号</div>
             <div class="stat-value text-lg">
                 {getChipModelString(chipModel)}
             </div>
         </div>
 				<div class="stat">
-					<div class="stat-title">Running Partition</div>
+					<div class="stat-title">运行分区</div>
 					<div class="stat-value text-lg">
-						{otaStatus.running_partition || "Unknown"}
+						{otaStatus.running_partition || "未知"}
 					</div>
 				</div>
 				<div class="stat">
-					<div class="stat-title">Update Partition</div>
+					<div class="stat-title">更新分区</div>
 					<div class="stat-value text-lg">
-						{otaStatus.next_update_partition || "Unknown"}
+						{otaStatus.next_update_partition || "未知"}
 					</div>
 				</div>
 			</div>
@@ -420,7 +420,7 @@
 						></path>
 					</svg>
 					<div>
-						<h3 class="font-bold">OTA Update in Progress</h3>
+						<h3 class="font-bold">OTA 更新进行中</h3>
 						<div class="text-xs">
 							{formatBytes(otaStatus.bytes_written)} / {formatBytes(
 								otaStatus.total_bytes,
@@ -446,7 +446,7 @@
 						/>
 					</svg>
 					<div>
-						<h3 class="font-bold">OTA Error</h3>
+						<h3 class="font-bold">OTA 错误</h3>
 						<div class="text-xs">{otaStatus.error}</div>
 					</div>
 				</div>
@@ -458,7 +458,7 @@
 				<div class="form-control w-full">
 					<label class="label" for="firmware-input">
 						<span class="label-text font-semibold"
-							>Firmware File (.bin)</span
+							>固件文件 (.bin)</span
 						>
 					</label>
 					<input
@@ -472,7 +472,7 @@
 					/>
 					<label class="label" for="firmware-input">
 						<span class="label-text-alt"
-							>Select compiled firmware binary</span
+							>选择编译好的固件二进制文件</span
 						>
 					</label>
 				</div>
@@ -481,7 +481,7 @@
 				<div class="form-control w-full">
 					<label class="label" for="littlefs-input">
 						<span class="label-text font-semibold"
-							>LittleFS File (.bin)</span
+							>LittleFS 文件 (.bin)</span
 						>
 					</label>
 					<input
@@ -495,7 +495,7 @@
 					/>
 					<label class="label" for="littlefs-input">
 						<span class="label-text-alt"
-							>Select filesystem binary (optional)</span
+							>选择文件系统二进制文件（可选）</span
 						>
 					</label>
 				</div>
@@ -520,7 +520,7 @@
 									onclick={clearFirmwareFile}
 									disabled={isDisabled}
 									class="btn btn-ghost btn-sm"
-									aria-label="Clear firmware file"
+									aria-label="清除固件文件"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -557,7 +557,7 @@
 									onclick={clearLittlefsFile}
 									disabled={isDisabled}
 									class="btn btn-ghost btn-sm"
-									aria-label="Clear LittleFS file"
+									aria-label="清除 LittleFS 文件"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -584,7 +584,7 @@
 			{#if isDisabled}
 				<div class="mb-4">
 					<div class="flex justify-between text-sm mb-2">
-						<span>{currentUploadStep} Progress</span>
+						<span>{currentUploadStep} 进度</span>
 						<span>{Math.round(progressPercent)}%</span>
 					</div>
 					<progress
@@ -618,8 +618,8 @@
 						<span class="loading loading-spinner loading-sm"></span>
 					{/if}
 					{uploading && currentUploadType === "firmware"
-						? "Uploading..."
-						: "Upload Firmware"}
+						? "上传中..."
+						: "上传固件"}
 				</button>
 
 				<button
@@ -631,8 +631,8 @@
 						<span class="loading loading-spinner loading-sm"></span>
 					{/if}
 					{uploading && currentUploadType === "littlefs"
-						? "Uploading..."
-						: "Upload LittleFS"}
+						? "上传中..."
+						: "上传 LittleFS"}
 				</button>
 
 				<button
@@ -645,7 +645,7 @@
 					{/if}
 					{uploading && sequentialUpload
 						? uploadStepText
-						: "Upload Both"}
+						: "同时上传"}
 				</button>
 			</div>
 
@@ -665,19 +665,19 @@
 					/>
 				</svg>
 				<div>
-					<h3 class="font-bold">Important Notice</h3>
+					<h3 class="font-bold">重要提示</h3>
 					<div class="text-xs">
-						• Only upload firmware files compiled for this device<br
+						• 请仅上传为本设备编译的固件文件<br
 						/>
-						• LittleFS files contain the web interface and configuration<br
+						• LittleFS 文件包含网页界面和配置数据<br
 						/>
-						• "Upload Both" will upload firmware first, then LittleFS
-						without rebooting in between<br />
-						• The device will automatically reboot after firmware updates<br
+						• “同时上传”会先上传固件，再上传
+						LittleFS，期间不会重启<br />
+						• 固件更新完成后设备将自动重启<br
 						/>
-						• Do not power off the device during the update process<br
+						• 更新过程中请勿断电<br
 						/>
-						• Ensure stable power supply during the update
+						• 更新期间请确保电源稳定
 					</div>
 				</div>
 			</div>
@@ -687,13 +687,13 @@
 	<!-- OTA Logs Card -->
 	<div class="card bg-base-200 shadow-xl w-full max-w-4xl">
 		<h2 class="card-title p-4 pb-0">
-			<div class="badge badge-info badge-md">Info</div>
-			Update Log
+			<div class="badge badge-info badge-md">信息</div>
+			更新日志
 		</h2>
 		<div class="card-body p-4">
 			{#if otaLogs.length === 0}
 				<div class="text-center py-8 opacity-70">
-					No update history available
+					暂无更新记录
 				</div>
 			{:else}
 				<div class="space-y-2">
@@ -720,7 +720,11 @@
 									class:badge-error={log.type === "error"}
 									class:badge-info={log.type === "info"}
 								>
-									{log.type}
+									{log.type === "success"
+										? "成功"
+										: log.type === "error"
+											? "错误"
+											: "信息"}
 								</div>
 							</div>
 						</div>

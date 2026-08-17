@@ -25,7 +25,7 @@
   class="toast toast-bottom"
   role="region"
   aria-live="polite"
-  aria-label="Notifications"
+  aria-label="通知"
 >
   {#each notifications.notifications as notification (notification.id)}
     <div
@@ -38,7 +38,7 @@
       <button
         class="btn btn-sm btn-circle btn-ghost"
         onclick={() => notifications.remove(notification.id)}
-        aria-label="Close notification"
+        aria-label="关闭通知"
       >
         ✕
       </button>

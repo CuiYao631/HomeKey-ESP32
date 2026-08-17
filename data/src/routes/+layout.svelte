@@ -68,7 +68,7 @@
 	<!-- Mobile Navbar -->
 	<div class="navbar bg-base-100 lg:hidden sticky top-[0] z-[9999]">
 		<div class="navbar-start">
-			<label for="main-content-drawer" class="btn btn-ghost drawer-button lg:hidden" aria-label="Menu">
+			<label for="main-content-drawer" class="btn btn-ghost drawer-button lg:hidden" aria-label="菜单">
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
 					stroke="currentColor">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
@@ -76,7 +76,7 @@
 			</label>
 		</div>
 		<div class="navbar-center">
-			<img src={logoSrc()} alt="logo" class="w-8 h-8 mr-2" />
+			<img src={logoSrc()} alt="标志" class="w-8 h-8 mr-2" />
 			<div class="flex items-center flex-col">
 				<span class="font-bold text-lg">HomeKey-ESP32</span>
 				<div class="flex items-center gap-1">
@@ -84,13 +84,13 @@
 						<div class="status animate-ping" class:status-success={websocketState.connected} class:status-error={!websocketState.connected} class:status-warning={websocketState.state == "reconnecting"}></div>
 						<div class="status" class:status-success={websocketState.connected} class:status-error={!websocketState.connected} class:status-warning={websocketState.state == "reconnecting"}></div>
 					</div>
-					<span class="text-sm" class:text-success={websocketState.connected} class:text-error={!websocketState.connected} class:text-warning={websocketState.state == "reconnecting"}>{websocketState.state == "open" ? 'Online' : websocketState.state == "reconnecting" ? "Reconnecting" : 'Offline'}</span>
+					<span class="text-sm" class:text-success={websocketState.connected} class:text-error={!websocketState.connected} class:text-warning={websocketState.state == "reconnecting"}>{websocketState.state == "open" ? '在线' : websocketState.state == "reconnecting" ? "重新连接中" : '离线'}</span>
 				</div>
 			</div>
 		</div>
 		<div class="navbar-end">
 			<label class="swap swap-rotate mr-4">
-				<input type="checkbox" onclick={toggleTheme} checked={getCurrentTheme() !== 'dracula'} aria-label="Toggle theme" />
+				<input type="checkbox" onclick={toggleTheme} checked={getCurrentTheme() !== 'dracula'} aria-label="切换主题" />
 				<svg class="swap-on w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
 					stroke="currentColor" stroke-width="2">
 					<path stroke-linecap="round" stroke-linejoin="round"
@@ -110,26 +110,26 @@
 		<input id="main-content-drawer" type="checkbox" class="drawer-toggle" bind:checked={uiState.drawerOpen} />
 		<!-- Sidebar -->
 		<div class="drawer-side max-lg:top-auto">
-			<label for="main-content-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+			<label for="main-content-drawer" aria-label="关闭侧边栏" class="drawer-overlay"></label>
 			<NavigationMenu onClose={closeDrawer} bind:triggerElement={sidebarTrigger} id="main-navigation" />
 		</div>
 		<div class="drawer-content h-full w-full">
 			<!-- Content -->
 			<main id="main-content" class="px-6 h-full overflow-y-auto">
         {#await navigating.complete}
-          <div class="flex justify-center items-center min-h-screen" aria-live="polite" aria-label="Loading page">
+          <div class="flex justify-center items-center min-h-screen" aria-live="polite" aria-label="正在加载页面">
             <div class="text-center">
-              <span class="loading loading-spinner loading-lg" aria-label="Loading page content"></span>
-              <p class="mt-4 text-lg">Loading...</p>
+              <span class="loading loading-spinner loading-lg" aria-label="正在加载页面内容"></span>
+              <p class="mt-4 text-lg">加载中...</p>
             </div>
           </div>
         {:then}
           {@render children()}
         {:catch error}
-          <div class="card bg-base-200 shadow-xl" aria-live="assertive" aria-label="Error loading WebSocket Test component">
+          <div class="card bg-base-200 shadow-xl" aria-live="assertive" aria-label="WebSocket 测试组件加载出错">
             <div class="card-body p-4">
               <div class="text-center text-error">
-                <p>Failed to load WebSocket Test component: {error.message || 'Unknown error'}</p>
+                <p>WebSocket 测试组件加载失败: {error.message || '未知错误'}</p>
               </div>
             </div>
           </div>

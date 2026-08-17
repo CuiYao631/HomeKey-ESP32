@@ -18,13 +18,13 @@
 <div
 	class="bg-base-200 text-base-content lg:w-80 max-w-full h-full flex flex-col"
 	role="navigation"
-	aria-label="Main navigation"
+	aria-label="主导航"
 	{id}
 >
 	<!-- Header Section -->
 	<div class="text-lg font-bold hidden lg:block">
 		<div class="flex items-center flex-col p-4">
-			<img src={logoSrc()} alt="HomeKey-ESP32 logo" class="w-8 h-8" />
+			<img src={logoSrc()} alt="HomeKey-ESP32 标志" class="w-8 h-8" />
 			<div class="flex items-center flex-col">
 				<span>HomeKey-ESP32</span>
 				<div class="flex items-center gap-1">
@@ -51,10 +51,10 @@
 						class:text-warning={websocketState.state ==
 							"reconnecting"}
 						>{websocketState.state == "open"
-							? "Online"
+							? "在线"
 							: websocketState.state == "reconnecting"
-								? "Reconnecting"
-								: "Offline"}</span
+								? "重新连接中"
+								: "离线"}</span
 					>
 				</div>
 			</div>
@@ -85,7 +85,7 @@
 						d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 					/>
 				</svg>
-				Info
+				信息
 			</a>
 		</li>
 		<li class="my-1" role="menuitem">
@@ -125,7 +125,7 @@
 						d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
 					/>
 				</svg>
-				Actions
+				操作
 			</a>
 		</li>
 		<li class="my-1" role="menuitem">
@@ -151,7 +151,7 @@
 						d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
 					/>
 				</svg>
-				System
+				系统
 			</a>
 		</li>
 		<li class="my-1" role="menuitem">
@@ -171,7 +171,7 @@
 						d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
 					/>
 				</svg>
-				OTA Update
+				OTA 更新
 			</a>
 		</li>
 		<li class="my-1" role="menuitem">
@@ -191,11 +191,11 @@
 						d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
 					/>
 				</svg>
-				Logs
+				日志
 			</a>
 		</li>
 		<li class="lg:mt-auto hidden lg:inline-grid" role="menuitem">
-			<label class="swap swap-rotate" aria-label="Toggle theme">
+			<label class="swap swap-rotate" aria-label="切换主题">
 				<input
 					type="checkbox"
 					onclick={toggleTheme}

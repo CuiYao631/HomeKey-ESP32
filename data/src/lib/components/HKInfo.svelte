@@ -40,14 +40,14 @@
       <div
         class="card bg-base-200 shadow-xl"
         aria-live="polite"
-        aria-label="Loading HomeKey information"
+        aria-label="正在加载 HomeKey 信息"
       >
         <h2 class="card-title p-4 pb-0">
           <div
             class="badge badge-info badge-md"
-            aria-label="HomeKey information section"
+            aria-label="HomeKey 信息区域"
           >
-            Info
+            信息
           </div>
           HomeKey
         </h2>
@@ -55,19 +55,19 @@
           <div class="flex justify-center">
             <span
               class="loading loading-spinner loading-lg"
-              aria-label="Loading HomeKey data"
+              aria-label="正在加载 HomeKey 数据"
             ></span>
           </div>
         </div>
       </div>
     {:else if error}
       <div class="text-center text-error" aria-live="assertive">
-        <p>Error: {error}</p>
+        <p>错误: {error}</p>
       </div>
     {:else if hkInfo}
       <div class="card bg-base-200 shadow-xl">
         <h2 class="card-title p-4 pb-0">
-          <div class="badge badge-info badge-md">Info</div>
+          <div class="badge badge-info badge-md">信息</div>
           HomeKey
         </h2>
         <div class="card-body p-4">
@@ -76,19 +76,19 @@
               class="stats stats-vertical md:stats-horizontal shadow bg-base-100 w-full"
             >
               <div class="stat">
-                <div class="stat-title">Reader GID</div>
+                <div class="stat-title">读卡器 GID</div>
                 <div class="stat-value text-xl">
                   {hkInfo.group_identifier || "N/A"}
                 </div>
               </div>
               <div class="stat">
-                <div class="stat-title">Reader ID</div>
+                <div class="stat-title">读卡器 ID</div>
                 <div class="stat-value text-xl">
                   {hkInfo.unique_identifier || "N/A"}
                 </div>
               </div>
               <div class="stat">
-                <div class="stat-title">Issuers</div>
+                <div class="stat-title">发行方数量</div>
                 <div class="stat-value text-xl">
                   {hkInfo.issuers ? hkInfo.issuers.length : 0}
                 </div>
@@ -103,7 +103,7 @@
                       <input type="checkbox" name="info-collapse" />
                       <div class="collapse-title font-semibold">
                         <div class="text-xs uppercase font-semibold opacity-60">
-                          Issuer
+                          发行方
                         </div>
                         {issuer.issuerId || "N/A"}
                       </div>
@@ -115,7 +115,7 @@
                                 <div
                                   class="text-xs uppercase font-semibold opacity-60"
                                 >
-                                  Endpoint Id:
+                                  终端 ID:
                                 </div>
                                 {endpoint.endpointId || "N/A"}
                                 {#if epIndex < issuer.endpoints.length - 1}
@@ -139,22 +139,22 @@
     <div
       class="card bg-base-200 shadow-xl"
       aria-live="polite"
-      aria-label="System information"
+      aria-label="系统信息"
     >
       <h2 class="card-title p-4 pb-0">
         <div
           class="badge badge-info badge-md"
-          aria-label="System information section"
+          aria-label="系统信息区域"
         >
-          Info
+          信息
         </div>
-        System
+        系统
       </h2>
       <div class="card-body p-4">
         {#if loadingStates.systemInfoLoading}
           <div
             class="flex flex-col gap-4"
-            aria-label="Loading system information"
+            aria-label="正在加载系统信息"
           >
             <div
               class="stats stats-vertical md:stats-horizontal shadow bg-base-100 w-full"
@@ -195,13 +195,13 @@
               class="stats stats-vertical md:stats-horizontal shadow bg-base-100 w-full"
             >
               <div class="stat">
-                <div class="stat-title">Version</div>
+                <div class="stat-title">版本</div>
                 <div class="stat-value text-xl">
                   {systemInfo?.version || "N/A"}
                 </div>
               </div>
               <div class="stat">
-                <div class="stat-title">UI Version</div>
+                <div class="stat-title">界面版本</div>
                 <div class="stat-value text-xl">{version || "N/A"}</div>
               </div>
             </div>
@@ -209,19 +209,19 @@
               class="stats stats-vertical md:stats-horizontal shadow bg-base-100 w-full"
             >
               <div class="stat">
-                <div class="stat-title">Device Name</div>
+                <div class="stat-title">设备名称</div>
                 <div class="stat-value text-xl">
                   {systemInfo?.deviceName || "N/A"}
                 </div>
               </div>
               <div class="stat">
-                <div class="stat-title">Uptime</div>
+                <div class="stat-title">运行时长</div>
                 <div class="stat-value text-xl">
                   {systemInfo?.uptime || "N/A"}
                 </div>
               </div>
               <div class="stat">
-                <div class="stat-title">Free Heap</div>
+                <div class="stat-title">可用堆内存</div>
                 <div class="stat-value text-xl">
                   {systemInfo?.free_heap || "N/A"}
                 </div>
@@ -231,23 +231,23 @@
               class="stats stats-vertical md:stats-horizontal shadow bg-base-100 w-full"
             >
               <div class="stat">
-                <div class="stat-title">WiFi SSID</div>
+                <div class="stat-title">WiFi 名称</div>
                 <div class="stat-value text-xl">
                   {systemInfo?.wifi_ssid || "N/A"}
                 </div>
               </div>
               {#if !systemInfo?.eth_enabled}
                 <div class="stat">
-                  <div class="stat-title">WiFi RSSI</div>
+                  <div class="stat-title">WiFi 信号强度</div>
                   <div class="stat-value text-xl">
                     {systemInfo?.wifi_rssi || "N/A"} ({wifi_signal})
                   </div>
                 </div>
               {/if}
               <div class="stat">
-                <div class="stat-title">Ethernet enabled</div>
+                <div class="stat-title">以太网已启用</div>
                 <div class="stat-value text-xl">
-                  {systemInfo?.eth_enabled ? "Yes" : "No"}
+                  {systemInfo?.eth_enabled ? "是" : "否"}
                 </div>
               </div>
             </div>
@@ -262,15 +262,15 @@
         <div
           class="card bg-base-200 shadow-xl"
           aria-live="polite"
-          aria-label="Loading WebSocket Test component"
+          aria-label="正在加载 WebSocket 测试组件"
         >
           <div class="card-body p-4">
             <div class="flex justify-center">
               <span
                 class="loading loading-spinner loading-lg"
-                aria-label="Loading WebSocket Test component"
+                aria-label="正在加载 WebSocket 测试组件"
               ></span>
-              <span class="ml-2">Loading WebSocket Test...</span>
+              <span class="ml-2">正在加载 WebSocket 测试...</span>
             </div>
           </div>
         </div>
@@ -280,13 +280,13 @@
         <div
           class="card bg-base-200 shadow-xl"
           aria-live="assertive"
-          aria-label="Error loading WebSocket Test component"
+          aria-label="加载 WebSocket 测试组件出错"
         >
           <div class="card-body p-4">
             <div class="text-center text-error">
               <p>
-                Failed to load WebSocket Test component: {error.message ||
-                  "Unknown error"}
+                WebSocket 测试组件加载失败: {error.message ||
+                  "未知错误"}
               </p>
             </div>
           </div>

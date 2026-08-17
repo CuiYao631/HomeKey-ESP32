@@ -63,10 +63,10 @@
 	);
 
 	const hkFinishColors = [
-		{ name: "Tan", value: 0, image: HKFinish0 },
-		{ name: "Gold", value: 1, image: HKFinish1 },
-		{ name: "Silver", value: 2, image: HKFinish2 },
-		{ name: "Black", value: 3, image: HKFinish3 },
+		{ name: "棕褐色", value: 0, image: HKFinish0 },
+		{ name: "金色", value: 1, image: HKFinish1 },
+		{ name: "银色", value: 2, image: HKFinish2 },
+		{ name: "黑色", value: 3, image: HKFinish3 },
 	];
 
 	let hkFinishImage = $derived(() => {
@@ -95,7 +95,7 @@
 		} catch (e) {
 			const message = e instanceof Error ? e.message : String(e);
 			error = message;
-			alert(`Error saving config: ${message}`);
+			alert(`保存配置出错：${message}`);
 		}
 	};
 
@@ -173,10 +173,10 @@
 
 <div class="flex flex-col py-6">
 	<h1 class="md:text-3xl text-3xl font-bold mb-4 self-start">
-		System Settings
+		系统设置
 		<span
 			class="max-sm:before:transform-[translateX(-80%)!important] tooltip tooltip-bottom sm:tooltip-right tooltip-info sm:ml-2"
-			data-tip="Reboot required to apply!"
+			data-tip="需重启后生效！"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -196,7 +196,7 @@
 	</h1>
 	{#if !misc && error}
 		<div class="text-center text-error">
-			<p>Error: {error}</p>
+			<p>错误: {error}</p>
 		</div>
 	{:else if misc}
 		<div class="flex gap-2 justify-center mb-4">
@@ -207,7 +207,7 @@
 					onclick={async () => {
 						if (
 							confirm(
-								"This will restart the device, please confirm.",
+								"这将重启设备，请确认。",
 							)
 						) {
 							await rebootDevice();
@@ -235,7 +235,7 @@
 					onclick={async () => {
 						if (
 							confirm(
-								"This will start the configuration AP, please confirm.\n\n Note that the WiFi connection will be dropped as it can only be in access point mode or station mode, not both.",
+								"这将启动配置热点（AP），请确认。\n\n 注意：由于设备只能处于接入点模式或站点模式其中之一，WiFi 连接将会断开。",
 							)
 						) {
 							await startConfigAP();
@@ -268,7 +268,7 @@
 					onclick={async () => {
 						if (
 							confirm(
-								"This will reset the HomeKit pairings, please confirm.",
+								"这将重置 HomeKit 配对信息，请确认。",
 							)
 						) {
 							await resetPairings();
@@ -296,7 +296,7 @@
 					onclick={async () => {
 						if (
 							confirm(
-								"This will reset the WiFi credentials, please confirm.",
+								"这将重置 WiFi 凭据，请确认。",
 							)
 						) {
 							await resetWifi();
@@ -317,7 +317,7 @@
 							d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
 						/>
 					</svg>
-					Reset WiFi
+					重置 WiFi
 				</button>
 			</div>
 		</div>
@@ -335,7 +335,7 @@
 									<!-- svelte-ignore a11y_label_has_associated_control -->
 									<label class="label">
 										<span class="label-text"
-											>Device Name</span
+											>设备名称</span
 										>
 									</label>
 									<input
@@ -350,7 +350,7 @@
 									<!-- svelte-ignore a11y_label_has_associated_control -->
 									<label class="label">
 										<span class="label-text"
-											>Setup Code</span
+											>配对码</span
 										>
 									</label>
 									<input
@@ -366,7 +366,7 @@
 								<div class="form-control">
 									<label class="label cursor-pointer">
 										<span class="label-text"
-											>Always Lock on HomeKey</span
+											>HomeKey 感应时始终上锁</span
 										>
 										<input
 											type="checkbox"
@@ -380,7 +380,7 @@
 								<div class="form-control">
 									<label class="label cursor-pointer">
 										<span class="label-text"
-											>Always Unlock on HomeKey</span
+											>HomeKey 感应时始终解锁</span
 										>
 										<input
 											type="checkbox"
@@ -394,7 +394,7 @@
 								<div class="form-control">
 									<label class="label cursor-pointer">
 										<span class="label-text"
-											>SmartLock battery reporting</span
+											>智能锁电量上报</span
 										>
 										<input
 											type="checkbox"
@@ -409,7 +409,7 @@
 									<!-- svelte-ignore a11y_label_has_associated_control -->
 									<label class="label">
 										<span class="label-text"
-											>Battery low status Threshold</span
+											>低电量阈值</span
 										>
 									</label>
 									<input
@@ -432,11 +432,11 @@
 								HomeKey
 							</div>
 							<div class="collapse-content flex flex-col gap-4">
-								<div class="divider">HomeKey Card Finish</div>
+								<div class="divider">HomeKey 卡片颜色</div>
 								<div class="flex flex-col items-center">
 									<img
 										src={hkFinishImage()}
-										alt="HomeKey Finish"
+										alt="HomeKey 卡片颜色"
 										class="w-36 h-auto mb-2"
 									/>
 									<div class="grid grid-cols-2 gap-2">
@@ -458,11 +458,11 @@
 										{/each}
 									</div>
 								</div>
-								<div class="divider">Performance</div>
+								<div class="divider">性能</div>
 								<div class="form-control">
 									<label class="label cursor-pointer">
 										<span class="label-text"
-											>Auth Precompute Cache</span
+											>鉴权预计算缓存</span
 										>
 										<input
 											type="checkbox"
@@ -489,7 +489,7 @@
 								<div class="form-control">
 									<!-- svelte-ignore a11y_label_has_associated_control -->
 									<label class="label">
-										<span class="label-text">Preset</span>
+										<span class="label-text">预设</span>
 									</label>
 									<select
 										bind:value={miscConfig.nfcPinsPreset}
@@ -501,13 +501,13 @@
 												>{preset.name}</option
 											>
 										{/each}
-										<option value={255}>Custom</option>
+										<option value={255}>自定义</option>
 									</select>
 								</div>
 								<div class="form-control">
 									<!-- svelte-ignore a11y_label_has_associated_control -->
 									<label class="label">
-										<span class="label-text">SS Pin</span>
+										<span class="label-text">SS 引脚</span>
 									</label>
 									<input
 										type="number"
@@ -523,7 +523,7 @@
 								<div class="form-control">
 									<!-- svelte-ignore a11y_label_has_associated_control -->
 									<label class="label">
-										<span class="label-text">SCK Pin</span>
+										<span class="label-text">SCK 引脚</span>
 									</label>
 									<input
 										type="number"
@@ -539,7 +539,7 @@
 								<div class="form-control">
 									<!-- svelte-ignore a11y_label_has_associated_control -->
 									<label class="label">
-										<span class="label-text">MISO Pin</span>
+										<span class="label-text">MISO 引脚</span>
 									</label>
 									<input
 										type="number"
@@ -555,7 +555,7 @@
 								<div class="form-control">
 									<!-- svelte-ignore a11y_label_has_associated_control -->
 									<label class="label">
-										<span class="label-text">MOSI Pin</span>
+										<span class="label-text">MOSI 引脚</span>
 									</label>
 									<input
 										type="number"
@@ -580,13 +580,13 @@
 								<a
 									href="https://github.com/HomeSpan/HomeSpan/blob/master/docs/GettingStarted.md#adding-a-control-button-and-status-led-optional"
 									class="link link-primary block"
-									target="_blank">HomeSpan Documentation</a
+									target="_blank">HomeSpan 文档</a
 								>
 								<div class="form-control">
 									<!-- svelte-ignore a11y_label_has_associated_control -->
 									<label class="label">
 										<span class="label-text"
-											>OTA Password</span
+											>OTA 密码</span
 										>
 									</label>
 									<input
@@ -601,7 +601,7 @@
 									<!-- svelte-ignore a11y_label_has_associated_control -->
 									<label class="label">
 										<span class="label-text"
-											>Control GPIO Pin</span
+											>控制按钮 GPIO 引脚</span
 										>
 									</label>
 									<input
@@ -615,7 +615,7 @@
 									<!-- svelte-ignore a11y_label_has_associated_control -->
 									<label class="label">
 										<span class="label-text"
-											>Status LED GPIO Pin</span
+											>状态指示灯 GPIO 引脚</span
 										>
 									</label>
 									<input
@@ -631,13 +631,13 @@
 						<div class="collapse collapse-arrow bg-base-100">
 							<input type="checkbox" name="misc-collapse" />
 							<div class="collapse-title font-medium">
-								Ethernet
+								以太网
 							</div>
 							<div class="collapse-content flex flex-col gap-4">
 								<div class="form-control">
 									<label class="label cursor-pointer">
 										<span class="label-text"
-											>Ethernet Enabled</span
+											>启用以太网</span
 										>
 										<input
 											type="checkbox"
@@ -655,7 +655,7 @@
 											<!-- svelte-ignore a11y_label_has_associated_control -->
 											<label class="label">
 												<span class="label-text"
-													>Active Ethernet Preset</span
+													>当前以太网预设</span
 												>
 											</label>
 											<select
@@ -671,7 +671,7 @@
 													>
 												{/each}
 												<option value={255}
-													>Custom</option
+													>自定义</option
 												>
 											</select>
 										</div>
@@ -680,7 +680,7 @@
 											<!-- svelte-ignore a11y_label_has_associated_control -->
 											<label class="label">
 												<span class="label-text"
-													>Ethernet PHY Type</span
+													>以太网 PHY 类型</span
 												>
 											</label>
 											<select
@@ -703,7 +703,7 @@
 										{#if currentEthChip()?.emac}
 											<div class="flex flex-col gap-4">
 												<h3 class="text-lg font-bold">
-													RMII Configuration
+													RMII 配置
 												</h3>
 												<div
 													class="flex flex-col gap-4"
@@ -713,7 +713,7 @@
 														<label class="label">
 															<span
 																class="label-text"
-																>PHY Address</span
+																>PHY 地址</span
 															>
 														</label>
 														<input
@@ -732,7 +732,7 @@
 														<label class="label">
 															<span
 																class="label-text"
-																>Pin MCD</span
+																>MCD 引脚</span
 															>
 														</label>
 														<input
@@ -751,7 +751,7 @@
 														<label class="label">
 															<span
 																class="label-text"
-																>Pin MDIO</span
+																>MDIO 引脚</span
 															>
 														</label>
 														<input
@@ -770,7 +770,7 @@
 														<label class="label">
 															<span
 																class="label-text"
-																>Pin Power</span
+																>电源引脚</span
 															>
 														</label>
 														<input
@@ -789,7 +789,7 @@
 														<label class="label">
 															<span
 																class="label-text"
-																>Pin RMII Clock</span
+																>RMII 时钟引脚</span
 															>
 														</label>
 														<select
@@ -820,7 +820,7 @@
 										{:else if !currentEthChip()?.emac}
 											<div class="flex flex-col gap-4">
 												<h3 class="text-lg font-bold">
-													SPI Configuration
+													SPI 配置
 												</h3>
 												<SpiEthernetNote
 													spiNumBuses={ethConfig.numSpiBuses}
@@ -834,7 +834,7 @@
 														<label class="label">
 															<span
 																class="label-text"
-																>SPI Freq MHz</span
+																>SPI 频率 (MHz)</span
 															>
 														</label>
 														<input
@@ -851,7 +851,7 @@
 													<div class="form-control">
 														<!-- svelte-ignore a11y_label_has_associated_control -->
 														<label class="label">
-															<span class="label-text">SPI Bus</span>
+															<span class="label-text">SPI 总线</span>
 														</label>
 														<select
 																bind:value={miscConfig.ethSpiBus}
@@ -868,7 +868,7 @@
 														<label class="label">
 															<span
 																class="label-text"
-																>Pin CS</span
+																>CS 引脚</span
 															>
 														</label>
 														<input
@@ -887,7 +887,7 @@
 														<label class="label">
 															<span
 																class="label-text"
-																>Pin IRQ</span
+																>IRQ 引脚</span
 															>
 														</label>
 														<input
@@ -906,7 +906,7 @@
 														<label class="label">
 															<span
 																class="label-text"
-																>Pin RST</span
+																>RST 引脚</span
 															>
 														</label>
 														<input
@@ -925,7 +925,7 @@
 														<label class="label">
 															<span
 																class="label-text"
-																>Pin SCK</span
+																>SCK 引脚</span
 															>
 														</label>
 														<input
@@ -944,7 +944,7 @@
 														<label class="label">
 															<span
 																class="label-text"
-																>Pin MISO</span
+																>MISO 引脚</span
 															>
 														</label>
 														<input
@@ -963,7 +963,7 @@
 														<label class="label">
 															<span
 																class="label-text"
-																>Pin MOSI</span
+																>MOSI 引脚</span
 															>
 														</label>
 														<input
@@ -987,12 +987,12 @@
 
 						<div class="collapse collapse-arrow bg-base-100">
 							<input type="checkbox" name="misc-collapse" />
-							<div class="collapse-title font-medium">WebUI</div>
+							<div class="collapse-title font-medium">网页界面</div>
 							<div class="collapse-content">
 								<div class="form-control my-4">
 									<label class="label cursor-pointer">
 										<span class="label-text"
-											>Authentication Enabled</span
+											>启用身份验证</span
 										>
 										<input
 											type="checkbox"
@@ -1006,7 +1006,7 @@
 								<div class="form-control mb-4">
 									<!-- svelte-ignore a11y_label_has_associated_control -->
 									<label class="label">
-										<span class="label-text">Username</span>
+										<span class="label-text">用户名</span>
 									</label>
 									<input
 										type="text"
@@ -1019,7 +1019,7 @@
 								<div class="form-control mb-2">
 									<!-- svelte-ignore a11y_label_has_associated_control -->
 									<label class="label">
-										<span class="label-text">Password</span>
+										<span class="label-text">密码</span>
 									</label>
 									<input
 										type="password"
@@ -1036,10 +1036,10 @@
 			</div>
 			<div class="card-actions justify-end mt-6 px-2">
 				<button type="submit" class="btn btn-primary"
-					>Save & Apply</button
+					>保存并应用</button
 				>
 				<button type="button" class="btn btn-ghost" onclick={resetForm}
-					>Reset Form</button
+					>重置表单</button
 				>
 			</div>
 		</form>
