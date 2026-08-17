@@ -284,21 +284,21 @@
 
 <div class="card bg-base-200 shadow-xl">
 	<div class="card-body">
-		<h2 class="card-title">WebSocket Test Console</h2>
+		<h2 class="card-title">WebSocket 测试控制台</h2>
 
 		<!-- Connection Status -->
 		<div class="stats shadow mb-4 bg-base-100">
 			<div class="stat">
-				<div class="stat-title">Connection Status</div>
+				<div class="stat-title">连接状态</div>
 				<div class="stat-value text-sm {statusColor}">
 					{websocketState.state}
 				</div>
 				<div class="stat-desc">
-					{websocketState.connected ? "Connected" : "Disconnected"}
+					{websocketState.connected ? "已连接" : "已断开"}
 				</div>
 			</div>
 			<div class="stat">
-				<div class="stat-title">Reconnect Attempts</div>
+				<div class="stat-title">重连次数</div>
 				<div class="stat-value text-sm">
 					{websocketState.reconnectAttempts ||
 						0}/{websocketState.maxReconnectAttempts || 0}
@@ -313,34 +313,34 @@
 				class="btn btn-primary btn-sm"
 				disabled={!websocketState.connected}
 			>
-				Send Ping
+				发送 Ping
 			</button>
 			<button
 				onclick={requestStatus}
 				class="btn btn-secondary btn-sm"
 				disabled={!websocketState.connected}
 			>
-				Request Status
+				请求状态
 			</button>
 			<button onclick={reconnect} class="btn btn-warning btn-sm">
-				Reconnect
+				重新连接
 			</button>
 			<button onclick={clearMessages} class="btn btn-ghost btn-sm">
-				Clear Log
+				清除日志
 			</button>
 		</div>
 
 		<!-- Custom Message -->
 		<div class="form-control mb-4">
 			<label class="label" for="custom-message-input">
-				<span class="label-text">Send Custom Message</span>
+				<span class="label-text">发送自定义消息</span>
 			</label>
 			<div class="join">
 				<input
 					id="custom-message-input"
 					bind:value={customMessage}
 					type="text"
-					placeholder="Enter JSON message..."
+					placeholder="输入 JSON 消息..."
 					class="input input-bordered join-item flex-1"
 					disabled={!websocketState.connected}
 					onkeydown={(e) => e.key === "Enter" && sendCustomMessage()}
@@ -350,7 +350,7 @@
 					class="btn btn-primary join-item"
 					disabled={!websocketState.connected}
 				>
-					Send
+					发送
 				</button>
 			</div>
 		</div>
@@ -360,7 +360,7 @@
 			<div class="form-control p-2">
 				<label class="label" for="message-log">
 					<span class="label-text"
-						>Message Log ({messages.length} messages)</span
+						>消息日志（{messages.length} 条）</span
 					>
 				</label>
 				<div
@@ -369,7 +369,7 @@
 				>
 					{#if messages.length === 0}
 						<div class="text-base-content/50 text-center py-8">
-							No messages yet. Try sending a test message!
+							暂无消息，试着发送一条测试消息吧！
 						</div>
 					{:else}
 						{#each messages as msg}

@@ -86,7 +86,7 @@
 
     if (!validExtensions.includes(fileExtension)) {
       uploadErrors.ca =
-        "Invalid file type. Must be .pem, .crt, .cer, .der, or .key";
+        "无效的文件类型，必须为 .pem、.crt、.cer、.der 或 .key";
       return;
     }
 
@@ -106,7 +106,7 @@
         uploadProgress[type] = 95;
         const content = e.target?.result ?? null;
         if (content === null) {
-          uploadErrors[type] = "Failed to read file content";
+          uploadErrors[type] = "读取文件内容失败";
           uploadProgress[type] = 0;
           return;
         }
@@ -121,12 +121,12 @@
           uploadProgress[type] = 0;
         }, 1000);
       } catch (error) {
-        uploadErrors[type] = `Upload failed: ${(error as Error).message}`;
+        uploadErrors[type] = `上传失败：${(error as Error).message}`;
         uploadProgress[type] = 0;
       }
     };
     reader.onerror = () => {
-      uploadErrors[type] = "Failed to read file";
+      uploadErrors[type] = "读取文件失败";
       uploadProgress[type] = 0;
     };
 
@@ -138,7 +138,7 @@
   };
 
   const deleteCertificateHandler = async (type: CertificateType) => {
-    if (!confirm(`Are you sure you want to delete the ${type} certificate?`)) {
+    if (!confirm(`确定要删除 ${type} 证书吗？`)) {
       return;
     }
 
@@ -147,7 +147,7 @@
       await fetchCertificateStatus();
     } catch (e) {
       alert(
-        `Error deleting certificate: ${e instanceof Error ? e.message : String(e)}`,
+        `删除证书出错：${e instanceof Error ? e.message : String(e)}`,
       );
     }
   };
@@ -169,7 +169,7 @@
       }
     } catch (e) {
       const message = e instanceof Error ? e.message : String(e);
-      alert(`Error saving config: ${message}`);
+      alert(`保存配置出错：${message}`);
     }
   };
 
@@ -182,10 +182,10 @@
 
 <div class="w-full py-6">
   <h1 class="md:text-3xl text-2xl font-bold mb-8">
-    MQTT Settings
+    MQTT 设置
     <div
       class="tooltip tooltip-bottom tooltip-info"
-      data-tip="Reboot required to apply!"
+      data-tip="需重启后生效！"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -205,7 +205,7 @@
   </h1>
   {#if !mqtt && error}
     <div class="text-center text-error">
-      <p>Error: {error}</p>
+      <p>错误: {error}</p>
     </div>
   {:else if mqtt}
     <form onsubmit={saveMqttConfig} class="flex flex-col items-center">
@@ -236,19 +236,19 @@
                   class="text-xs uppercase font-semibold opacity-60 mb-4"
                   class:hidden={mqttConfig.useSSL}
                 >
-                  TCP - Without TLS
+                  TCP （无 TLS）
                 </div>
                 <div
                   class="text-xs uppercase font-semibold opacity-60 mb-4"
                   class:hidden={!mqttConfig.useSSL}
                 >
-                  TCP - With TLS/SSL
+                  TCP （启用 TLS/SSL）
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div class="form-control">
                     <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="label">
-                      <span class="label-text">Address</span>
+                      <span class="label-text">地址</span>
                     </label>
                     <input
                       type="text"
@@ -261,7 +261,7 @@
                   <div class="form-control">
                     <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="label">
-                      <span class="label-text">Port</span>
+                      <span class="label-text">端口</span>
                     </label>
                     <input
                       type="number"
@@ -277,7 +277,7 @@
                   <div class="form-control">
                     <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="label">
-                      <span class="label-text">Client ID</span>
+                      <span class="label-text">客户端 ID</span>
                     </label>
                     <input
                       type="text"
@@ -290,7 +290,7 @@
                   <div class="form-control">
                     <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="label">
-                      <span class="label-text">LWT Topic</span>
+                      <span class="label-text">LWT 主题</span>
                     </label>
                     <input
                       type="text"
@@ -303,7 +303,7 @@
                   <div class="form-control">
                     <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="label">
-                      <span class="label-text">Username</span>
+                      <span class="label-text">用户名</span>
                     </label>
                     <input
                       type="text"
@@ -315,7 +315,7 @@
                   <div class="form-control">
                     <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="label">
-                      <span class="label-text">Password</span>
+                      <span class="label-text">密码</span>
                     </label>
                     <input
                       type="password"
@@ -326,7 +326,7 @@
                   </div>
                   <div class="form-control md:col-span-2 mb-4">
                     <label class="label cursor-pointer">
-                      <span class="label-text">HASS MQTT Discovery</span>
+                      <span class="label-text">HASS MQTT 自动发现</span>
                       <input
                         type="checkbox"
                         bind:checked={mqttConfig.hassMqttDiscoveryEnabled}
@@ -336,7 +336,7 @@
                   </div>
                   <div class="form-control md:col-span-2 mb-4">
                     <label class="label cursor-pointer">
-                      <span class="label-text">Enable SSL/TLS</span>
+                      <span class="label-text">启用 SSL/TLS</span>
                       <input
                         type="checkbox"
                         bind:checked={mqttConfig.useSSL}
@@ -365,14 +365,14 @@
                           d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
                         />
                       </svg>
-                      SSL/TLS Settings
+                      SSL/TLS 设置
                     </div>
                     <div class="collapse-content">
                       <div class="space-y-6">
                         <div class="form-control">
                           <label class="label cursor-pointer">
                             <span class="label-text"
-                              >Skip cert CN validation</span
+                              >跳过证书 CN 校验</span
                             >
                             <input
                               type="checkbox"
@@ -409,7 +409,7 @@
                                   </svg>
                                   <div class="flex flex-col">
                                     <span class="text-sm font-medium"
-                                      >CA Certificate</span
+                                      >CA 证书</span
                                     >
                                     <span
                                       class="text-sm font-medium text-base-content/75"
@@ -419,12 +419,12 @@
                                     >
                                     <span
                                       class="text-sm font-medium text-base-content/50"
-                                      >Subject: {certificateStatus?.ca
+                                      >颁发对象：{certificateStatus?.ca
                                         ?.subject}</span
                                     >
                                     <span
                                       class="text-sm font-medium text-base-content/50"
-                                      >Issuer: {certificateStatus?.ca
+                                      >颁发者：{certificateStatus?.ca
                                         ?.issuer}</span
                                     >
                                   </div>
@@ -435,7 +435,7 @@
                                     onclick={() =>
                                       deleteCertificateHandler("ca")}
                                     class="btn btn-ghost btn-xs btn-error"
-                                    >Delete</button
+                                    >删除</button
                                   >
                                 {/if}
                               </div>
@@ -465,7 +465,7 @@
                                   </svg>
                                   <div class="flex flex-col">
                                     <span class="text-sm font-medium"
-                                      >Client Certificate</span
+                                      >客户端证书</span
                                     >
                                     <span
                                       class="text-sm font-medium text-base-content/75"
@@ -475,12 +475,12 @@
                                     >
                                     <span
                                       class="text-sm font-medium text-base-content/50"
-                                      >Subject: {certificateStatus?.client
+                                      >颁发对象：{certificateStatus?.client
                                         ?.subject}</span
                                     >
                                     <span
                                       class="text-sm font-medium text-base-content/50"
-                                      >Issuer: {certificateStatus?.client
+                                      >颁发者：{certificateStatus?.client
                                         ?.issuer}</span
                                     >
                                   </div>
@@ -491,20 +491,18 @@
                                     onclick={() =>
                                       deleteCertificateHandler("client")}
                                     class="btn btn-ghost btn-xs btn-error"
-                                    >Delete</button
+                                    >删除</button
                                   >
                                 {/if}
                               </div>
                               {#if !certificateStatus?.client?.keyMatchesCert && certificateStatus?.privateKey?.exists}
                                 <span class="text-sm font-medium text-error"
-                                  >Private Key doesn't match the certificate
-                                  public key</span
+                                  >私钥与证书公钥不匹配</span
                                 >
                               {/if}
                               {#if certificateStatus?.ca && certificateStatus.ca.subject != certificateStatus.client?.issuer}
                                 <span class="text-sm font-medium text-error"
-                                  >Certificate Issuer doesn't match the CA
-                                  certificate</span
+                                  >证书颁发者与 CA 证书不匹配</span
                                 >
                               {/if}
                             </div>
@@ -535,7 +533,7 @@
                                   </svg>
                                   <div class="flex flex-col">
                                     <span class="text-sm font-medium"
-                                      >Private Key</span
+                                      >私钥</span
                                     >
                                   </div>
                                 </div>
@@ -545,7 +543,7 @@
                                     onclick={() =>
                                       deleteCertificateHandler("privateKey")}
                                     class="btn btn-ghost btn-xs btn-error"
-                                    >Delete</button
+                                    >删除</button
                                   >
                                 {/if}
                               </div>
@@ -557,7 +555,7 @@
                         <div class="form-control">
                           <!-- svelte-ignore a11y_label_has_associated_control -->
                           <label class="label">
-                            <span class="label-text">CA Certificate</span>
+                            <span class="label-text">CA 证书</span>
                           </label>
                           <input
                             type="file"
@@ -585,7 +583,7 @@
                         <div class="form-control">
                           <!-- svelte-ignore a11y_label_has_associated_control -->
                           <label class="label">
-                            <span class="label-text">Client Certificate</span>
+                            <span class="label-text">客户端证书</span>
                           </label>
                           <input
                             type="file"
@@ -613,7 +611,7 @@
                         <div class="form-control">
                           <!-- svelte-ignore a11y_label_has_associated_control -->
                           <label class="label">
-                            <span class="label-text">Private Key</span>
+                            <span class="label-text">私钥</span>
                           </label>
                           <input
                             type="file"
@@ -667,19 +665,19 @@
                     d="M4.867 19.125h.008v.008h-.008v-.008Z"
                   />
                 </svg>
-                Topics
+                主题（Topics）
               </div>
               <div class="collapse-content">
                 <div class="space-y-2">
                   <div class="collapse collapse-arrow bg-base-200">
                     <input type="checkbox" name="topics-accordion" />
-                    <div class="collapse-title font-medium">Core</div>
+                    <div class="collapse-title font-medium">核心</div>
                     <div class="collapse-content">
                       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="form-control">
                           <!-- svelte-ignore a11y_label_has_associated_control -->
                           <label class="label">
-                            <span class="label-text">NFC/HK Topic</span>
+                            <span class="label-text">NFC/HK 主题</span>
                           </label>
                           <input
                             type="text"
@@ -691,7 +689,7 @@
                         </div>
                         <div class="form-control self-center">
                           <label class="label cursor-pointer">
-                            <span class="label-text">Ignore NFC Tags</span>
+                            <span class="label-text">忽略 NFC 标签</span>
                             <input
                               type="checkbox"
                               bind:checked={mqttConfig.nfcTagNoPublish}
@@ -703,7 +701,7 @@
                           <!-- svelte-ignore a11y_label_has_associated_control -->
                           <label class="label">
                             <span class="label-text"
-                              >Secondary action Topic</span
+                              >辅助操作主题</span
                             >
                           </label>
                           <input
@@ -717,7 +715,7 @@
                         <div class="form-control">
                           <!-- svelte-ignore a11y_label_has_associated_control -->
                           <label class="label">
-                            <span class="label-text">Lock State Topic</span>
+                            <span class="label-text">锁状态主题</span>
                           </label>
                           <input
                             type="text"
@@ -730,7 +728,7 @@
                         <div class="form-control">
                           <!-- svelte-ignore a11y_label_has_associated_control -->
                           <label class="label">
-                            <span class="label-text">Lock State Cmd Topic</span>
+                            <span class="label-text">锁状态指令主题</span>
                           </label>
                           <input
                             type="text"
@@ -744,7 +742,7 @@
                           <!-- svelte-ignore a11y_label_has_associated_control -->
                           <label class="label">
                             <span class="label-text"
-                              >Lock Current State Cmd Topic</span
+                              >锁当前状态指令主题</span
                             >
                           </label>
                           <input
@@ -759,7 +757,7 @@
                           <!-- svelte-ignore a11y_label_has_associated_control -->
                           <label class="label">
                             <span class="label-text"
-                              >Lock Target State Cmd Topic</span
+                              >锁目标状态指令主题</span
                             >
                           </label>
                           <input
@@ -774,7 +772,7 @@
                           <!-- svelte-ignore a11y_label_has_associated_control -->
                           <label class="label">
                             <span class="label-text"
-                              >SmartLock battery level Cmd Topic</span
+                              >智能锁电量指令主题</span
                             >
                           </label>
                           <input
@@ -790,11 +788,11 @@
                   </div>
                   <div class="collapse collapse-arrow bg-base-200">
                     <input type="checkbox" name="topics-accordion" />
-                    <div class="collapse-title font-medium">Custom</div>
+                    <div class="collapse-title font-medium">自定义</div>
                     <div class="collapse-content">
                       <div class="form-control mb-4">
                         <label class="label cursor-pointer">
-                          <span class="label-text">Enable Custom State</span>
+                          <span class="label-text">启用自定义状态</span>
                           <input
                             type="checkbox"
                             bind:checked={mqttConfig.lockEnableCustomState}
@@ -806,7 +804,7 @@
                         <div class="form-control mb-4">
                           <!-- svelte-ignore a11y_label_has_associated_control -->
                           <label class="label">
-                            <span class="label-text">Custom State Topic</span>
+                            <span class="label-text">自定义状态主题</span>
                           </label>
                           <input
                             type="text"
@@ -819,7 +817,7 @@
                           <!-- svelte-ignore a11y_label_has_associated_control -->
                           <label class="label">
                             <span class="label-text"
-                              >Custom State Cmd Topic</span
+                              >自定义状态指令主题</span
                             >
                           </label>
                           <input
@@ -829,12 +827,12 @@
                             class="input input-bordered w-full"
                           />
                         </div>
-                        <div class="divider">Custom Lock Actions</div>
+                        <div class="divider">自定义锁动作</div>
                         <div class="grid grid-cols-2 gap-6">
                           <div class="form-control">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="label">
-                              <span class="label-text">Unlock</span>
+                              <span class="label-text">解锁</span>
                             </label>
                             <input
                               type="number"
@@ -848,7 +846,7 @@
                           <div class="form-control">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="label">
-                              <span class="label-text">Lock</span>
+                              <span class="label-text">上锁</span>
                             </label>
                             <input
                               type="number"
@@ -860,12 +858,12 @@
                             />
                           </div>
                         </div>
-                        <div class="divider">Custom Lock States</div>
+                        <div class="divider">自定义锁状态</div>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                           <div class="form-control">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="label">
-                              <span class="label-text">Unlocking</span>
+                              <span class="label-text">解锁中</span>
                             </label>
                             <input
                               type="number"
@@ -881,7 +879,7 @@
                           <div class="form-control">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="label">
-                              <span class="label-text">Locking</span>
+                              <span class="label-text">上锁中</span>
                             </label>
                             <input
                               type="number"
@@ -897,7 +895,7 @@
                           <div class="form-control">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="label">
-                              <span class="label-text">Unlocked</span>
+                              <span class="label-text">已解锁</span>
                             </label>
                             <input
                               type="number"
@@ -913,7 +911,7 @@
                           <div class="form-control">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="label">
-                              <span class="label-text">Locked</span>
+                              <span class="label-text">已上锁</span>
                             </label>
                             <input
                               type="number"
@@ -927,7 +925,7 @@
                           <div class="form-control">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="label">
-                              <span class="label-text">Jammed</span>
+                              <span class="label-text">卡阻</span>
                             </label>
                             <input
                               type="number"
@@ -941,7 +939,7 @@
                           <div class="form-control">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="label">
-                              <span class="label-text">Unknown</span>
+                              <span class="label-text">未知</span>
                             </label>
                             <input
                               type="number"
@@ -964,9 +962,9 @@
           </div>
         </div>
         <div class="card-actions mt-6 px-2 self-end">
-          <button type="submit" class="btn btn-primary">Save & Apply</button>
+          <button type="submit" class="btn btn-primary">保存并应用</button>
           <button type="button" class="btn btn-ghost" onclick={resetForm}
-            >Reset Form</button
+            >重置表单</button
           >
         </div>
       </div>

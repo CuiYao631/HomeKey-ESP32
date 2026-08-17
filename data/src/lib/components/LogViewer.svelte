@@ -52,12 +52,12 @@
 			(currentTime.getTime() - then.getTime()) / 1000,
 		);
 
-		if (diffInSeconds < 5) return "just now";
-		if (diffInSeconds < 60) return `${diffInSeconds}s ago`;
+		if (diffInSeconds < 5) return "刚刚";
+		if (diffInSeconds < 60) return `${diffInSeconds} 秒前`;
 		if (diffInSeconds < 3600)
-			return `${Math.floor(diffInSeconds / 60)}m ago`;
+			return `${Math.floor(diffInSeconds / 60)} 分钟前`;
 		if (diffInSeconds < 86400)
-			return `${Math.floor(diffInSeconds / 3600)}h ago`;
+			return `${Math.floor(diffInSeconds / 3600)} 小时前`;
 		return then.toLocaleDateString();
 	}
 
@@ -242,19 +242,19 @@
 				<div class="form-control">
 					<input
 						type="text"
-						placeholder="Search…"
+						placeholder="搜索…"
 						class="input input-sm input-bordered w-48"
 						bind:value={searchText}
-						aria-label="Search logs"
+						aria-label="搜索日志"
 					/>
 				</div>
 				<div class="form-control">
 					<div
 						class="flex items-center gap-2"
 						role="group"
-						aria-label="Log level filters"
+						aria-label="日志级别筛选"
 					>
-						<span class="label-text mr-2">Log Level: </span>
+						<span class="label-text mr-2">日志级别：</span>
 						<select
 							class="select"
 							value={sys_log_level()}
@@ -276,7 +276,7 @@
 						</select>
 						<div
 							class="tooltip tooltip-bottom"
-							data-tip="Persists on reboot"
+							data-tip="重启后仍然生效"
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -302,9 +302,9 @@
 				<div
 					class="flex items-center gap-2"
 					role="group"
-					aria-label="Log level filters"
+					aria-label="日志级别筛选"
 				>
-					<span class="label-text mr-2">Filter levels:</span>
+					<span class="label-text mr-2">筛选级别：</span>
 					{#each Object.keys(logLevels) as level}
 						<button
 							onclick={() => toggleLogLevel(level as LogLevel)}
@@ -324,12 +324,12 @@
 				<div class="flex gap-2">
 					<div class="form-control">
 						<label class="label cursor-pointer p-0">
-							<span class="label-text mr-2">Auto-scroll</span>
+							<span class="label-text mr-2">自动滚动</span>
 							<input
 								type="checkbox"
 								class="toggle toggle-sm"
 								bind:checked={autoScrollActive}
-								aria-label="Toggle auto-scroll"
+								aria-label="切换自动滚动"
 							/>
 						</label>
 					</div>
@@ -337,10 +337,10 @@
 				<div class="flex gap-2">
 					<button
 						onclick={() => exportLogs()}
-						class="btn btn-sm btn-info">Export</button
+						class="btn btn-sm btn-info">导出</button
 					>
 					<button onclick={clearLogs} class="btn btn-sm btn-warning"
-						>Clear Logs</button
+						>清除日志</button
 					>
 				</div>
 			</div>
@@ -456,7 +456,7 @@
 							autoScrollActive = true;
 						}}
 						class="btn btn-circle btn-accent shadow-lg btn-xl"
-						aria-label="Scroll to bottom"
+						aria-label="滚动到底部"
 					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
