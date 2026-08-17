@@ -4,8 +4,8 @@
 	branch = main
 [submodule "HomeSpan"]
 	path = components/HomeSpan/upstream
-	url = https://github.com/HomeSpan/HomeSpan.git
-	branch = release-2.1.6
+	url = https://github.com/CuiYao631/HomeSpan-zh.git
+	branch = master
 [submodule "components/msgpack-c/upstream"]
 	path = components/msgpack-c/upstream
 	url = https://github.com/msgpack/msgpack-c.git
