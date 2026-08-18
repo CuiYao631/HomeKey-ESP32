@@ -635,9 +635,9 @@ bool MqttManager::configureSSL(esp_mqtt_client_config_t& mqtt_cfg) {
     if (!m_mqttSslConfig->clientCert.empty() && !m_mqttSslConfig->clientKey.empty()) {
         mqtt_cfg.credentials.authentication.certificate = m_mqttSslConfig->clientCert.c_str();
         mqtt_cfg.credentials.authentication.key = m_mqttSslConfig->clientKey.c_str();
-        ESP_LOGI(TAG, "TLS authentication configured");
+        ESP_LOGI(TAG, "TLS 认证已配置");
     } else {
-        ESP_LOGI(TAG, "No client certificate and/or private key configured");
+        ESP_LOGI(TAG, "未配置客户端证书和/或私钥");
         return false;
     }
 

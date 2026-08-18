@@ -440,7 +440,7 @@ esp_err_t WebServerManager::handleGetConfig(httpd_req_t *req) {
     httpd_resp_set_status(req, "400 Bad Request");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-    cJSON_AddItemToObject(res, "error", cJSON_CreateString("Missing 'type' parameter"));
+    cJSON_AddItemToObject(res, "error", cJSON_CreateString("缺少 'type' 参数"));
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
     return ESP_FAIL;
@@ -491,7 +491,7 @@ esp_err_t WebServerManager::handleGetConfig(httpd_req_t *req) {
     httpd_resp_set_status(req, "400 Bad Request");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-    cJSON_AddItemToObject(res, "error", cJSON_CreateString("Invalid 'type' parameter"));
+    cJSON_AddItemToObject(res, "error", cJSON_CreateString("无效的 'type' 参数"));
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
     return ESP_FAIL;
@@ -659,7 +659,7 @@ esp_err_t WebServerManager::handleSaveConfig(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-    cJSON_AddItemToObject(res, "error", cJSON_CreateString("Missing 'type' parameter"));
+    cJSON_AddItemToObject(res, "error", cJSON_CreateString("缺少 'type' 参数"));
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
     return ESP_FAIL;
@@ -672,7 +672,7 @@ esp_err_t WebServerManager::handleSaveConfig(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-    cJSON_AddItemToObject(res, "error", cJSON_CreateString("Request body too large"));
+    cJSON_AddItemToObject(res, "error", cJSON_CreateString("请求体过大"));
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
     return ESP_FAIL;
@@ -685,7 +685,7 @@ esp_err_t WebServerManager::handleSaveConfig(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-    cJSON_AddItemToObject(res, "error", cJSON_CreateString("Invalid request body"));
+    cJSON_AddItemToObject(res, "error", cJSON_CreateString("无效的请求体"));
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
     return ESP_FAIL;
@@ -698,7 +698,7 @@ esp_err_t WebServerManager::handleSaveConfig(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-    cJSON_AddItemToObject(res, "error", cJSON_CreateString("Invalid JSON"));
+    cJSON_AddItemToObject(res, "error", cJSON_CreateString("无效的 JSON"));
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
     return ESP_FAIL;
@@ -726,7 +726,7 @@ esp_err_t WebServerManager::handleSaveConfig(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-    cJSON_AddItemToObject(res, "error", cJSON_CreateString("Invalid 'type' parameter"));
+    cJSON_AddItemToObject(res, "error", cJSON_CreateString("无效的 'type' 参数"));
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
     return ESP_FAIL;
@@ -749,7 +749,7 @@ esp_err_t WebServerManager::handleSaveConfig(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-    cJSON_AddItemToObject(res, "error", cJSON_CreateString("Received empty object, nothing to save"));
+    cJSON_AddItemToObject(res, "error", cJSON_CreateString("收到空对象，无内容可保存"));
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
     return ESP_FAIL;
@@ -774,7 +774,7 @@ esp_err_t WebServerManager::handleSaveConfig(httpd_req_t *req) {
       event_bus.publish({event_bus.get_topic(HK_BUS_TOPIC).value_or(EventBus::INVALID_TOPIC), 0, event_data.data(), event_data.size()});
     } else if (keyStr == "nfcNeopixelPin") {
       rebootNeeded = true;
-      rebootMsg = "Pixel GPIO pin changed, reboot needed! Rebooting...";
+      rebootMsg = "像素灯 GPIO 引脚已更改，需要重启！正在重启...";
     } else if (keyStr == "nfcSuccessPin" || keyStr == "nfcFailPin" ||
                keyStr == "gpioActionPin") {
       EventValueChanged s{.name = keyStr,
@@ -797,7 +797,7 @@ esp_err_t WebServerManager::handleSaveConfig(httpd_req_t *req) {
       event_bus.publish({event_bus.get_topic(HK_BUS_TOPIC).value_or(EventBus::INVALID_TOPIC), 0, event_data.data(), event_data.size()});
     } else if (keyStr == "neoPixelType") {
       rebootNeeded = true;
-      rebootMsg = "Pixel Type changed, reboot needed! Rebooting...";
+      rebootMsg = "像素灯类型已更改，需要重启！正在重启...";
     } else if (keyStr == "useSSL") {
       esp_chip_info_t chip_info;
       esp_chip_info(&chip_info);
@@ -805,7 +805,7 @@ esp_err_t WebServerManager::handleSaveConfig(httpd_req_t *req) {
         httpd_resp_set_type(req, "application/json");
         cJSON *res = cJSON_CreateObject();
         cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-        cJSON_AddItemToObject(res, "error", cJSON_CreateString("TLS currently not available on the ESP32 chip model due to memory constraints"));
+        cJSON_AddItemToObject(res, "error", cJSON_CreateString("ESP32 芯片因内存限制暂不支持 TLS"));
         httpd_resp_set_status(req, HTTPD_500);
         std::string response = cjson_to_string_and_free(res);
         httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
@@ -822,7 +822,7 @@ esp_err_t WebServerManager::handleSaveConfig(httpd_req_t *req) {
     if (!result.empty()) {
       success = instance->m_configManager.saveConfig<espConfig::mqttConfig_t>();
       rebootNeeded = true;
-      rebootMsg = "MQTT config saved, reboot needed! Rebooting...";
+      rebootMsg = "MQTT 配置已保存，需要重启！正在重启...";
     }
   } else if (type == "misc") {
     result = instance->m_configManager.updateFromJson<espConfig::misc_config_t>(data_str);
@@ -830,7 +830,7 @@ esp_err_t WebServerManager::handleSaveConfig(httpd_req_t *req) {
       success =
           instance->m_configManager.saveConfig<espConfig::misc_config_t>();
       rebootNeeded = true;
-      rebootMsg = "Misc config saved, reboot needed! Rebooting...";
+      rebootMsg = "杂项配置已保存，需要重启！正在重启...";
     }
   } else if (type == "actions") {
     result = instance->m_configManager.updateFromJson<espConfig::actions_config_t>(data_str);
@@ -849,7 +849,7 @@ esp_err_t WebServerManager::handleSaveConfig(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(true));
-    cJSON_AddItemToObject(res, "message", cJSON_CreateString(rebootNeeded ? rebootMsg.c_str() : "Saved and applied!"));
+    cJSON_AddItemToObject(res, "message", cJSON_CreateString(rebootNeeded ? rebootMsg.c_str() : "已保存并应用！"));
     cJSON_AddItemToObject(res, "data", cJSON_Parse(result.c_str()));
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
@@ -862,7 +862,7 @@ esp_err_t WebServerManager::handleSaveConfig(httpd_req_t *req) {
   httpd_resp_set_type(req, "application/json");
   cJSON *res = cJSON_CreateObject();
   cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-  cJSON_AddItemToObject(res, "error", cJSON_CreateString("Unable to save config!"));
+  cJSON_AddItemToObject(res, "error", cJSON_CreateString("无法保存配置！"));
   httpd_resp_set_status(req, HTTPD_500);
   std::string response = cjson_to_string_and_free(res);
   httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
@@ -877,7 +877,7 @@ bool WebServerManager::validateRequest(httpd_req_t *req, cJSON *currentData,
     httpd_resp_set_status(req, "400 Bad Request");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-    cJSON_AddItemToObject(res, "error", cJSON_CreateString("Invalid JSON"));
+    cJSON_AddItemToObject(res, "error", cJSON_CreateString("无效的 JSON"));
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
     return false;
@@ -889,7 +889,7 @@ bool WebServerManager::validateRequest(httpd_req_t *req, cJSON *currentData,
     cJSON *existingValue = cJSON_GetObjectItem(currentData, keyStr.c_str());
 
     if (!existingValue) {
-      std::string msg = "\"" + keyStr + "\" is not a valid configuration key.";
+      std::string msg = "\"" + keyStr + "\" 不是有效的配置键。";
       httpd_resp_set_type(req, "application/json");
       httpd_resp_set_status(req, "400 Bad Request");
       cJSON *res = cJSON_CreateObject();
@@ -918,8 +918,8 @@ bool WebServerManager::validateRequest(httpd_req_t *req, cJSON *currentData,
 
     if (!typeOk) {
       char *valueStr = cJSON_PrintUnformatted(incomingValue);
-      std::string msg = "Invalid type for key \"" + keyStr +
-                        "\". Received: " + std::string(valueStr);
+      std::string msg = "键 \"" + keyStr +
+                        "\" 的类型无效。收到: " + std::string(valueStr);
       free(valueStr);
       httpd_resp_set_type(req, "application/json");
       httpd_resp_set_status(req, "400 Bad Request");
@@ -934,7 +934,7 @@ bool WebServerManager::validateRequest(httpd_req_t *req, cJSON *currentData,
     // Setup code validation
     if (keyStr == "setupCode") {
       if (!cJSON_IsString(incomingValue)) {
-        std::string msg = "Value for \"" + keyStr + "\" must be a string.";
+        std::string msg = "\"" + keyStr + "\" 的值必须是字符串。";
         httpd_resp_set_type(req, "application/json");
         httpd_resp_set_status(req, "400 Bad Request");
         httpd_resp_send(req, msg.c_str(), msg.length());
@@ -947,7 +947,7 @@ bool WebServerManager::validateRequest(httpd_req_t *req, cJSON *currentData,
             return !std::isdigit(c);
           }) != code.end()) {
         std::string msg =
-            "\"" + code + "\" is not valid. Must be an 8-digit number.";
+            "\"" + code + "\" 无效。必须是 8 位数字。";
         httpd_resp_set_type(req, "application/json");
         httpd_resp_set_status(req, "400 Bad Request");
         cJSON *res = cJSON_CreateObject();
@@ -963,7 +963,7 @@ bool WebServerManager::validateRequest(httpd_req_t *req, cJSON *currentData,
         httpd_resp_set_status(req, "400 Bad Request");
         cJSON *res = cJSON_CreateObject();
         cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-        cJSON_AddItemToObject(res, "error", cJSON_CreateString("Setup Code can only be set if no devices are paired"));
+        cJSON_AddItemToObject(res, "error", cJSON_CreateString("配对码仅可在无设备配对时修改"));
         std::string response = cjson_to_string_and_free(res);
         httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
         return false;
@@ -972,7 +972,7 @@ bool WebServerManager::validateRequest(httpd_req_t *req, cJSON *currentData,
     // Pin validation
     else if (str_ends_with(keyStr.c_str(), "Pin")) {
       if (!cJSON_IsNumber(incomingValue)) {
-        std::string msg = "Value for \"" + keyStr + "\" must be a number.";
+        std::string msg = "\"" + keyStr + "\" 的值必须是数字。";
         httpd_resp_set_type(req, "application/json");
         httpd_resp_set_status(req, "400 Bad Request");
         cJSON *res = cJSON_CreateObject();
@@ -985,7 +985,7 @@ bool WebServerManager::validateRequest(httpd_req_t *req, cJSON *currentData,
       if (uint8_t pin = incomingValue->valueint; pin != 255 && !GPIO_IS_VALID_GPIO(pin) &&
                                                  !GPIO_IS_VALID_OUTPUT_GPIO(pin)) {
         std::string msg = std::to_string(pin) +
-                          " is not a valid GPIO Pin for \"" + keyStr + "\".";
+                          " 不是 \"" + keyStr + "\" 的有效 GPIO 引脚。";
         httpd_resp_set_type(req, "application/json");
         httpd_resp_set_status(req, "400 Bad Request");
         cJSON *res = cJSON_CreateObject();
@@ -997,7 +997,7 @@ bool WebServerManager::validateRequest(httpd_req_t *req, cJSON *currentData,
       }
     } else if (keyStr == "ethSpiBus" && cJSON_IsNumber(incomingValue) && (incomingValue->valueint < SPI2_HOST || incomingValue->valueint >= SPI_HOST_MAX)){
         std::string msg = std::to_string(incomingValue->valueint) +
-                      " is not a valid SPI Bus value";
+                      " 不是有效的 SPI 总线值";
         httpd_resp_set_type(req, "application/json");
         httpd_resp_set_status(req, "400 Bad Request");
         cJSON *res = cJSON_CreateObject();
@@ -1021,7 +1021,7 @@ bool WebServerManager::validateRequest(httpd_req_t *req, cJSON *currentData,
       if (!valueOk) {
         char *valueStr = cJSON_PrintUnformatted(incomingValue);
         std::string msg =
-            std::string(valueStr) + " is not valid for \"" + keyStr + "\".";
+            std::string(valueStr) + " 对 \"" + keyStr + "\" 无效。";
         free(valueStr);
         httpd_resp_set_type(req, "application/json");
         httpd_resp_set_status(req, "400 Bad Request");
@@ -1062,7 +1062,7 @@ esp_err_t WebServerManager::handleClearConfig(httpd_req_t *req) {
     httpd_resp_set_status(req, "400 Bad Request");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-    cJSON_AddItemToObject(res, "error", cJSON_CreateString("Missing 'type' parameter"));
+    cJSON_AddItemToObject(res, "error", cJSON_CreateString("缺少 'type' 参数"));
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
     return ESP_FAIL;
@@ -1151,7 +1151,7 @@ esp_err_t WebServerManager::handlePreviewBuzzer(httpd_req_t *req) {
   cJSON_Delete(obj);
 
   httpd_resp_set_type(req, "application/json");
-  httpd_resp_sendstr(req, "{\"success\":true,\"message\":\"Playing buzzer preview\"}");
+  httpd_resp_sendstr(req, "{\"success\":true,\"message\":\"蜂鸣器预览播放中\"}");
   return ESP_OK;
 }
 
@@ -1172,7 +1172,7 @@ esp_err_t WebServerManager::handleHKReset(httpd_req_t *req) {
   httpd_resp_set_type(req, "application/json");
   cJSON *res = cJSON_CreateObject();
   cJSON_AddItemToObject(res, "success", cJSON_CreateBool(true));
-  cJSON_AddItemToObject(res, "error", cJSON_CreateString("Erasing HomeKit pairings, device will reboot"));
+  cJSON_AddItemToObject(res, "error", cJSON_CreateString("正在清除 HomeKit 配对，设备将重启"));
   std::string response = cjson_to_string_and_free(res);
   httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
   instance->m_readerDataManager.deleteAllReaderData();
@@ -1193,7 +1193,7 @@ esp_err_t WebServerManager::handleWifiReset(httpd_req_t *req) {
   httpd_resp_set_type(req, "application/json");
   cJSON *res = cJSON_CreateObject();
   cJSON_AddItemToObject(res, "success", cJSON_CreateBool(true));
-  cJSON_AddItemToObject(res, "error", cJSON_CreateString("Erasing WiFi credentials, device will reboot"));
+  cJSON_AddItemToObject(res, "error", cJSON_CreateString("正在清除 WiFi 凭据，设备将重启"));
   std::string response = cjson_to_string_and_free(res);
   httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
   homeSpan.processSerialCommand("X");
@@ -1213,7 +1213,7 @@ esp_err_t WebServerManager::handleStartConfigAP(httpd_req_t *req) {
   httpd_resp_set_type(req, "application/json");
   cJSON *res = cJSON_CreateObject();
   cJSON_AddItemToObject(res, "success", cJSON_CreateBool(true));
-  cJSON_AddItemToObject(res, "error", cJSON_CreateString("Starting AP mode..."));
+  cJSON_AddItemToObject(res, "error", cJSON_CreateString("正在启动 AP 模式..."));
   std::string response = cjson_to_string_and_free(res);
   httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
   vTaskDelay(pdMS_TO_TICKS(1000));
@@ -1244,7 +1244,7 @@ esp_err_t WebServerManager::ws_send_frame(httpd_handle_t server, int fd,
 esp_err_t WebServerManager::handleWebSocket(httpd_req_t *req) {
 #ifndef CONFIG_HTTPD_WS_SUPPORT
   httpd_resp_set_status(req, "501 Not Implemented");
-  httpd_resp_send(req, "WebSocket not enabled", HTTPD_RESP_USE_STRLEN);
+  httpd_resp_send(req, "WebSocket 未启用", HTTPD_RESP_USE_STRLEN);
   return ESP_OK;
 #else
   WebServerManager *instance = getInstance(req);
@@ -1457,7 +1457,7 @@ esp_err_t WebServerManager::handleWebSocketMessage(httpd_req_t *req,
   if (!json) {
     cJSON *error = cJSON_CreateObject();
     cJSON_AddStringToObject(error, "type", "error");
-    cJSON_AddStringToObject(error, "message", "Invalid JSON format");
+    cJSON_AddStringToObject(error, "message", "无效的 JSON 格式");
     std::string err_str = cjson_to_string_and_free(error);
     queue_ws_frame(httpd_req_to_sockfd(req), (const uint8_t *)err_str.c_str(),
                    err_str.size(), HTTPD_WS_TYPE_TEXT);
@@ -1498,7 +1498,7 @@ esp_err_t WebServerManager::handleWebSocketMessage(httpd_req_t *req,
   } else {
     cJSON *unknown = cJSON_CreateObject();
     cJSON_AddStringToObject(unknown, "type", "error");
-    cJSON_AddStringToObject(unknown, "message", "Unknown message type");
+    cJSON_AddStringToObject(unknown, "message", "未知的消息类型");
     cJSON_AddStringToObject(unknown, "received_type", msg_type.c_str());
     response = cjson_to_string_and_free(unknown);
   }
@@ -1656,33 +1656,33 @@ void WebServerManager::otaTask(void *pvParameters) {
   const size_t buffer_size = 4096;
   char *buffer = (char *)heap_caps_malloc(buffer_size, MALLOC_CAP_8BIT | MALLOC_CAP_INTERNAL);
   if (!buffer) {
-    params->state->error = "Buffer allocation failed";
+    params->state->error = "缓冲区分配失败";
     goto error;
   }
 
   if (params->uploadType == OTAUploadType::FIRMWARE) {
     params->state->updatePartition = esp_ota_get_next_update_partition(NULL);
     if (!params->state->updatePartition) {
-       params->state->error = "No OTA partition";
+       params->state->error = "无 OTA 分区";
        goto error;
     }
     if (esp_ota_begin(params->state->updatePartition, params->contentLength, &params->state->handle) != ESP_OK) {
-       params->state->error = "OTA begin failed";
+       params->state->error = "OTA 启动失败";
        goto error;
     }
   } else {
     params->state->littlefsPartition = esp_partition_find_first(ESP_PARTITION_TYPE_DATA, ESP_PARTITION_SUBTYPE_DATA_SPIFFS, "spiffs");
     if (!params->state->littlefsPartition) {
-      params->state->error = "No LittleFS partition";
+      params->state->error = "无 LittleFS 分区";
       goto error;
     }
     if (params->contentLength > params->state->littlefsPartition->size) {
-      params->state->error = "Image too large";
+      params->state->error = "镜像过大";
       goto error;
     }
     LittleFS.end();
     if (esp_partition_erase_range(params->state->littlefsPartition, 0, params->state->littlefsPartition->size) != ESP_OK) {
-      params->state->error = "Erase failed";
+      params->state->error = "擦除失败";
       goto error;
     }
   }
@@ -1697,19 +1697,19 @@ void WebServerManager::otaTask(void *pvParameters) {
             if (received == HTTPD_SOCK_ERR_TIMEOUT) {
                 continue;
             }
-            params->state->error = "Receive error";
+            params->state->error = "接收数据错误";
             goto error;
         }
         
         if (received > 0) {
             if (params->uploadType == OTAUploadType::FIRMWARE) {
                 if (esp_ota_write(params->state->handle, buffer, received) != ESP_OK) {
-                    params->state->error = "Write error";
+                    params->state->error = "写入数据错误";
                     goto error;
                 }
             } else {
                 if (esp_partition_write(params->state->littlefsPartition, params->state->writtenBytes, buffer, received) != ESP_OK) {
-                    params->state->error = "Write error";
+                    params->state->error = "写入数据错误";
                     goto error;
                 }
             }
@@ -1843,7 +1843,7 @@ esp_err_t WebServerManager::handleCertificateUpload(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-    cJSON_AddItemToObject(res, "error", cJSON_CreateString("Invalid bundle content length"));
+    cJSON_AddItemToObject(res, "error", cJSON_CreateString("无效的证书包长度"));
     httpd_resp_set_status(req, "400 Bad Request");
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
@@ -1859,7 +1859,7 @@ esp_err_t WebServerManager::handleCertificateUpload(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-    cJSON_AddItemToObject(res, "error", cJSON_CreateString("Missing 'type' parameter"));
+    cJSON_AddItemToObject(res, "error", cJSON_CreateString("缺少 'type' 参数"));
     httpd_resp_set_status(req, "400 Bad Request");
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
@@ -1878,7 +1878,7 @@ esp_err_t WebServerManager::handleCertificateUpload(httpd_req_t *req) {
       httpd_resp_set_type(req, "application/json");
       cJSON *res = cJSON_CreateObject();
       cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-      cJSON_AddItemToObject(res, "error", cJSON_CreateString("Failed to receive bundle data"));
+      cJSON_AddItemToObject(res, "error", cJSON_CreateString("接收证书数据失败"));
       httpd_resp_set_status(req, "400 Bad Request");
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
@@ -1897,7 +1897,7 @@ esp_err_t WebServerManager::handleCertificateUpload(httpd_req_t *req) {
     cJSON_AddItemToObject(response, "success", cJSON_CreateBool(true));
     cJSON_AddStringToObject(
         response, "message",
-        fmt::format("Certificate '{}' saved successfully!", type_param)
+        fmt::format("证书 '{}' 已保存成功！", type_param)
             .c_str());
     cJSON_AddNumberToObject(response, "size", content_len);
     std::string resp = cjson_to_string_and_free(response);
@@ -1909,7 +1909,7 @@ esp_err_t WebServerManager::handleCertificateUpload(httpd_req_t *req) {
   httpd_resp_set_type(req, "application/json");
   cJSON *res = cJSON_CreateObject();
   cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-  cJSON_AddItemToObject(res, "error", cJSON_CreateString("Failed to save certificate"));
+  cJSON_AddItemToObject(res, "error", cJSON_CreateString("保存证书失败"));
   httpd_resp_set_status(req, HTTPD_500);
   std::string response = cjson_to_string_and_free(res);
   httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
@@ -1989,7 +1989,7 @@ esp_err_t WebServerManager::handleCertificateDelete(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-    cJSON_AddItemToObject(res, "error", cJSON_CreateString("Missing certificate type"));
+    cJSON_AddItemToObject(res, "error", cJSON_CreateString("缺少证书类型"));
     httpd_resp_set_status(req, "400 Bad Request");
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
@@ -2001,7 +2001,7 @@ esp_err_t WebServerManager::handleCertificateDelete(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     cJSON *res = cJSON_CreateObject();
     cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-    cJSON_AddItemToObject(res, "error", cJSON_CreateString("Invalid certificate type"));
+    cJSON_AddItemToObject(res, "error", cJSON_CreateString("无效的证书类型"));
     httpd_resp_set_status(req, "400 Bad Request");
     std::string response = cjson_to_string_and_free(res);
     httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);
@@ -2013,7 +2013,7 @@ esp_err_t WebServerManager::handleCertificateDelete(httpd_req_t *req) {
   if (success) {
     cJSON *response = cJSON_CreateObject();
     cJSON_AddItemToObject(response, "success", cJSON_CreateBool(true));
-    cJSON_AddStringToObject(response, "message", fmt::format("Certificate '{}' deleted", certType).c_str());
+    cJSON_AddStringToObject(response, "message", fmt::format("证书 '{}' 已删除", certType).c_str());
     std::string resp = cjson_to_string_and_free(response);
     httpd_resp_set_type(req, "application/json");
     httpd_resp_send(req, resp.c_str(), resp.length());
@@ -2023,7 +2023,7 @@ esp_err_t WebServerManager::handleCertificateDelete(httpd_req_t *req) {
   httpd_resp_set_type(req, "application/json");
   cJSON *res = cJSON_CreateObject();
   cJSON_AddItemToObject(res, "success", cJSON_CreateBool(false));
-  cJSON_AddItemToObject(res, "error", cJSON_CreateString("Failed to delete certificate"));
+  cJSON_AddItemToObject(res, "error", cJSON_CreateString("删除证书失败"));
   httpd_resp_set_status(req, HTTPD_500);
   std::string response = cjson_to_string_and_free(res);
   httpd_resp_send(req, response.c_str(), HTTPD_RESP_USE_STRLEN);

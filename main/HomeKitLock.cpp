@@ -90,21 +90,21 @@ void HomeKitLock::ethEventHandler(arduino_event_id_t event, arduino_event_info_t
   std::string macStr;
   switch (event) {
     case ARDUINO_EVENT_ETH_START:
-      ESP_LOGI(TAG,"ETH Started");
+      ESP_LOGI(TAG,"ETH 已启动");
       ETH.macAddress(mac);
       macStr = fmt::format("ESP32_{:02X}{:02X}{:02X}", mac[0], mac[1], mac[2]);
       ETH.setHostname(macStr.c_str());
       break;
-    case ARDUINO_EVENT_ETH_CONNECTED: ESP_LOGI(TAG,"ETH Connected"); break;
+    case ARDUINO_EVENT_ETH_CONNECTED: ESP_LOGI(TAG,"ETH 已连接"); break;
     case ARDUINO_EVENT_ETH_GOT_IP:    ESP_LOGI(TAG,"ETH Got IP: '%s'", esp_netif_get_desc(info.got_ip.esp_netif)); break;
     case ARDUINO_EVENT_ETH_LOST_IP:
-      ESP_LOGI(TAG,"ETH Lost IP");
+      ESP_LOGI(TAG,"ETH IP 丢失");
       break;
     case ARDUINO_EVENT_ETH_DISCONNECTED:
-      ESP_LOGI(TAG,"ETH Disconnected");
+      ESP_LOGI(TAG,"ETH 已断开");
       break;
     case ARDUINO_EVENT_ETH_STOP:
-      ESP_LOGI(TAG,"ETH Stopped");
+      ESP_LOGI(TAG,"ETH 已停止");
       break;
     default: break;
   }
@@ -273,12 +273,12 @@ void HomeKitLock::begin() {
  * - 'P' : Print registered HomeKey issuers (issuer IDs and public keys).
  */
 void HomeKitLock::setupDebugCommands() {
-    new SpanUserCommand('D', "Delete Home Key Data", [](const char* c) {
+    new SpanUserCommand('D', "删除 Home Key 数据", [](const char* c) {
         s_instance->m_readerDataManager.deleteAllReaderData();
         ESP_LOGI(TAG, "HomeKey Reader Data deleted.");
     });
 
-    new SpanUserCommand('L', "Set Log Level", [](const char *buf){
+    new SpanUserCommand('L', "设置日志级别", [](const char *buf){
       esp_log_level_t level = esp_log_level_get("*");
       if (strncmp(buf + 1, "E", 1) == 0) {
         level = ESP_LOG_ERROR;
@@ -322,7 +322,7 @@ void HomeKitLock::setupDebugCommands() {
       esp_log_level_set("ConfigManager", level);
       esp_log_level_set("NfcManager", level);
     });
-    new SpanUserCommand('F', "Set HomeKey Flow", [](const char *buf){
+    new SpanUserCommand('F', "设置 HomeKey 流程", [](const char *buf){
       KeyFlow hkFlow = KeyFlow::kFlowFAST;
       switch (buf[1]) {
       case '0':
@@ -351,36 +351,36 @@ void HomeKitLock::setupDebugCommands() {
       alpaca::serialize(event, event_data);
       event_bus.publish({event_bus.get_topic(HK_BUS_TOPIC).value_or(EventBus::INVALID_TOPIC), 0, event_data.data(), event_data.size()});
     });
-    new SpanUserCommand('M', "Erase MQTT Config and restart", [](const char*){s_instance->m_configManager.deleteConfig<espConfig::mqttConfig_t>();});
-    new SpanUserCommand('N', "Btr status low", [](const char* arg) {
+    new SpanUserCommand('M', "清除 MQTT 配置并重启", [](const char*){s_instance->m_configManager.deleteConfig<espConfig::mqttConfig_t>();});
+    new SpanUserCommand('N', "电池低电量状态", [](const char* arg) {
       if (!s_instance->m_statusLowBattery) {
-        ESP_LOGW(TAG, "Battery service is disabled");
+        ESP_LOGW(TAG, "电池服务已禁用");
         return;
       }
       const char* TAG = "BTR_LOW";
       if (strncmp(arg + 1, "0", 1) == 0) {
         s_instance->m_statusLowBattery->setVal(0);
-        ESP_LOGI(TAG, "Low status set to NORMAL");
+        ESP_LOGI(TAG, "低电量状态设置为正常");
       } else if (strncmp(arg + 1, "1", 1) == 0) {
         s_instance->m_statusLowBattery->setVal(1);
-        ESP_LOGI(TAG, "Low status set to LOW");
+        ESP_LOGI(TAG, "低电量状态设置为低电量");
       }
     });
-    new SpanUserCommand('B', "Btr level", [](const char* arg) {
+    new SpanUserCommand('B', "电池电量", [](const char* arg) {
       if (!s_instance->m_batteryLevel) {
-        ESP_LOGW(TAG, "Battery service is disabled");
+        ESP_LOGW(TAG, "电池服务已禁用");
         return;
       }
       uint8_t level = atoi(static_cast<const char *>(arg + 1));
       s_instance->m_batteryLevel->setVal(level);
     });
 
-    new SpanUserCommand('P', "Print Issuers", [](const char* c) {
+    new SpanUserCommand('P', "打印发卡机构", [](const char* c) {
         const auto readerDataCopy = s_instance->m_readerDataManager.getReaderDataCopy();
         const auto& issuers = readerDataCopy.issuers;
-        ESP_LOGI(TAG, "--- Registered HomeKey Issuers ---");
+        ESP_LOGI(TAG, "--- 已注册的 HomeKey 发卡机构 ---");
         if (issuers.empty()) {
-            ESP_LOGI(TAG, "None");
+            ESP_LOGI(TAG, "无");
         }
         for(const auto& issuer : issuers) {
              ESP_LOGI(TAG, "ID: %s, PK: %s",

@@ -1322,25 +1322,25 @@ bool ConfigManager::validateCertificateWithMbedTLS(const std::string& certConten
 
     // Check if certificate has valid version
     if (cert.get()->version == 0) {
-        ESP_LOGE(TAG, "Certificate has invalid version");
+        ESP_LOGE(TAG, "证书版本无效");
         isValid = false;
     }
 
     // Check if certificate has subject
     if (cert.get()->subject_raw.len == 0) {
-        ESP_LOGE(TAG, "Certificate missing subject");
+        ESP_LOGE(TAG, "证书缺少主题");
         isValid = false;
     }
 
     // Check if certificate has issuer
     if (cert.get()->issuer_raw.len == 0) {
-        ESP_LOGE(TAG, "Certificate missing issuer");
+        ESP_LOGE(TAG, "证书缺少颁发者");
         isValid = false;
     }
 
     // Check if certificate has valid dates
     if (cert.get()->valid_from.year == 0 || cert.get()->valid_to.year == 0) {
-        ESP_LOGE(TAG, "Certificate has invalid validity dates");
+        ESP_LOGE(TAG, "证书有效期无效");
         isValid = false;
     }
 
@@ -1363,26 +1363,26 @@ bool ConfigManager::validateCertificateWithMbedTLS(const std::string& certConten
 
         time_t cert_expiry = mktime(&cert_not_after);
         if (cert_expiry == -1) {
-            ESP_LOGE(TAG, "Failed to parse certificate expiration date");
+            ESP_LOGE(TAG, "解析证书过期日期失败");
             isValid = false;
         } else if (now > cert_expiry) {
-            ESP_LOGE(TAG, "Certificate has expired");
+            ESP_LOGE(TAG, "证书已过期");
             isValid = false;
         } else {
             // Check if certificate expires soon (within 30 days)
             time_t thirty_days = 30 * 24 * 60 * 60;
             if (cert_expiry - now < thirty_days) {
-                ESP_LOGW(TAG, "Certificate expires soon (within 30 days)");
+                ESP_LOGW(TAG, "证书即将过期（30 天内）");
             }
         }
     } else {
-        ESP_LOGE(TAG, "Failed to get current time for expiration check");
+        ESP_LOGE(TAG, "获取当前时间以检查过期失败");
         isValid = false;
     }
 
     // Check if certificate has public key
     if (mbedtls_pk_get_type(&cert.get()->pk) == MBEDTLS_PK_NONE) {
-        ESP_LOGE(TAG, "Certificate missing public key");
+        ESP_LOGE(TAG, "证书缺少公钥");
         isValid = false;
     }
 
@@ -1390,7 +1390,7 @@ bool ConfigManager::validateCertificateWithMbedTLS(const std::string& certConten
     if (certType == "ca") {
         // CA certificates should have basic constraints extension
         if (!(cert.get()->MBEDTLS_PRIVATE(ca_istrue))) {
-            ESP_LOGW(TAG, "CA certificate does not have CA:true in basic constraints");
+            ESP_LOGW(TAG, "CA 证书在基本约束中没有 CA:true");
         }
     }
 
@@ -1402,10 +1402,10 @@ bool ConfigManager::validateCertificateWithMbedTLS(const std::string& certConten
         int ret_issuer = mbedtls_x509_dn_gets(issuer, sizeof(issuer), &cert.get()->issuer);
         
         if (ret_subject < 0 || ret_issuer < 0) {
-            ESP_LOGE(TAG, "Failed to get certificate DN strings (subject: %d, issuer: %d)", 
+            ESP_LOGE(TAG, "获取证书 DN 字符串失败 (主题: %d, 颁发者: %d)", 
                      ret_subject, ret_issuer);
         } else {
-            ESP_LOGI(TAG, "Certificate validated successfully - Subject: %s, Issuer: %s", subject, issuer);
+            ESP_LOGI(TAG, "证书验证成功 - 主题: %s, 颁发者: %s", subject, issuer);
         }
     }
 
