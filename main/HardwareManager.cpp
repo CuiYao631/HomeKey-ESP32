@@ -228,6 +228,10 @@ void HardwareManager::begin() {
             .dispatch_method = ESP_TIMER_TASK,
             .name = "altActionInitTimer",
             .skip_unhandled_events = true,
+    };
+
+    esp_timer_create(&gpioS_timer_args, &m_gpioSuccessTimer);
+    esp_timer_create(&gpioF_timer_args, &m_gpioFailTimer);
     esp_timer_create(&tagEvent_timer_args, &m_tagEventTimer);
     esp_timer_create(&pixelS_timer_args, &m_pixelSuccessTimer);
     esp_timer_create(&pixelF_timer_args, &m_pixelFailTimer);
