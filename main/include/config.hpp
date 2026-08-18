@@ -180,5 +180,10 @@ namespace espConfig
     uint8_t hkAltActionInitPin = GPIO_HK_ALT_ACTION_INIT_PIN;
     uint8_t hkAltActionInitLedPin = GPIO_HK_ALT_ACTION_INIT_LED_PIN;
     uint16_t hkAltActionInitTimeout = GPIO_HK_ALT_ACTION_INIT_TIMEOUT;
+    uint8_t buzzerPin = BUZZER_PIN;
+    uint16_t buzzerSuccessFreq = BUZZER_SUCCESS_FREQ;
+    uint8_t buzzerSuccessBeeps = BUZZER_SUCCESS_BEEPS;
+    uint16_t buzzerFailFreq = BUZZER_FAIL_FREQ;
+    uint8_t buzzerFailBeeps = BUZZER_FAIL_BEEPS;
   };
 } // namespace espConfig

@@ -15,6 +15,7 @@ class ConfigManager;
 class ReaderDataManager;
 class SystemManager;
 class MqttManager;
+class HardwareManager;
 namespace loggable {
 class WebSocketLogSinker;
 }
@@ -46,7 +47,8 @@ public:
   // Public Interface
   // ------------------------------------------------------------------------
   WebServerManager(ConfigManager &configManager,
-                   ReaderDataManager &readerDataManager);
+                   ReaderDataManager &readerDataManager,
+                   HardwareManager &hardwareManager);
   ~WebServerManager();
 
   void begin();
@@ -115,6 +117,7 @@ private:
   static esp_err_t handleCertificateUpload(httpd_req_t *req);
   static esp_err_t handleCertificateStatus(httpd_req_t *req);
   static esp_err_t handleCertificateDelete(httpd_req_t *req);
+  static esp_err_t handlePreviewBuzzer(httpd_req_t *req);
 
   // ------------------------------------------------------------------------
   // Core Internal Methods
@@ -158,6 +161,7 @@ private:
   // Dependencies
   ConfigManager &m_configManager;
   ReaderDataManager &m_readerDataManager;
+  HardwareManager &m_hardwareManager;
   MqttManager *m_mqttManager;
 
   // WebSocket infrastructure

@@ -59,9 +59,9 @@ void setup() {
   configManager->begin();
   esp_log_level_set("*", static_cast<esp_log_level_t>(configManager->getConfig<espConfig::misc_config_t>().logLevel));
   loggable::Sinker::instance().set_level((loggable::LogLevel)configManager->getConfig<espConfig::misc_config_t>().logLevel);
-  webServerManager = new WebServerManager(*configManager, *readerDataManager);
-  Sinker::instance().add_sinker(std::make_shared<loggable::WebSocketLogSinker>(webServerManager));
   hardwareManager = new HardwareManager(configManager->getConfig<espConfig::actions_config_t>());
+  webServerManager = new WebServerManager(*configManager, *readerDataManager, *hardwareManager);
+  Sinker::instance().add_sinker(std::make_shared<loggable::WebSocketLogSinker>(webServerManager));
   lockManager = new LockManager(configManager->getConfig<espConfig::misc_config_t>(), configManager->getConfig<espConfig::actions_config_t>());
   mqttManager = new MqttManager(*configManager);
   homekitLock = new HomeKitLock(lambda, *lockManager, *configManager, *readerDataManager);

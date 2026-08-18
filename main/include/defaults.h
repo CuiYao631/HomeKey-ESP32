@@ -118,6 +118,13 @@
 #define GPIO_HK_ALT_ACTION_GPIO_STATE 1 // GPIO Pin pulled HIGH or LOW (see GPIO_HK_ALT_ACTION_HL) on action
 #define GPIO_HK_CONTROLLED_STATE false // Defines if HomeKey can control the GPIO state
 #define HK_DUMB_SWITCH_MODE true // Bypass lock state external validation
+#define BUZZER_PIN 255 // GPIO Pin used for the buzzer (e.g. MLT-5020)
+#define BUZZER_SUCCESS_FREQ 2000 // Tone frequency in Hz played on successful HK Auth
+#define BUZZER_SUCCESS_BEEPS 1 // Number of beeps played on successful HK Auth
+#define BUZZER_FAIL_FREQ 400 // Tone frequency in Hz played on failed HK Auth
+#define BUZZER_FAIL_BEEPS 2 // Number of beeps played on failed HK Auth
+#define BUZZER_BEEP_DURATION 100 // Duration in ms each beep is on
+#define BUZZER_BEEP_PAUSE 100 // Pause in ms between beeps
 
 // WebUI
 #define WEB_AUTH_ENABLED false

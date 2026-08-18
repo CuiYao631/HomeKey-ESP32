@@ -154,6 +154,11 @@ ConfigManager::ConfigManager() : m_isInitialized(false) {
         {"hkAltActionInitPin", &m_actionsConfig.hkAltActionInitPin},
         {"hkAltActionInitLedPin", &m_actionsConfig.hkAltActionInitLedPin},
         {"hkAltActionInitTimeout", &m_actionsConfig.hkAltActionInitTimeout},
+        {"buzzerPin", &m_actionsConfig.buzzerPin},
+        {"buzzerSuccessFreq", &m_actionsConfig.buzzerSuccessFreq},
+        {"buzzerSuccessBeeps", &m_actionsConfig.buzzerSuccessBeeps},
+        {"buzzerFailFreq", &m_actionsConfig.buzzerFailFreq},
+        {"buzzerFailBeeps", &m_actionsConfig.buzzerFailBeeps},
       }
     }
   };

@@ -6,6 +6,7 @@
 #include "fmt/ranges.h"
 #include "WebServerManager.hpp"
 #include "ConfigManager.hpp"
+#include "HardwareManager.hpp"
 #include "HomeSpan.h"
 #include "MqttManager.hpp"
 #include "ReaderDataManager.hpp"
@@ -78,9 +79,11 @@ static inline std::string cjson_to_string_and_free(cJSON *obj) {
  */
 
 WebServerManager::WebServerManager(ConfigManager &configManager,
-                                   ReaderDataManager &readerDataManager)
+                                   ReaderDataManager &readerDataManager,
+                                   HardwareManager &hardwareManager)
     : m_server(nullptr), m_configManager(configManager),
-      m_readerDataManager(readerDataManager), m_mqttManager(nullptr) {
+      m_readerDataManager(readerDataManager), m_hardwareManager(hardwareManager),
+      m_mqttManager(nullptr) {
 }
 
 /**
@@ -231,6 +234,7 @@ void WebServerManager::setupRoutes() {
       {"/reset_hk_pair", HTTP_GET, handleHKReset, this},
       {"/reset_wifi_cred", HTTP_GET, handleWifiReset, this},
       {"/start_config_ap", HTTP_GET, handleStartConfigAP, this},
+      {"/actions/preview_buzzer", HTTP_POST, handlePreviewBuzzer, this},
 
       // WebSocket
       {"/ws", HTTP_GET, handleWebSocket, this, true},
@@ -1092,6 +1096,62 @@ esp_err_t WebServerManager::handleReboot(httpd_req_t *req) {
                      "{\"success\":\"true\",\"message\":\"Rebooting...\"}");
   vTaskDelay(pdMS_TO_TICKS(1000));
   esp_restart();
+  return ESP_OK;
+}
+
+esp_err_t WebServerManager::handlePreviewBuzzer(httpd_req_t *req) {
+  WebServerManager *instance = getInstance(req);
+  if(!instance->basicAuth(req)){
+    ESP_LOGE(TAG, "HTTP Authorization failed!");
+    httpd_resp_set_type(req, "application/json");
+    httpd_resp_set_hdr(req, "Connection", "keep-alive");
+    httpd_resp_set_hdr(req, "WWW-Authenticate", "Basic realm=\"Polaris\"");
+    httpd_resp_send_err(req, HTTPD_401_UNAUTHORIZED, NULL);
+    return ESP_FAIL;
+  }
+  if (!instance) {
+    httpd_resp_send_500(req);
+    return ESP_FAIL;
+  }
+
+  const size_t max_content_size = 256;
+  if (req->content_len == 0 || req->content_len >= max_content_size) {
+    httpd_resp_set_status(req, "400 Bad Request");
+    httpd_resp_set_type(req, "application/json");
+    httpd_resp_sendstr(req, "{\"success\":false,\"error\":\"Invalid request body\"}");
+    return ESP_FAIL;
+  }
+
+  std::vector<char> content(max_content_size, 0);
+  int ret = httpd_req_recv(req, content.data(), content.size() - 1);
+  if (ret <= 0) {
+    httpd_resp_set_status(req, "400 Bad Request");
+    httpd_resp_set_type(req, "application/json");
+    httpd_resp_sendstr(req, "{\"success\":false,\"error\":\"Invalid request body\"}");
+    return ESP_FAIL;
+  }
+  content[ret] = '\0';
+
+  cJSON *obj = cJSON_Parse(content.data());
+  cJSON *pinItem = obj ? cJSON_GetObjectItem(obj, "pin") : nullptr;
+  cJSON *freqItem = obj ? cJSON_GetObjectItem(obj, "freq") : nullptr;
+  cJSON *beepsItem = obj ? cJSON_GetObjectItem(obj, "beeps") : nullptr;
+  if (!obj || !cJSON_IsNumber(pinItem) || !cJSON_IsNumber(freqItem) || !cJSON_IsNumber(beepsItem)) {
+    if (obj) cJSON_Delete(obj);
+    httpd_resp_set_status(req, "400 Bad Request");
+    httpd_resp_set_type(req, "application/json");
+    httpd_resp_sendstr(req, "{\"success\":false,\"error\":\"Invalid JSON, expected pin/freq/beeps\"}");
+    return ESP_FAIL;
+  }
+
+  instance->m_hardwareManager.previewBuzzer(
+      static_cast<uint8_t>(pinItem->valueint),
+      static_cast<uint16_t>(freqItem->valueint),
+      static_cast<uint8_t>(beepsItem->valueint));
+  cJSON_Delete(obj);
+
+  httpd_resp_set_type(req, "application/json");
+  httpd_resp_sendstr(req, "{\"success\":true,\"message\":\"Playing buzzer preview\"}");
   return ESP_OK;
 }
 

@@ -4,6 +4,7 @@
 #include "config.hpp"
 #include "esp_timer.h"
 #include "eventStructs.hpp"
+#include "driver/ledc.h"
 
 const char* HardwareManager::TAG = "HardwareManager";
 
@@ -100,7 +101,7 @@ void HardwareManager::begin() {
         EventTagTap s = alpaca::deserialize<EventTagTap>(nfc_event.data, ec);
         if(!ec){
           if (m_feedbackQueue != nullptr) {
-              FeedbackType feedback = FeedbackType::TAG_EVENT;
+              FeedbackEvent feedback{FeedbackType::TAG_EVENT};
               xQueueSend(m_feedbackQueue, &feedback, 0);
           }
         } else {
@@ -222,7 +223,7 @@ void HardwareManager::begin() {
     esp_timer_create(&altAction_timer_args, &m_altActionTimer);
     esp_timer_create(&altActionInit_timer_args, &m_altActionInitTimer);
 
-    m_feedbackQueue = xQueueCreate(5, sizeof(FeedbackType));
+    m_feedbackQueue = xQueueCreate(5, sizeof(FeedbackEvent));
     xTaskCreateUniversal(feedbackTaskEntry, "feedback_task", 4096, this, 3, &m_feedbackTaskHandle, 1);
 
     m_lockControlQueue = xQueueCreate(5, sizeof(int));
@@ -249,7 +250,7 @@ void HardwareManager::setLockOutput(int state) {
  */
 void HardwareManager::showSuccessFeedback() {
     if (m_feedbackQueue != nullptr) {
-        FeedbackType feedback = FeedbackType::SUCCESS;
+        FeedbackEvent feedback{FeedbackType::SUCCESS};
         xQueueSend(m_feedbackQueue, &feedback, 0);
     }
 }
@@ -262,7 +263,18 @@ void HardwareManager::showSuccessFeedback() {
  */
 void HardwareManager::showFailureFeedback() {
     if (m_feedbackQueue != nullptr) {
-        FeedbackType feedback = FeedbackType::FAILURE;
+        FeedbackEvent feedback{FeedbackType::FAILURE};
+        xQueueSend(m_feedbackQueue, &feedback, 0);
+    }
+}
+
+/**
+ * @brief Enqueues a one-off buzzer preview event, used by the web UI to test
+ *        pin/frequency/beep settings before saving them.
+ */
+void HardwareManager::previewBuzzer(uint8_t pin, uint16_t freq, uint8_t beeps) {
+    if (m_feedbackQueue != nullptr) {
+        FeedbackEvent feedback{FeedbackType::PREVIEW_BUZZER, pin, freq, beeps};
         xQueueSend(m_feedbackQueue, &feedback, 0);
     }
 }
@@ -461,10 +473,10 @@ void HardwareManager::feedbackTaskEntry(void* instance) {
  * NeoPixel behavior use durations and colors from the instance's misc configuration.
  */
 void HardwareManager::feedbackTask() {
-    FeedbackType feedback;
+    FeedbackEvent feedback;
     while (true) {
         if (xQueueReceive(m_feedbackQueue, &feedback, portMAX_DELAY)) {
-            switch (feedback) {
+            switch (feedback.type) {
                 case FeedbackType::SUCCESS:
                     ESP_LOGD(TAG, "Executing SUCCESS feedback sequence.");
                     if(esp_timer_is_active(m_gpioSuccessTimer)) esp_timer_stop(m_gpioSuccessTimer);
@@ -480,6 +492,7 @@ void HardwareManager::feedbackTask() {
 
                         esp_timer_start_once(m_gpioSuccessTimer, m_miscConfig.nfcSuccessTime * 1000);
                     }
+                    beepBuzzer(m_miscConfig.buzzerPin, m_miscConfig.buzzerSuccessFreq, m_miscConfig.buzzerSuccessBeeps);
                     break;
 
                 case FeedbackType::FAILURE:
@@ -497,6 +510,7 @@ void HardwareManager::feedbackTask() {
 
                         esp_timer_start_once(m_gpioFailTimer, m_miscConfig.nfcFailTime * 1000);
                     }
+                    beepBuzzer(m_miscConfig.buzzerPin, m_miscConfig.buzzerFailFreq, m_miscConfig.buzzerFailBeeps);
                     break;
                 case FeedbackType::TAG_EVENT: 
                     ESP_LOGD(TAG, "Executing TAG_EVENT feedback sequence.");
@@ -514,7 +528,62 @@ void HardwareManager::feedbackTask() {
                         esp_timer_start_once(m_tagEventTimer, m_miscConfig.tagEventTimeout * 1000);
                     }
                     break;
+                case FeedbackType::PREVIEW_BUZZER:
+                    ESP_LOGD(TAG, "Executing PREVIEW_BUZZER feedback sequence.");
+                    beepBuzzer(feedback.previewPin, feedback.previewFreq, feedback.previewBeeps);
+                    break;
             }
         }
+    }
+}
+
+/**
+ * @brief Drives the buzzer at the given GPIO pin/frequency for a number of beeps.
+ *
+ * Uses a dedicated LEDC timer/channel (lazily configured on first use) to generate
+ * a 50% duty square wave at `freq` Hz, toggling it on/off `beeps` times with short
+ * pauses in between. No-op if pin is the sentinel value 255 or freq/beeps is 0.
+ * This is a blocking call and must only be invoked from the feedback task.
+ */
+void HardwareManager::beepBuzzer(uint8_t pin, uint16_t freq, uint8_t beeps) {
+    if (pin == 255 || freq == 0 || beeps == 0) return;
+
+    constexpr ledc_mode_t speed_mode = LEDC_LOW_SPEED_MODE;
+    constexpr ledc_timer_t timer_num = LEDC_TIMER_3;
+    constexpr ledc_channel_t channel_num = LEDC_CHANNEL_7;
+    constexpr ledc_timer_bit_t duty_res = LEDC_TIMER_10_BIT;
+
+    if (!m_buzzerLedcConfigured) {
+        ledc_timer_config_t timer_conf = {
+            .speed_mode = speed_mode,
+            .duty_resolution = duty_res,
+            .timer_num = timer_num,
+            .freq_hz = freq,
+            .clk_cfg = LEDC_AUTO_CLK,
+        };
+        ledc_timer_config(&timer_conf);
+        m_buzzerLedcConfigured = true;
+    }
+
+    ledc_channel_config_t channel_conf = {
+        .gpio_num = pin,
+        .speed_mode = speed_mode,
+        .channel = channel_num,
+        .intr_type = LEDC_INTR_DISABLE,
+        .timer_sel = timer_num,
+        .duty = 0,
+        .hpoint = 0,
+    };
+    ledc_channel_config(&channel_conf);
+    ledc_set_freq(speed_mode, timer_num, freq);
+
+    const uint32_t duty50 = (1 << duty_res) / 2;
+    for (uint8_t i = 0; i < beeps; i++) {
+        ledc_set_duty(speed_mode, channel_num, duty50);
+        ledc_update_duty(speed_mode, channel_num);
+        vTaskDelay(pdMS_TO_TICKS(BUZZER_BEEP_DURATION));
+        ledc_set_duty(speed_mode, channel_num, 0);
+        ledc_update_duty(speed_mode, channel_num);
+        if (i < beeps - 1) vTaskDelay(pdMS_TO_TICKS(BUZZER_BEEP_PAUSE));
     }
 }

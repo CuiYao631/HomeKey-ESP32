@@ -59,6 +59,14 @@ public:
      */
     void triggerAltAction();
 
+    /**
+     * @brief Plays a one-off buzzer tone for previewing pin/frequency/beep settings from the web UI.
+     * @param pin GPIO pin driving the buzzer (255 = disabled/no-op).
+     * @param freq Tone frequency in Hz.
+     * @param beeps Number of times to beep.
+     */
+    void previewBuzzer(uint8_t pin, uint16_t freq, uint8_t beeps);
+
 private:
     /**
      * @enum FeedbackType
@@ -67,7 +75,8 @@ private:
     enum class FeedbackType {
         SUCCESS,
         FAILURE,
-        TAG_EVENT
+        TAG_EVENT,
+        PREVIEW_BUZZER
     };
 
     enum class TimerSources : uint8_t {
@@ -86,9 +95,26 @@ private:
         TimerSources timer_source;
     };
 
+    /**
+     * @brief Queued item processed by the feedback task; carries preview-only
+     *        buzzer parameters when type == PREVIEW_BUZZER (ignored otherwise).
+     */
+    struct FeedbackEvent {
+        FeedbackType type;
+        uint8_t previewPin = 255;
+        uint16_t previewFreq = 0;
+        uint8_t previewBeeps = 0;
+    };
+
     // --- FreeRTOS Task Management ---
     static void feedbackTaskEntry(void* instance);
     void feedbackTask();
+
+    /**
+     * @brief Drives the buzzer GPIO at the given frequency for the given number of beeps.
+     *        Blocking; intended to be called only from the feedback task.
+     */
+    void beepBuzzer(uint8_t pin, uint16_t freq, uint8_t beeps);
 
     static void lockControlTaskEntry(void* instance);
     void lockControlTask();
@@ -103,6 +129,8 @@ private:
     const espConfig::actions_config_t& m_miscConfig;
 
     Pixel* m_pixel = nullptr;
+
+    bool m_buzzerLedcConfigured = false;
   
     esp_timer_handle_t m_gpioSuccessTimer;
     esp_timer_handle_t m_gpioFailTimer;
