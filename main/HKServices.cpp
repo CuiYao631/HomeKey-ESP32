@@ -54,7 +54,7 @@ HomeKitLock::NFCAIS::NFCAIS(const espConfig::misc_config_t& config) {
     ESP_LOGI(HomeKitLock::TAG, "Configuring NFCAccessoryInformation");
     opt.push_back(&_CUSTOM_HardwareFinish);
     new Characteristic::Identify();
-    new Characteristic::Manufacturer("rednblkx");
+    new Characteristic::Manufacturer("XCuiTech");
     new Characteristic::Model("HomeKey-ESP32");
     new Characteristic::Name(config.deviceName.c_str());
     std::string app_desc = esp_app_get_description()->version;
