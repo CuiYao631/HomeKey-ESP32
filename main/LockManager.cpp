@@ -62,7 +62,9 @@ LockManager::LockManager(const espConfig::misc_config_t& miscConfig, const espCo
   esp_timer_create_args_t momentaryStateTimer_arg = {
     .callback = handleTimer,
     .arg = this,
-    .name = "momentaryStateTimer"
+    .dispatch_method = ESP_TIMER_TASK,
+    .name = "momentaryStateTimer",
+    .skip_unhandled_events = true,
   };
   esp_timer_create(&momentaryStateTimer_arg, &momentaryStateTimer);
 }

@@ -163,59 +163,71 @@ void HardwareManager::begin() {
     const esp_timer_create_args_t gpioS_timer_args = {
             .callback = &handleTimer,
             .arg = (void*) &gpioS_context,
-            .name = "gpioSuccessTimer"
+            .dispatch_method = ESP_TIMER_TASK,
+            .name = "gpioSuccessTimer",
+            .skip_unhandled_events = true,
     };
 
     static TimerContext gpioF_context = {this, TimerSources::GPIO_F};
     const esp_timer_create_args_t gpioF_timer_args = {
             .callback = &handleTimer,
             .arg = (void*) &gpioF_context,
-            .name = "gpioFailTimer"
+            .dispatch_method = ESP_TIMER_TASK,
+            .name = "gpioFailTimer",
+            .skip_unhandled_events = true,
     };
-    
+
     static TimerContext tagEvent_context = {this, TimerSources::TAG_EVENT};
     const esp_timer_create_args_t tagEvent_timer_args = {
             .callback = &handleTimer,
             .arg = (void*) &tagEvent_context,
-            .name = "tagEventTimer"
+            .dispatch_method = ESP_TIMER_TASK,
+            .name = "tagEventTimer",
+            .skip_unhandled_events = true,
     };
     static TimerContext pixelS_context = {this, TimerSources::PIXEL_S};
     const esp_timer_create_args_t pixelS_timer_args = {
             .callback = &handleTimer,
             .arg = (void*) &pixelS_context,
-            .name = "pixelSuccessTimer"
+            .dispatch_method = ESP_TIMER_TASK,
+            .name = "pixelSuccessTimer",
+            .skip_unhandled_events = true,
     };
 
     static TimerContext pixelF_context = {this, TimerSources::PIXEL_F};
     const esp_timer_create_args_t pixelF_timer_args = {
             .callback = &handleTimer,
             .arg = (void*) &pixelF_context,
-            .name = "pixelFailTimer"
+            .dispatch_method = ESP_TIMER_TASK,
+            .name = "pixelFailTimer",
+            .skip_unhandled_events = true,
     };
 
     static TimerContext pixelTagEvent_context = {this, TimerSources::PIXEL_TAG_EVENT};
     const esp_timer_create_args_t pixelTagEvent_timer_args = {
             .callback = &handleTimer,
             .arg = (void*) &pixelTagEvent_context,
-            .name = "pixelTagEventTimer"
+            .dispatch_method = ESP_TIMER_TASK,
+            .name = "pixelTagEventTimer",
+            .skip_unhandled_events = true,
     };
 
     static TimerContext altAction_context = {this, TimerSources::ALT_GPIO};
     const esp_timer_create_args_t altAction_timer_args = {
             .callback = &handleTimer,
             .arg = (void*) &altAction_context,
-            .name = "altActionTimer"
+            .dispatch_method = ESP_TIMER_TASK,
+            .name = "altActionTimer",
+            .skip_unhandled_events = true,
     };
   
     static TimerContext altActionInit_context = {this, TimerSources::ALT_GPIO_INIT};
     const esp_timer_create_args_t altActionInit_timer_args = {
             .callback = &handleTimer,
             .arg = (void*) &altActionInit_context,
-            .name = "altActionInitTimer"
-    };
-
-    esp_timer_create(&gpioS_timer_args, &m_gpioSuccessTimer);
-    esp_timer_create(&gpioF_timer_args, &m_gpioFailTimer);
+            .dispatch_method = ESP_TIMER_TASK,
+            .name = "altActionInitTimer",
+            .skip_unhandled_events = true,
     esp_timer_create(&tagEvent_timer_args, &m_tagEventTimer);
     esp_timer_create(&pixelS_timer_args, &m_pixelSuccessTimer);
     esp_timer_create(&pixelF_timer_args, &m_pixelFailTimer);
@@ -549,8 +561,8 @@ void HardwareManager::beepBuzzer(uint8_t pin, uint16_t freq, uint8_t beeps) {
     if (pin == 255 || freq == 0 || beeps == 0) return;
 
     constexpr ledc_mode_t speed_mode = LEDC_LOW_SPEED_MODE;
-    constexpr ledc_timer_t timer_num = LEDC_TIMER_3;
-    constexpr ledc_channel_t channel_num = LEDC_CHANNEL_7;
+    constexpr ledc_timer_t timer_num = LEDC_TIMER_0;
+    constexpr ledc_channel_t channel_num = LEDC_CHANNEL_0;
     constexpr ledc_timer_bit_t duty_res = LEDC_TIMER_10_BIT;
 
     if (!m_buzzerLedcConfigured) {
@@ -560,6 +572,7 @@ void HardwareManager::beepBuzzer(uint8_t pin, uint16_t freq, uint8_t beeps) {
             .timer_num = timer_num,
             .freq_hz = freq,
             .clk_cfg = LEDC_AUTO_CLK,
+            .deconfigure = false,
         };
         ledc_timer_config(&timer_conf);
         m_buzzerLedcConfigured = true;
@@ -573,6 +586,8 @@ void HardwareManager::beepBuzzer(uint8_t pin, uint16_t freq, uint8_t beeps) {
         .timer_sel = timer_num,
         .duty = 0,
         .hpoint = 0,
+        .sleep_mode = LEDC_SLEEP_MODE_NO_ALIVE_NO_PD,
+        .flags = {.output_invert = 0},
     };
     ledc_channel_config(&channel_conf);
     ledc_set_freq(speed_mode, timer_num, freq);

@@ -1356,6 +1356,8 @@ bool ConfigManager::validateCertificateWithMbedTLS(const std::string& certConten
             .tm_mday = cert.get()->valid_to.day,
             .tm_mon = cert.get()->valid_to.mon - 1,  // mbedTLS months are 1-based
             .tm_year = cert.get()->valid_to.year - 1900,
+            .tm_wday = 0,
+            .tm_yday = 0,
             .tm_isdst = -1
         };
 
