@@ -192,6 +192,16 @@ export interface ActionsConfig {
   hkAltActionTimeout: number;
   /** GPIO state for HomeKey alternate action */
   hkAltActionGpioState: number;
+  /** GPIO pin for buzzer (255 = disabled) */
+  buzzerPin: number;
+  /** Buzzer frequency in Hz for success tone */
+  buzzerSuccessFreq: number;
+  /** Buzzer frequency in Hz for failure tone */
+  buzzerFailFreq: number;
+  /** Number of beeps for success */
+  buzzerSuccessBeeps: number;
+  /** Number of beeps for failure */
+  buzzerFailBeeps: number;
 }
 
 /**

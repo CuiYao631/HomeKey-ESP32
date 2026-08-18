@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { saveConfig } from "$lib/services/api.js";
+  import { saveConfig, previewBuzzer } from "$lib/services/api.js";
   import type { ActionsConfig } from "$lib/types/api";
   import { diff } from "$lib/utils/objDiff";
 
@@ -48,6 +48,11 @@
       hkAltActionPin: 255,
       hkAltActionTimeout: 5000,
       hkAltActionGpioState: 0,
+      buzzerPin: 255,
+      buzzerSuccessFreq: 2000,
+      buzzerFailFreq: 400,
+      buzzerSuccessBeeps: 1,
+      buzzerFailBeeps: 2,
       nfcNeopixelPin: 8,
       neoPixelType: 0,
       neopixelSuccessTime: 1000,
@@ -625,6 +630,114 @@
                               <option value={false}>LOW</option>
                               <option value={true}>HIGH</option>
                             </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="collapse collapse-plus bg-base-100">
+                        <h3
+                          class="collapse-title text-base md:text-lg font-bold"
+                        >
+                          蜂鸣器
+                        </h3>
+                        <input type="checkbox" name="buzzer-collapse" />
+                        <div class="collapse-content">
+                          <div class="flex flex-wrap justify-around gap-2 mb-4">
+                            <fieldset
+                              class="fieldset border-base-300 rounded-box w-xs border p-4"
+                            >
+                              <legend class="fieldset-legend">认证成功</legend>
+                              <div class="form-control mb-4">
+                                <!-- svelte-ignore a11y_label_has_associated_control -->
+                                <label class="label">
+                                  <span class="label-text">频率（Hz）</span>
+                                </label>
+                                <input
+                                  type="number"
+                                  bind:value={actionsConfig.buzzerSuccessFreq}
+                                  placeholder="2000"
+                                  class="input input-bordered w-full"
+                                />
+                              </div>
+                              <div class="form-control mb-4">
+                                <!-- svelte-ignore a11y_label_has_associated_control -->
+                                <label class="label">
+                                  <span class="label-text">蜂鸣次数</span>
+                                </label>
+                                <input
+                                  type="number"
+                                  bind:value={actionsConfig.buzzerSuccessBeeps}
+                                  placeholder="1"
+                                  class="input input-bordered w-full"
+                                />
+                              </div>
+                              <button
+                                type="button"
+                                class="btn btn-sm btn-outline"
+                                onclick={() =>
+                                  previewBuzzer(
+                                    actionsConfig.buzzerPin,
+                                    actionsConfig.buzzerSuccessFreq,
+                                    actionsConfig.buzzerSuccessBeeps,
+                                  )}
+                              >
+                                预览
+                              </button>
+                            </fieldset>
+                            <fieldset
+                              class="fieldset border-base-300 rounded-box w-xs border p-4"
+                            >
+                              <legend class="fieldset-legend">认证失败</legend>
+                              <div class="form-control mb-4">
+                                <!-- svelte-ignore a11y_label_has_associated_control -->
+                                <label class="label">
+                                  <span class="label-text">频率（Hz）</span>
+                                </label>
+                                <input
+                                  type="number"
+                                  bind:value={actionsConfig.buzzerFailFreq}
+                                  placeholder="400"
+                                  class="input input-bordered w-full"
+                                />
+                              </div>
+                              <div class="form-control mb-4">
+                                <!-- svelte-ignore a11y_label_has_associated_control -->
+                                <label class="label">
+                                  <span class="label-text">蜂鸣次数</span>
+                                </label>
+                                <input
+                                  type="number"
+                                  bind:value={actionsConfig.buzzerFailBeeps}
+                                  placeholder="2"
+                                  class="input input-bordered w-full"
+                                />
+                              </div>
+                              <button
+                                type="button"
+                                class="btn btn-sm btn-outline"
+                                onclick={() =>
+                                  previewBuzzer(
+                                    actionsConfig.buzzerPin,
+                                    actionsConfig.buzzerFailFreq,
+                                    actionsConfig.buzzerFailBeeps,
+                                  )}
+                              >
+                                预览
+                              </button>
+                            </fieldset>
+                          </div>
+                          <div class="form-control mb-4">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
+                            <label class="label">
+                              <span class="label-text">GPIO 引脚（255 = 禁用）</span>
+                            </label>
+                            <input
+                              type="number"
+                              bind:value={actionsConfig.buzzerPin}
+                              placeholder="255"
+                              min="0"
+                              max="255"
+                              class="input input-bordered w-full"
+                            />
                           </div>
                         </div>
                       </div>

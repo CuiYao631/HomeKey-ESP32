@@ -146,6 +146,32 @@ export async function getCertificateStatus(): Promise<ApiResponse<CertificatesSt
   }
 }
 
+export async function previewBuzzer(pin: number, freq: number, beeps: number): Promise<ApiResponse<undefined>> {
+  try {
+    const response = await fetch('/actions/preview_buzzer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ pin, freq, beeps }),
+    });
+
+    if (!response.ok) {
+      const errorData: ApiError = await response.json();
+      notifications.addError(`蜂鸣器预览失败: ${errorData.error}`);
+      return errorData;
+    }
+
+    const result: ApiSuccess = await response.json();
+    notifications.addSuccess(result.message);
+    return result;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error occurred';
+    notifications.addError(`蜂鸣器预览失败: ${message}`);
+    return { success: false, error: message };
+  }
+}
+
 export async function deleteCertificate(type: CertificateType): Promise<ApiResponse<undefined>> {
   try {
     const response = await fetch(`/certificates/${type}`, {
