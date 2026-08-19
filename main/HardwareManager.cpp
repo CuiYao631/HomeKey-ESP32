@@ -569,18 +569,24 @@ void HardwareManager::beepBuzzer(uint8_t pin, uint16_t freq, uint8_t beeps) {
     constexpr ledc_channel_t channel_num = LEDC_CHANNEL_0;
     constexpr ledc_timer_bit_t duty_res = LEDC_TIMER_10_BIT;
 
-    if (!m_buzzerLedcConfigured) {
-        ledc_timer_config_t timer_conf = {
-            .speed_mode = speed_mode,
-            .duty_resolution = duty_res,
-            .timer_num = timer_num,
-            .freq_hz = freq,
-            .clk_cfg = LEDC_AUTO_CLK,
-            .deconfigure = false,
-        };
-        ledc_timer_config(&timer_conf);
-        m_buzzerLedcConfigured = true;
+    // Stop any previously running LEDC output to avoid glitches when
+    // reconfiguring the channel/timer at a different frequency.
+    if (m_buzzerLedcConfigured) {
+        ledc_stop(speed_mode, channel_num, 0);
     }
+
+    // Always reconfigure the timer with the requested frequency so that
+    // the PWM base clock is correct before the channel is bound to the pin.
+    ledc_timer_config_t timer_conf = {
+        .speed_mode = speed_mode,
+        .duty_resolution = duty_res,
+        .timer_num = timer_num,
+        .freq_hz = freq,
+        .clk_cfg = LEDC_AUTO_CLK,
+        .deconfigure = false,
+    };
+    ledc_timer_config(&timer_conf);
+    m_buzzerLedcConfigured = true;
 
     ledc_channel_config_t channel_conf = {
         .gpio_num = pin,
@@ -594,7 +600,6 @@ void HardwareManager::beepBuzzer(uint8_t pin, uint16_t freq, uint8_t beeps) {
         .flags = {.output_invert = 0},
     };
     ledc_channel_config(&channel_conf);
-    ledc_set_freq(speed_mode, timer_num, freq);
 
     const uint32_t duty50 = (1 << duty_res) / 2;
     for (uint8_t i = 0; i < beeps; i++) {
@@ -605,4 +610,8 @@ void HardwareManager::beepBuzzer(uint8_t pin, uint16_t freq, uint8_t beeps) {
         ledc_update_duty(speed_mode, channel_num);
         if (i < beeps - 1) vTaskDelay(pdMS_TO_TICKS(BUZZER_BEEP_PAUSE));
     }
+
+    // Fully stop the LEDC channel after the beep sequence so the hardware
+    // is in a clean state for the next invocation.
+    ledc_stop(speed_mode, channel_num, 0);
 }
